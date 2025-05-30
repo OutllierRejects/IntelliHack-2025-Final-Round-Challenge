@@ -5,6 +5,7 @@ from core.config import JWT_SECRET, JWT_ALGORITHM
 
 security = HTTPBearer()
 
+
 def decode_jwt_token(token: str):
     try:
         decoded = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
@@ -13,6 +14,7 @@ def decode_jwt_token(token: str):
         raise HTTPException(status_code=401, detail="Token expired")
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid token")
+
 
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials

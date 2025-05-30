@@ -5,4 +5,3 @@ app = FastAPI()
 
 app.include_router(users.router, prefix="/api/users", tags=["Users"])
 app.include_router(incidents.router, prefix="/api", tags=["Incidents"])
-
