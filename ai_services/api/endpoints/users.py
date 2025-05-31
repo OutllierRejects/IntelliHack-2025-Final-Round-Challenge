@@ -52,8 +52,7 @@ def login_user(payload: LoginRequest):
             "created_at": result.user.created_at.isoformat() if result.user and hasattr(result.user, "created_at") else None
         }
         # print(user_data) Bugs fixing
-        supabase.table("users").insert(user_data).execute()
-
+        supabase.table("users").upsert(user_data).execute()  # Use upsert to avoid duplicates
         return {
             "access_token": result.session.access_token,
             "refresh_token": result.session.refresh_token,
