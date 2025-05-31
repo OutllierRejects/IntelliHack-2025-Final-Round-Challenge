@@ -6,6 +6,7 @@ from core.auth import get_current_user
 
 router = APIRouter()
 
+
 @router.post("/incidents", response_model=IncidentOut)
 def report_incident(payload: IncidentCreate, user=Depends(get_current_user)):
     try:
