@@ -5,7 +5,7 @@ from uuid import uuid4
 from datetime import datetime
 
 def create_incident(data: dict) -> dict:
-    severity = triage_incident(data["description"])
+    priority = triage_incident(data["description"])
     incident_id = str(uuid4())
     
     new_incident = {
@@ -13,8 +13,8 @@ def create_incident(data: dict) -> dict:
         "title": data["title"],
         "description": data["description"],
         "location": data.get("location"),
-        "reported_by": data.get("reported_by"),
-        "severity": severity,
+        "reporter_id": data.get("reporter_id"),
+        "priority": priority,
         "created_at": datetime.utcnow().isoformat()
     }
     

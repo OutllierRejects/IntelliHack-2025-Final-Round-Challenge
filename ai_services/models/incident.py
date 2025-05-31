@@ -7,12 +7,12 @@ class IncidentCreate(BaseModel):
     title: str
     description: str
     location: Optional[str] = None
-    # reported_by: Optional[str] = None  # Could be user_id or email
+    reporter_id: Optional[str] = None  # Could be user_id or email
 
 class IncidentOut(BaseModel):
     id: str 
     title: str
     description: str
     location: Optional[str]
-    reported_by: Optional[str]
+    reporter_id: Optional[str]
     created_at: datetime

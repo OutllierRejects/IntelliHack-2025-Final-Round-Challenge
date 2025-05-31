@@ -3,6 +3,7 @@ from pydantic import BaseModel, EmailStr
 from core.auth import get_current_user
 from core.database import supabase  # Assuming supabase client is initialized in core/database.py
 from supabase import Client
+from core.auth import get_current_user
 
 router = APIRouter()
 
@@ -42,6 +43,17 @@ def login_user(payload: LoginRequest):
         )
         if result.session is None:
             raise HTTPException(status_code=401, detail="Invalid credentials")
+
+        # Insert user data into the users table if needed
+        user_id = result.user.id if result.user and hasattr(result.user, "id") else None
+        user_data = {
+            "id": user_id,
+            "email": payload.email,
+            "created_at": result.user.created_at.isoformat() if result.user and hasattr(result.user, "created_at") else None
+        }
+        # print(user_data) Bugs fixing
+        supabase.table("users").insert(user_data).execute()
+
         return {
             "access_token": result.session.access_token,
             "refresh_token": result.session.refresh_token,
@@ -53,5 +65,5 @@ def login_user(payload: LoginRequest):
 
 # Route: Get current user profile
 @router.get("/profile")
-def get_profile(user=Depends(get_current_user)):
+def get_profile(user: dict = Depends(get_current_user)):
     return {"user": user}

@@ -1,20 +1,17 @@
-import jwt
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from core.config import JWT_SECRET, JWT_ALGORITHM
+from supabase import create_client
+from core.database import supabase  # reuse your client
 
 security = HTTPBearer()
 
-def decode_jwt_token(token: str):
-    try:
-        decoded = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-        return decoded
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token expired")
-    except jwt.InvalidTokenError:
-        raise HTTPException(status_code=401, detail="Invalid token")
-
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
-    payload = decode_jwt_token(token)
-    return payload
+    try:
+        # Verify the token with Supabase (optional)
+        user = supabase.auth.get_user(token)
+        if user.user is None:
+            raise HTTPException(status_code=401, detail="Invalid or expired token")
+        return user.user
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=str(e))
