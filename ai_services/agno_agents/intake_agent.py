@@ -2,6 +2,7 @@
 Disaster Response Intake Agent
 Uses AGNO framework with OpenAI models for intelligent help request processing
 """
+
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 import re
@@ -22,8 +23,10 @@ class IntakeAgent(Agent):
         """Initialize IntakeAgent with OpenAI model only"""
         # Validate OpenAI API key
         if not os.getenv("OPENAI_API_KEY"):
-            raise ValueError("OPENAI_API_KEY environment variable is required for IntakeAgent")
-        
+            raise ValueError(
+                "OPENAI_API_KEY environment variable is required for IntakeAgent"
+            )
+
         try:
             # Initialize OpenAI model with error handling
             model = OpenAIChat(
@@ -31,12 +34,12 @@ class IntakeAgent(Agent):
                 temperature=0.1,  # Low temperature for consistent structured output
                 max_tokens=1000,
                 frequency_penalty=0.0,
-                presence_penalty=0.0
+                presence_penalty=0.0,
             )
         except Exception as e:
             logger.error(f"Failed to initialize OpenAI model: {e}")
             raise ValueError(f"OpenAI model initialization failed: {e}")
-        
+
         super().__init__(
             name="DisasterIntakeAgent",
             model=model,
@@ -65,7 +68,7 @@ Response format:
 """,
             add_history_to_messages=True,
             num_history_responses=3,
-            markdown=False
+            markdown=False,
         )
         self.version = "1.0.0"
 
@@ -195,11 +198,13 @@ Respond with valid JSON only:
 """
             try:
                 response = self.run(ai_prompt)
-                ai_result = response.content if hasattr(response, 'content') else str(response)
+                ai_result = (
+                    response.content if hasattr(response, "content") else str(response)
+                )
                 ai_result = ai_result.strip()
-                if ai_result.startswith('```json'):
+                if ai_result.startswith("```json"):
                     ai_result = ai_result[7:-3].strip()
-                elif ai_result.startswith('```'):
+                elif ai_result.startswith("```"):
                     ai_result = ai_result[3:-3].strip()
                 ai_data = json.loads(ai_result)
                 needs = ai_data.get("needs", [])
@@ -228,18 +233,21 @@ Respond with valid JSON only:
                 "request_type": request_type,
                 "priority": priority,
                 "urgency_level": urgency,
-                "extracted_location": extracted_location or request_data.get("location"),
+                "extracted_location": extracted_location
+                or request_data.get("location"),
                 "special_requirements": special_requirements,
                 "processed_at": datetime.utcnow().isoformat(),
                 "status": "processing",
                 "ai_processed": True,
-                "confidence_score": confidence_score
+                "confidence_score": confidence_score,
             }
             logger.info(f"IntakeAgent processed request: {processed_data}")
             return processed_data
         except Exception as e:
             logger.error(f"IntakeAgent processing failed: {e}")
-            needs = self.extract_needs(f"{request_data.get('title', '')} {request_data.get('description', '')}")
+            needs = self.extract_needs(
+                f"{request_data.get('title', '')} {request_data.get('description', '')}"
+            )
             return {
                 "needs": needs,
                 "request_type": self.determine_request_type(needs),
@@ -251,7 +259,7 @@ Respond with valid JSON only:
                 "status": "processing",
                 "error": str(e),
                 "ai_processed": False,
-                "confidence_score": 0.1
+                "confidence_score": 0.1,
             }
 
     def update_request_in_db(self, request_id: str, processed_data: Dict) -> bool:
@@ -280,7 +288,9 @@ Respond with valid JSON only:
                 logger.error(f"Failed to update request {request_id}: No data returned")
                 return False
         except Exception as e:
-            logger.error(f"IntakeAgent database update failed for request {request_id}: {e}")
+            logger.error(
+                f"IntakeAgent database update failed for request {request_id}: {e}"
+            )
             return False
 
 

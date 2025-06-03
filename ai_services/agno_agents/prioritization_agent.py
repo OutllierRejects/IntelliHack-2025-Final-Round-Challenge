@@ -17,20 +17,22 @@ class PrioritizationAgent(Agent):
     def __init__(self):
         """Initialize PrioritizationAgent with OpenAI model"""
         if not os.getenv("OPENAI_API_KEY"):
-            raise ValueError("OPENAI_API_KEY environment variable is required for PrioritizationAgent")
-        
+            raise ValueError(
+                "OPENAI_API_KEY environment variable is required for PrioritizationAgent"
+            )
+
         try:
             model = OpenAIChat(
                 id="gpt-4o-mini",
                 temperature=0.1,
                 max_tokens=1000,
                 frequency_penalty=0.0,
-                presence_penalty=0.0
+                presence_penalty=0.0,
             )
         except Exception as e:
             logger.error(f"Failed to initialize OpenAI model: {e}")
             raise ValueError(f"OpenAI model initialization failed: {e}")
-        
+
         super().__init__(
             name="DisasterPrioritizationAgent",
             model=model,
@@ -60,10 +62,10 @@ Always respond with valid JSON format only:
 """,
             add_history_to_messages=True,
             num_history_responses=3,
-            markdown=False
+            markdown=False,
         )
         self.version = "1.0.0"
-        
+
         super().__init__(
             name="DisasterPrioritizationAgent",
             model=model,
@@ -86,7 +88,7 @@ Always prioritize life-safety first, then vulnerable populations, then general w
 """,
             add_history_to_messages=True,
             num_history_responses=5,
-            markdown=False
+            markdown=False,
         )
         self.version = "1.0.0"
 
@@ -108,18 +110,14 @@ Always prioritize life-safety first, then vulnerable populations, then general w
     def get_resource_availability(self) -> Dict:
         """Get current resource levels"""
         try:
-            response = (
-                supabase.table("resources")
-                .select("*")
-                .execute()
-            )
+            response = supabase.table("resources").select("*").execute()
             resources = {}
             if response.data:
                 for resource in response.data:
                     resources[resource["type"]] = {
                         "available": resource.get("quantity", 0),
                         "threshold": resource.get("threshold", 10),
-                        "location": resource.get("location", "unknown")
+                        "location": resource.get("location", "unknown"),
                     }
             return resources
         except Exception as e:
@@ -132,29 +130,48 @@ Always prioritize life-safety first, then vulnerable populations, then general w
             "urgency_keywords": 0.0,
             "vulnerability_factor": 0.0,
             "resource_scarcity": 0.0,
-            "time_factor": 0.0
+            "time_factor": 0.0,
         }
-        
-        description = f"{request.get('title', '')} {request.get('description', '')}".lower()
-        
+
+        description = (
+            f"{request.get('title', '')} {request.get('description', '')}".lower()
+        )
+
         # Urgency keywords
-        critical_words = ["emergency", "urgent", "critical", "dying", "fire", "explosion", "trapped", "bleeding"]
+        critical_words = [
+            "emergency",
+            "urgent",
+            "critical",
+            "dying",
+            "fire",
+            "explosion",
+            "trapped",
+            "bleeding",
+        ]
         high_words = ["serious", "injured", "unconscious", "severe", "help", "pain"]
-        
+
         if any(word in description for word in critical_words):
             factors["urgency_keywords"] = 1.0
         elif any(word in description for word in high_words):
             factors["urgency_keywords"] = 0.7
         else:
             factors["urgency_keywords"] = 0.3
-            
+
         # Vulnerability factor
-        vulnerable_words = ["elderly", "child", "baby", "pregnant", "disabled", "sick", "alone"]
+        vulnerable_words = [
+            "elderly",
+            "child",
+            "baby",
+            "pregnant",
+            "disabled",
+            "sick",
+            "alone",
+        ]
         if any(word in description for word in vulnerable_words):
             factors["vulnerability_factor"] = 0.8
         else:
             factors["vulnerability_factor"] = 0.2
-            
+
         # Resource scarcity
         needs = request.get("needs", [])
         scarcity_score = 0.0
@@ -167,12 +184,18 @@ Always prioritize life-safety first, then vulnerable populations, then general w
                 elif available <= threshold * 2:
                     scarcity_score += 0.1
         factors["resource_scarcity"] = min(scarcity_score, 1.0)
-        
+
         # Time factor (older requests get slightly higher priority)
-        created_at = datetime.fromisoformat(request.get("created_at", datetime.utcnow().isoformat()).replace('Z', '+00:00'))
-        hours_old = (datetime.utcnow().replace(tzinfo=created_at.tzinfo) - created_at).total_seconds() / 3600
+        created_at = datetime.fromisoformat(
+            request.get("created_at", datetime.utcnow().isoformat()).replace(
+                "Z", "+00:00"
+            )
+        )
+        hours_old = (
+            datetime.utcnow().replace(tzinfo=created_at.tzinfo) - created_at
+        ).total_seconds() / 3600
         factors["time_factor"] = min(hours_old * 0.05, 0.3)
-        
+
         return factors
 
     def prioritize_request(self, request: Dict, resources: Dict) -> Dict:
@@ -180,7 +203,7 @@ Always prioritize life-safety first, then vulnerable populations, then general w
         try:
             # Calculate baseline factors
             factors = self.calculate_priority_factors(request, resources)
-            
+
             # Prepare context for AI
             context = {
                 "request_id": request.get("id"),
@@ -190,10 +213,14 @@ Always prioritize life-safety first, then vulnerable populations, then general w
                 "location": request.get("location", ""),
                 "current_priority": request.get("priority", "medium"),
                 "factors": factors,
-                "available_resources": {k: v["available"] for k, v in resources.items()},
-                "resource_thresholds": {k: v["threshold"] for k, v in resources.items()}
+                "available_resources": {
+                    k: v["available"] for k, v in resources.items()
+                },
+                "resource_thresholds": {
+                    k: v["threshold"] for k, v in resources.items()
+                },
             }
-            
+
             ai_prompt = f"""
 Analyze this disaster help request and determine its priority level:
 
@@ -222,30 +249,34 @@ Respond with valid JSON only:
     "estimated_response_time": "immediate/1-2 hours/4-6 hours/next day"
 }}
 """
-            
+
             # Get AI response
             response = self.run(ai_prompt)
-            ai_result = response.content if hasattr(response, 'content') else str(response)
-            
+            ai_result = (
+                response.content if hasattr(response, "content") else str(response)
+            )
+
             # Parse AI result
             try:
                 # Clean response
                 ai_result = ai_result.strip()
-                if ai_result.startswith('```json'):
+                if ai_result.startswith("```json"):
                     ai_result = ai_result[7:-3].strip()
-                elif ai_result.startswith('```'):
+                elif ai_result.startswith("```"):
                     ai_result = ai_result[3:-3].strip()
-                    
+
                 ai_data = json.loads(ai_result)
-                
+
                 # Validate and extract
                 priority = ai_data.get("priority", "medium")
                 urgency_score = ai_data.get("urgency_score", 0.5)
                 resource_impact = ai_data.get("resource_impact", "medium")
                 reasoning = ai_data.get("reasoning", "AI analysis completed")
                 recommended_resources = ai_data.get("recommended_resources", [])
-                estimated_response_time = ai_data.get("estimated_response_time", "4-6 hours")
-                
+                estimated_response_time = ai_data.get(
+                    "estimated_response_time", "4-6 hours"
+                )
+
             except (json.JSONDecodeError, KeyError) as e:
                 logger.warning(f"AI response parsing failed: {e}, using fallback logic")
                 # Fallback logic
@@ -258,13 +289,15 @@ Respond with valid JSON only:
                     priority = "medium"
                 else:
                     priority = "low"
-                    
+
                 urgency_score = total_score
-                resource_impact = "high" if factors["resource_scarcity"] > 0.5 else "medium"
+                resource_impact = (
+                    "high" if factors["resource_scarcity"] > 0.5 else "medium"
+                )
                 reasoning = "Automated prioritization based on keyword analysis"
                 recommended_resources = request.get("needs", [])
                 estimated_response_time = "4-6 hours"
-            
+
             result = {
                 "request_id": request.get("id"),
                 "priority": priority,
@@ -275,12 +308,12 @@ Respond with valid JSON only:
                 "estimated_response_time": estimated_response_time,
                 "factors": factors,
                 "processed_at": datetime.utcnow().isoformat(),
-                "ai_processed": True
+                "ai_processed": True,
             }
-            
+
             logger.info(f"Prioritized request {request.get('id')}: {priority} priority")
             return result
-            
+
         except Exception as e:
             logger.error(f"Request prioritization failed: {e}")
             return {
@@ -293,7 +326,7 @@ Respond with valid JSON only:
                 "estimated_response_time": "4-6 hours",
                 "processed_at": datetime.utcnow().isoformat(),
                 "ai_processed": False,
-                "error": str(e)
+                "error": str(e),
             }
 
     def update_request_priority(self, prioritization_result: Dict) -> bool:
@@ -303,27 +336,31 @@ Respond with valid JSON only:
             update_data = {
                 "priority": prioritization_result["priority"],
                 "urgency_score": prioritization_result["urgency_score"],
-                "estimated_response_time": prioritization_result["estimated_response_time"],
+                "estimated_response_time": prioritization_result[
+                    "estimated_response_time"
+                ],
                 "status": "prioritized",
-                "updated_at": datetime.utcnow().isoformat()
+                "updated_at": datetime.utcnow().isoformat(),
             }
-            
+
             response = (
                 supabase.table("requests")
                 .update(update_data)
                 .eq("id", request_id)
                 .execute()
             )
-            
+
             if response.data:
                 logger.info(f"Updated priority for request {request_id}")
                 return True
             else:
                 logger.error(f"Failed to update request {request_id}: No data returned")
                 return False
-                
+
         except Exception as e:
-            logger.error(f"Database update failed for request {prioritization_result.get('request_id')}: {e}")
+            logger.error(
+                f"Database update failed for request {prioritization_result.get('request_id')}: {e}"
+            )
             return False
 
     def run_prioritization_cycle(self) -> Dict:
@@ -333,42 +370,50 @@ Respond with valid JSON only:
             requests = self.get_unprocessed_requests()
             if not requests:
                 logger.info("No requests to prioritize")
-                return {"processed": 0, "errors": 0, "message": "No requests to prioritize"}
-            
+                return {
+                    "processed": 0,
+                    "errors": 0,
+                    "message": "No requests to prioritize",
+                }
+
             # Get resource availability
             resources = self.get_resource_availability()
-            
+
             processed = 0
             errors = 0
             results = []
-            
+
             for request in requests:
                 try:
                     # Prioritize request
                     result = self.prioritize_request(request, resources)
                     results.append(result)
-                    
+
                     # Update database
                     if self.update_request_priority(result):
                         processed += 1
                     else:
                         errors += 1
-                        
+
                 except Exception as e:
-                    logger.error(f"Failed to prioritize request {request.get('id')}: {e}")
+                    logger.error(
+                        f"Failed to prioritize request {request.get('id')}: {e}"
+                    )
                     errors += 1
-            
+
             summary = {
                 "processed": processed,
                 "errors": errors,
                 "total_requests": len(requests),
                 "results": results,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
-            
-            logger.info(f"Prioritization cycle complete: {processed} processed, {errors} errors")
+
+            logger.info(
+                f"Prioritization cycle complete: {processed} processed, {errors} errors"
+            )
             return summary
-            
+
         except Exception as e:
             logger.error(f"Prioritization cycle failed: {e}")
             return {
@@ -376,7 +421,7 @@ Respond with valid JSON only:
                 "errors": 1,
                 "total_requests": 0,
                 "error": str(e),
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
 
 
@@ -391,31 +436,26 @@ def prioritize_specific_request(request_id: str) -> Dict:
     """Prioritize a specific request"""
     try:
         agent = PrioritizationAgent()
-        
+
         # Fetch specific request
-        response = (
-            supabase.table("requests")
-            .select("*")
-            .eq("id", request_id)
-            .execute()
-        )
-        
+        response = supabase.table("requests").select("*").eq("id", request_id).execute()
+
         if not response.data:
             return {"error": f"Request {request_id} not found"}
-        
+
         request = response.data[0]
         resources = agent.get_resource_availability()
-        
+
         # Prioritize and update
         result = agent.prioritize_request(request, resources)
         success = agent.update_request_priority(result)
-        
+
         return {
             "success": success,
             "result": result,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to prioritize specific request {request_id}: {e}")
         return {"error": str(e)}

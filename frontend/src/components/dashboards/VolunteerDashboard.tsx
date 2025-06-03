@@ -1,64 +1,72 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { DashboardLayout } from '../layout/DashboardLayout';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { Badge } from '../ui/Badge';
-import { Loading } from '../ui/Loading';
-import { useRequests, useTasks, useResources } from '../../hooks/api';
-import { formatDate, getPriorityColor, getStatusColor } from '../../utils';
-import { 
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { DashboardLayout } from "../layout/DashboardLayout";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import { Badge } from "../ui/Badge";
+import { Loading } from "../ui/Loading";
+import { useRequests, useTasks, useResources } from "../../hooks/api";
+import { formatDate, getPriorityColor, getStatusColor } from "../../utils";
+import {
   HandRaisedIcon,
   ClockIcon,
   CheckCircleIcon,
   UserGroupIcon,
   MapPinIcon,
   PhoneIcon,
-  ExclamationTriangleIcon
-} from '@heroicons/react/24/outline';
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 
 export const VolunteerDashboard: React.FC = () => {
   const [selectedRequest, setSelectedRequest] = useState<string | null>(null);
-  
+
   const { data: requests, isLoading: requestsLoading } = useRequests();
   const { data: tasks, isLoading: tasksLoading } = useTasks();
   const { data: resources, isLoading: resourcesLoading } = useResources();
 
   // Filter data for volunteer
-  const availableRequests = requests?.filter(req => req.status === 'open') || [];
-  const myTasks = tasks?.filter(task => task.assigned_to === 'current_user_id') || [];
-  const urgentRequests = availableRequests.filter(req => req.priority === 'high');
+  const availableRequests =
+    requests?.filter((req) => req.status === "open") || [];
+  const myTasks =
+    tasks?.filter((task) => task.assigned_to === "current_user_id") || [];
+  const urgentRequests = availableRequests.filter(
+    (req) => req.priority === "high"
+  );
 
   const stats = [
     {
-      name: 'Available Requests',
+      name: "Available Requests",
       value: availableRequests.length.toString(),
       icon: HandRaisedIcon,
-      color: 'blue',
+      color: "blue",
     },
     {
-      name: 'My Active Tasks',
-      value: myTasks.filter(task => task.status === 'in_progress').length.toString(),
+      name: "My Active Tasks",
+      value: myTasks
+        .filter((task) => task.status === "in_progress")
+        .length.toString(),
       icon: ClockIcon,
-      color: 'yellow',
+      color: "yellow",
     },
     {
-      name: 'Completed Tasks',
-      value: myTasks.filter(task => task.status === 'completed').length.toString(),
+      name: "Completed Tasks",
+      value: myTasks
+        .filter((task) => task.status === "completed")
+        .length.toString(),
       icon: CheckCircleIcon,
-      color: 'green',
+      color: "green",
     },
     {
-      name: 'Urgent Requests',
+      name: "Urgent Requests",
       value: urgentRequests.length.toString(),
       icon: ExclamationTriangleIcon,
-      color: 'red',
+      color: "red",
     },
   ];
 
   const handleAcceptRequest = (requestId: string) => {
     // TODO: Implement accept request logic
-    console.log('Accepting request:', requestId);
+    console.log("Accepting request:", requestId);
   };
 
   return (
@@ -88,7 +96,9 @@ export const VolunteerDashboard: React.FC = () => {
         <div className="lg:col-span-2">
           <Card className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-medium text-gray-900">Available Help Requests</h2>
+              <h2 className="text-lg font-medium text-gray-900">
+                Available Help Requests
+              </h2>
               <div className="flex items-center space-x-2">
                 <Button variant="outline" size="sm">
                   Filter
@@ -104,7 +114,9 @@ export const VolunteerDashboard: React.FC = () => {
             ) : availableRequests.length === 0 ? (
               <div className="text-center py-8">
                 <HandRaisedIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No requests available</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No requests available
+                </h3>
                 <p className="text-gray-500">
                   Check back later for new help requests in your area.
                 </p>
@@ -125,7 +137,7 @@ export const VolunteerDashboard: React.FC = () => {
                           <Badge color={getStatusColor(request.status)}>
                             {request.status}
                           </Badge>
-                          {request.priority === 'high' && (
+                          {request.priority === "high" && (
                             <Badge color="red" className="animate-pulse">
                               URGENT
                             </Badge>
@@ -142,9 +154,7 @@ export const VolunteerDashboard: React.FC = () => {
                             <MapPinIcon className="w-3 h-3 mr-1" />
                             {request.location}
                           </span>
-                          <span>
-                            {formatDate(request.created_at)}
-                          </span>
+                          <span>{formatDate(request.created_at)}</span>
                           {request.people_count && (
                             <span className="flex items-center">
                               <UserGroupIcon className="w-3 h-3 mr-1" />
@@ -154,7 +164,10 @@ export const VolunteerDashboard: React.FC = () => {
                         </div>
                       </div>
                       <div className="ml-4 flex flex-col space-y-2">
-                        <Button size="sm" onClick={() => handleAcceptRequest(request.id)}>
+                        <Button
+                          size="sm"
+                          onClick={() => handleAcceptRequest(request.id)}
+                        >
                           Accept
                         </Button>
                         <Button variant="outline" size="sm">
@@ -173,7 +186,9 @@ export const VolunteerDashboard: React.FC = () => {
         <div className="space-y-6">
           {/* My Current Tasks */}
           <Card className="p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">My Current Tasks</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">
+              My Current Tasks
+            </h2>
             {tasksLoading ? (
               <Loading size="sm" />
             ) : myTasks.length === 0 ? (
@@ -214,23 +229,36 @@ export const VolunteerDashboard: React.FC = () => {
 
           {/* Resource Availability */}
           <Card className="p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Resource Status</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">
+              Resource Status
+            </h2>
             {resourcesLoading ? (
               <Loading size="sm" />
             ) : (
               <div className="space-y-3">
                 {resources?.slice(0, 5).map((resource) => (
-                  <div key={resource.id} className="flex items-center justify-between">
-                    <span className="text-sm text-gray-900">{resource.name}</span>
+                  <div
+                    key={resource.id}
+                    className="flex items-center justify-between"
+                  >
+                    <span className="text-sm text-gray-900">
+                      {resource.name}
+                    </span>
                     <div className="flex items-center space-x-2">
                       <span className="text-sm text-gray-500">
                         {resource.current_stock} / {resource.max_capacity}
                       </span>
                       <Badge
-                        color={resource.current_stock < resource.low_stock_threshold ? 'red' : 'green'}
+                        color={
+                          resource.current_stock < resource.low_stock_threshold
+                            ? "red"
+                            : "green"
+                        }
                         size="sm"
                       >
-                        {resource.current_stock < resource.low_stock_threshold ? 'Low' : 'OK'}
+                        {resource.current_stock < resource.low_stock_threshold
+                          ? "Low"
+                          : "OK"}
                       </Badge>
                     </div>
                   </div>
@@ -241,7 +269,9 @@ export const VolunteerDashboard: React.FC = () => {
 
           {/* Quick Actions */}
           <Card className="p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">
+              Quick Actions
+            </h2>
             <div className="space-y-2">
               <Button className="w-full justify-start" variant="outline">
                 <PhoneIcon className="w-4 h-4 mr-2" />

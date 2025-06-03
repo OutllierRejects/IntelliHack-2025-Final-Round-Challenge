@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { DashboardLayout } from '../layout/DashboardLayout';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { Badge } from '../ui/Badge';
-import { Loading } from '../ui/Loading';
-import { useRequests, useTasks, useResources } from '../../hooks/api';
-import { formatDate, getPriorityColor, getStatusColor } from '../../utils';
-import { 
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { DashboardLayout } from "../layout/DashboardLayout";
+import { Card } from "../ui/Card";
+import { Button } from "../ui/Button";
+import { Badge } from "../ui/Badge";
+import { Loading } from "../ui/Loading";
+import { useRequests, useTasks, useResources } from "../../hooks/api";
+import { formatDate, getPriorityColor, getStatusColor } from "../../utils";
+import {
   ExclamationTriangleIcon,
   ClockIcon,
   CheckCircleIcon,
@@ -17,66 +17,77 @@ import {
   ChartBarIcon,
   TruckIcon,
   HeartIcon,
-  FireIcon
-} from '@heroicons/react/24/outline';
+  FireIcon,
+} from "@heroicons/react/24/outline";
 
 export const FirstResponderDashboard: React.FC = () => {
   const [activeIncidents, setActiveIncidents] = useState<string[]>([]);
-  
+
   const { data: requests, isLoading: requestsLoading } = useRequests();
   const { data: tasks, isLoading: tasksLoading } = useTasks();
   const { data: resources, isLoading: resourcesLoading } = useResources();
 
   // Filter data for first responder
-  const criticalRequests = requests?.filter(req => req.priority === 'high' && req.status === 'open') || [];
-  const myAssignedTasks = tasks?.filter(task => task.assigned_to === 'current_user_id') || [];
-  const emergencyResources = resources?.filter(res => res.category === 'emergency') || [];
+  const criticalRequests =
+    requests?.filter(
+      (req) => req.priority === "high" && req.status === "open"
+    ) || [];
+  const myAssignedTasks =
+    tasks?.filter((task) => task.assigned_to === "current_user_id") || [];
+  const emergencyResources =
+    resources?.filter((res) => res.category === "emergency") || [];
 
   const stats = [
     {
-      name: 'Critical Incidents',
+      name: "Critical Incidents",
       value: criticalRequests.length.toString(),
       icon: ExclamationTriangleIcon,
-      color: 'red',
+      color: "red",
     },
     {
-      name: 'Active Responses',
-      value: myAssignedTasks.filter(task => task.status === 'in_progress').length.toString(),
+      name: "Active Responses",
+      value: myAssignedTasks
+        .filter((task) => task.status === "in_progress")
+        .length.toString(),
       icon: ClockIcon,
-      color: 'blue',
+      color: "blue",
     },
     {
-      name: 'Resolved Today',
-      value: myAssignedTasks.filter(task => 
-        task.status === 'completed' && 
-        new Date(task.updated_at).toDateString() === new Date().toDateString()
-      ).length.toString(),
+      name: "Resolved Today",
+      value: myAssignedTasks
+        .filter(
+          (task) =>
+            task.status === "completed" &&
+            new Date(task.updated_at).toDateString() ===
+              new Date().toDateString()
+        )
+        .length.toString(),
       icon: CheckCircleIcon,
-      color: 'green',
+      color: "green",
     },
     {
-      name: 'People Helped',
-      value: '47', // TODO: Calculate from completed requests
+      name: "People Helped",
+      value: "47", // TODO: Calculate from completed requests
       icon: UserGroupIcon,
-      color: 'purple',
+      color: "purple",
     },
   ];
 
   const incidentTypes = [
-    { type: 'Medical Emergency', count: 8, icon: HeartIcon, color: 'red' },
-    { type: 'Fire/Explosion', count: 3, icon: FireIcon, color: 'orange' },
-    { type: 'Search & Rescue', count: 12, icon: UserGroupIcon, color: 'blue' },
-    { type: 'Transportation', count: 5, icon: TruckIcon, color: 'green' },
+    { type: "Medical Emergency", count: 8, icon: HeartIcon, color: "red" },
+    { type: "Fire/Explosion", count: 3, icon: FireIcon, color: "orange" },
+    { type: "Search & Rescue", count: 12, icon: UserGroupIcon, color: "blue" },
+    { type: "Transportation", count: 5, icon: TruckIcon, color: "green" },
   ];
 
   const handleDispatch = (requestId: string) => {
     // TODO: Implement dispatch logic
-    console.log('Dispatching to request:', requestId);
+    console.log("Dispatching to request:", requestId);
   };
 
   const handleMarkEnRoute = (taskId: string) => {
     // TODO: Implement en route status update
-    console.log('Marking en route:', taskId);
+    console.log("Marking en route:", taskId);
   };
 
   return (
@@ -117,7 +128,9 @@ export const FirstResponderDashboard: React.FC = () => {
         <div className="lg:col-span-2">
           <Card className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-medium text-gray-900">Critical Incidents</h2>
+              <h2 className="text-lg font-medium text-gray-900">
+                Critical Incidents
+              </h2>
               <div className="flex items-center space-x-2">
                 <Badge color="red" className="animate-pulse">
                   {criticalRequests.length} ACTIVE
@@ -133,7 +146,9 @@ export const FirstResponderDashboard: React.FC = () => {
             ) : criticalRequests.length === 0 ? (
               <div className="text-center py-8">
                 <CheckCircleIcon className="w-12 h-12 text-green-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No critical incidents</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No critical incidents
+                </h3>
                 <p className="text-gray-500">
                   All critical situations are currently being handled.
                 </p>
@@ -169,9 +184,7 @@ export const FirstResponderDashboard: React.FC = () => {
                             <MapPinIcon className="w-3 h-3 mr-1" />
                             {request.location}
                           </span>
-                          <span>
-                            {formatDate(request.created_at)}
-                          </span>
+                          <span>{formatDate(request.created_at)}</span>
                           {request.people_count && (
                             <span className="flex items-center">
                               <UserGroupIcon className="w-3 h-3 mr-1" />
@@ -181,8 +194,8 @@ export const FirstResponderDashboard: React.FC = () => {
                         </div>
                       </div>
                       <div className="ml-4 flex flex-col space-y-2">
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           className="bg-red-600 hover:bg-red-700"
                           onClick={() => handleDispatch(request.id)}
                         >
@@ -207,7 +220,9 @@ export const FirstResponderDashboard: React.FC = () => {
         <div className="space-y-6">
           {/* Active Responses */}
           <Card className="p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">My Active Responses</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">
+              My Active Responses
+            </h2>
             {tasksLoading ? (
               <Loading size="sm" />
             ) : myAssignedTasks.length === 0 ? (
@@ -231,12 +246,12 @@ export const FirstResponderDashboard: React.FC = () => {
                       <span className="text-xs text-gray-500">
                         ETA: {formatDate(task.due_date)}
                       </span>
-                      <Button 
-                        size="xs" 
+                      <Button
+                        size="xs"
                         onClick={() => handleMarkEnRoute(task.id)}
-                        disabled={task.status === 'completed'}
+                        disabled={task.status === "completed"}
                       >
-                        {task.status === 'pending' ? 'En Route' : 'Update'}
+                        {task.status === "pending" ? "En Route" : "Update"}
                       </Button>
                     </div>
                   </div>
@@ -247,15 +262,26 @@ export const FirstResponderDashboard: React.FC = () => {
 
           {/* Incident Types */}
           <Card className="p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Incident Types Today</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">
+              Incident Types Today
+            </h2>
             <div className="space-y-3">
               {incidentTypes.map((incident) => (
-                <div key={incident.type} className="flex items-center justify-between">
+                <div
+                  key={incident.type}
+                  className="flex items-center justify-between"
+                >
                   <div className="flex items-center">
-                    <div className={`p-1 rounded bg-${incident.color}-100 mr-3`}>
-                      <incident.icon className={`w-4 h-4 text-${incident.color}-600`} />
+                    <div
+                      className={`p-1 rounded bg-${incident.color}-100 mr-3`}
+                    >
+                      <incident.icon
+                        className={`w-4 h-4 text-${incident.color}-600`}
+                      />
                     </div>
-                    <span className="text-sm text-gray-900">{incident.type}</span>
+                    <span className="text-sm text-gray-900">
+                      {incident.type}
+                    </span>
                   </div>
                   <Badge color={incident.color} size="sm">
                     {incident.count}
@@ -267,23 +293,36 @@ export const FirstResponderDashboard: React.FC = () => {
 
           {/* Emergency Resources */}
           <Card className="p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Emergency Resources</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">
+              Emergency Resources
+            </h2>
             {resourcesLoading ? (
               <Loading size="sm" />
             ) : (
               <div className="space-y-3">
                 {emergencyResources.slice(0, 5).map((resource) => (
-                  <div key={resource.id} className="flex items-center justify-between">
-                    <span className="text-sm text-gray-900">{resource.name}</span>
+                  <div
+                    key={resource.id}
+                    className="flex items-center justify-between"
+                  >
+                    <span className="text-sm text-gray-900">
+                      {resource.name}
+                    </span>
                     <div className="flex items-center space-x-2">
                       <span className="text-sm text-gray-500">
                         {resource.current_stock}
                       </span>
                       <Badge
-                        color={resource.current_stock < resource.low_stock_threshold ? 'red' : 'green'}
+                        color={
+                          resource.current_stock < resource.low_stock_threshold
+                            ? "red"
+                            : "green"
+                        }
                         size="sm"
                       >
-                        {resource.current_stock < resource.low_stock_threshold ? 'Low' : 'Ready'}
+                        {resource.current_stock < resource.low_stock_threshold
+                          ? "Low"
+                          : "Ready"}
                       </Badge>
                     </div>
                   </div>
@@ -298,7 +337,9 @@ export const FirstResponderDashboard: React.FC = () => {
 
           {/* Quick Communications */}
           <Card className="p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Quick Comms</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">
+              Quick Comms
+            </h2>
             <div className="space-y-2">
               <Button className="w-full justify-start" variant="outline">
                 <PhoneIcon className="w-4 h-4 mr-2" />

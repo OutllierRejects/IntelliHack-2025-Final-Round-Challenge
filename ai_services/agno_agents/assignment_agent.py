@@ -16,14 +16,12 @@ class AssignmentAgent(Agent):
     def __init__(self):
         # Initialize AGNO Agent with OpenAI only
         if not os.getenv("OPENAI_API_KEY"):
-            raise ValueError("OPENAI_API_KEY environment variable is required for AssignmentAgent")
-        
-        model = OpenAIChat(
-            id="gpt-4o-mini",
-            temperature=0.3,
-            max_tokens=1200
-        )
-        
+            raise ValueError(
+                "OPENAI_API_KEY environment variable is required for AssignmentAgent"
+            )
+
+        model = OpenAIChat(id="gpt-4o-mini", temperature=0.3, max_tokens=1200)
+
         super().__init__(
             name="DisasterAssignmentAgent",
             model=model,
@@ -48,7 +46,7 @@ Always prioritize life-safety assignments and ensure proper resource allocation.
 """,
             add_history_to_messages=True,
             num_history_responses=5,
-            markdown=False
+            markdown=False,
         )
         self.version = "1.0.0"
 
@@ -87,35 +85,34 @@ Always prioritize life-safety assignments and ensure proper resource allocation.
         """Get current resource availability"""
         try:
             response = (
-                supabase.table("resources")
-                .select("*")
-                .gt("current_stock", 0)
-                .execute()
+                supabase.table("resources").select("*").gt("current_stock", 0).execute()
             )
             resources = response.data if response.data else []
-            
+
             # Organize by type and location
             availability = {}
             for resource in resources:
                 res_type = resource.get("type", "unknown")
                 location = resource.get("location", "unknown")
                 key = f"{res_type}_{location}"
-                
+
                 availability[key] = {
                     "id": resource.get("id"),
                     "type": res_type,
                     "location": location,
                     "current_stock": resource.get("current_stock", 0),
                     "unit": resource.get("unit", "units"),
-                    "description": resource.get("description", "")
+                    "description": resource.get("description", ""),
                 }
-            
+
             return availability
         except Exception as e:
             logger.error(f"Failed to fetch available resources: {e}")
             return {}
 
-    def create_assignments(self, requests: List[Dict], personnel: List[Dict], resources: Dict) -> List[Dict]:
+    def create_assignments(
+        self, requests: List[Dict], personnel: List[Dict], resources: Dict
+    ) -> List[Dict]:
         """Create task assignments using AI"""
         if not requests or not personnel:
             return []
@@ -202,42 +199,49 @@ Provide a JSON response:
 
             # Get AI response
             response = self.run(ai_prompt)
-            ai_result = response.content if hasattr(response, 'content') else str(response)
-            
+            ai_result = (
+                response.content if hasattr(response, "content") else str(response)
+            )
+
             # Parse AI response
             import json
+
             try:
                 ai_data = json.loads(ai_result)
                 assignments = ai_data.get("assignments", [])
-                
+
                 # Validate and enhance assignments
                 validated_assignments = []
                 for assignment in assignments:
                     # Check if assignee exists and is available
                     assignee_id = assignment.get("assignee_id")
-                    assignee = next((p for p in personnel if p.get("id") == assignee_id), None)
-                    
+                    assignee = next(
+                        (p for p in personnel if p.get("id") == assignee_id), None
+                    )
+
                     if assignee:
                         # Add timestamp and status
-                        assignment.update({
-                            "id": f"task_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{len(validated_assignments)}",
-                            "assignee_name": assignee.get("name", "Unknown"),
-                            "assignee_email": assignee.get("email", ""),
-                            "assignee_role": assignee.get("role", "volunteer"),
-                            "status": "assigned",
-                            "created_at": datetime.utcnow().isoformat(),
-                            "assigned_by": "AI",
-                            "due_date": None,  # Could be calculated based on priority
-                            "location": assignee.get("location", "unknown")
-                        })
+                        assignment.update(
+                            {
+                                "id": f"task_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{len(validated_assignments)}",
+                                "assignee_name": assignee.get("name", "Unknown"),
+                                "assignee_email": assignee.get("email", ""),
+                                "assignee_role": assignee.get("role", "volunteer"),
+                                "status": "assigned",
+                                "created_at": datetime.utcnow().isoformat(),
+                                "assigned_by": "AI",
+                                "due_date": None,  # Could be calculated based on priority
+                                "location": assignee.get("location", "unknown"),
+                            }
+                        )
                         validated_assignments.append(assignment)
-                
+
                 return validated_assignments
-                
+
             except json.JSONDecodeError:
                 logger.error("Failed to parse AI assignment response")
                 return []
-                
+
         except Exception as e:
             logger.error(f"AI assignment creation failed: {e}")
             return []
@@ -247,15 +251,15 @@ Provide a JSON response:
         try:
             for assignment in assignments:
                 required_resources = assignment.get("required_resources", [])
-                
+
                 for resource_req in required_resources:
                     resource_type = resource_req.get("resource_type")
                     quantity = resource_req.get("quantity", 0)
                     location = resource_req.get("location", "")
-                    
+
                     # Find matching resource
                     resource_key = f"{resource_type}_{location}"
-                    
+
                     # Update resource stock (simplified - in production would use proper locking)
                     response = (
                         supabase.table("resources")
@@ -265,30 +269,36 @@ Provide a JSON response:
                         .gt("current_stock", quantity)
                         .execute()
                     )
-                    
+
                     if response.data:
                         resource = response.data[0]
                         new_stock = resource["current_stock"] - quantity
-                        
+
                         # Update stock
-                        supabase.table("resources").update({
-                            "current_stock": new_stock,
-                            "updated_at": datetime.utcnow().isoformat()
-                        }).eq("id", resource["id"]).execute()
-                        
+                        supabase.table("resources").update(
+                            {
+                                "current_stock": new_stock,
+                                "updated_at": datetime.utcnow().isoformat(),
+                            }
+                        ).eq("id", resource["id"]).execute()
+
                         # Log resource allocation
-                        supabase.table("resource_allocations").insert({
-                            "resource_id": resource["id"],
-                            "task_id": assignment.get("id"),
-                            "quantity": quantity,
-                            "allocated_at": datetime.utcnow().isoformat(),
-                            "status": "allocated"
-                        }).execute()
-                        
-                        logger.info(f"Reserved {quantity} {resource_type} for task {assignment.get('id')}")
-            
+                        supabase.table("resource_allocations").insert(
+                            {
+                                "resource_id": resource["id"],
+                                "task_id": assignment.get("id"),
+                                "quantity": quantity,
+                                "allocated_at": datetime.utcnow().isoformat(),
+                                "status": "allocated",
+                            }
+                        ).execute()
+
+                        logger.info(
+                            f"Reserved {quantity} {resource_type} for task {assignment.get('id')}"
+                        )
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to reserve resources: {e}")
             return False
@@ -311,26 +321,30 @@ Provide a JSON response:
                     "created_at": assignment.get("created_at"),
                     "assigned_by": assignment.get("assigned_by"),
                     "due_date": assignment.get("due_date"),
-                    "location": assignment.get("location")
+                    "location": assignment.get("location"),
                 }
-                
+
                 # Insert task
                 response = supabase.table("tasks").insert(task_data).execute()
-                
+
                 if response.data:
                     # Update request status
-                    supabase.table("requests").update({
-                        "status": "assigned",
-                        "assigned_at": datetime.utcnow().isoformat(),
-                        "assignee_id": assignment.get("assignee_id")
-                    }).eq("id", assignment.get("request_id")).execute()
-                    
+                    supabase.table("requests").update(
+                        {
+                            "status": "assigned",
+                            "assigned_at": datetime.utcnow().isoformat(),
+                            "assignee_id": assignment.get("assignee_id"),
+                        }
+                    ).eq("id", assignment.get("request_id")).execute()
+
                     logger.info(f"Created task assignment: {assignment.get('id')}")
                 else:
-                    logger.error(f"Failed to create task assignment: {assignment.get('id')}")
-            
+                    logger.error(
+                        f"Failed to create task assignment: {assignment.get('id')}"
+                    )
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to save assignments to database: {e}")
             return False
@@ -342,37 +356,40 @@ Provide a JSON response:
             requests = self.get_prioritized_requests()
             personnel = self.get_available_personnel()
             resources = self.get_available_resources()
-            
+
             if not requests:
                 return {"status": "no_requests", "assigned": 0}
-            
+
             if not personnel:
                 return {"status": "no_personnel", "pending_requests": len(requests)}
-            
+
             # Create assignments
             assignments = self.create_assignments(requests, personnel, resources)
-            
+
             if not assignments:
-                return {"status": "no_assignments_possible", "pending_requests": len(requests)}
-            
+                return {
+                    "status": "no_assignments_possible",
+                    "pending_requests": len(requests),
+                }
+
             # Reserve resources
             resources_reserved = self.reserve_resources(assignments)
-            
+
             # Save assignments
             assignments_saved = self.save_assignments_to_db(assignments)
-            
+
             result = {
                 "status": "completed" if assignments_saved else "partial_failure",
                 "assigned": len(assignments),
                 "pending_requests": len(requests) - len(assignments),
                 "resources_reserved": resources_reserved,
                 "assignments_saved": assignments_saved,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
-            
+
             logger.info(f"Assignment cycle completed: {result}")
             return result
-            
+
         except Exception as e:
             logger.error(f"Assignment cycle failed: {e}")
             return {"status": "failed", "error": str(e)}
@@ -389,20 +406,15 @@ def assign_specific_request(request_id: str, assignee_id: str = None) -> Dict:
     """Assign a specific request, optionally to a specific person"""
     try:
         agent = AssignmentAgent()
-        
+
         # Get specific request
-        response = (
-            supabase.table("requests")
-            .select("*")
-            .eq("id", request_id)
-            .execute()
-        )
-        
+        response = supabase.table("requests").select("*").eq("id", request_id).execute()
+
         if not response.data:
             return {"status": "request_not_found", "request_id": request_id}
-        
+
         request_data = response.data[0]
-        
+
         # Get personnel (specific person or all available)
         if assignee_id:
             personnel_response = (
@@ -415,23 +427,23 @@ def assign_specific_request(request_id: str, assignee_id: str = None) -> Dict:
             personnel = personnel_response.data if personnel_response.data else []
         else:
             personnel = agent.get_available_personnel()
-        
+
         if not personnel:
             return {"status": "no_available_personnel", "request_id": request_id}
-        
+
         # Get resources
         resources = agent.get_available_resources()
-        
+
         # Create assignment
         assignments = agent.create_assignments([request_data], personnel, resources)
-        
+
         if assignments:
             agent.reserve_resources(assignments)
             agent.save_assignments_to_db(assignments)
             return {"status": "completed", "assignment": assignments[0]}
         else:
             return {"status": "assignment_failed", "request_id": request_id}
-            
+
     except Exception as e:
         logger.error(f"Failed to assign request {request_id}: {e}")
         return {"status": "error", "error": str(e)}

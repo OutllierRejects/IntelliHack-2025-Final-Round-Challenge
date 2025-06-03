@@ -4,6 +4,7 @@ from typing import Optional, List, Dict
 from datetime import datetime
 from enum import Enum
 
+
 class TaskType(str, Enum):
     DELIVERY = "delivery"
     RESCUE = "rescue"
@@ -13,6 +14,7 @@ class TaskType(str, Enum):
     SETUP = "setup"
     OTHER = "other"
 
+
 class TaskStatus(str, Enum):
     AVAILABLE = "available"
     ASSIGNED = "assigned"
@@ -20,11 +22,13 @@ class TaskStatus(str, Enum):
     COMPLETED = "completed"
     CANCELLED = "cancelled"
 
+
 class TaskPriority(str, Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
+
 
 class TaskCreate(BaseModel):
     title: str
@@ -36,6 +40,7 @@ class TaskCreate(BaseModel):
     required_skills: Optional[List[str]] = []
     required_resources: Optional[Dict[str, int]] = {}  # resource_id: quantity
     request_id: Optional[str] = None
+
 
 class TaskOut(BaseModel):
     id: str
@@ -57,14 +62,17 @@ class TaskOut(BaseModel):
     completed_at: Optional[datetime]
     completion_notes: Optional[str]
 
+
 class TaskUpdate(BaseModel):
     status: Optional[TaskStatus] = None
     assigned_to: Optional[str] = None
     priority: Optional[TaskPriority] = None
     completion_notes: Optional[str] = None
 
+
 class TaskAccept(BaseModel):
     notes: Optional[str] = None
+
 
 class TaskComplete(BaseModel):
     completion_notes: str

@@ -4,6 +4,7 @@ from typing import Optional
 from datetime import datetime
 from enum import Enum
 
+
 class ResourceType(str, Enum):
     FOOD = "food"
     WATER = "water"
@@ -14,6 +15,7 @@ class ResourceType(str, Enum):
     TOOLS = "tools"
     OTHER = "other"
 
+
 class ResourceUnit(str, Enum):
     PIECES = "pieces"
     LITERS = "liters"
@@ -21,6 +23,7 @@ class ResourceUnit(str, Enum):
     BOXES = "boxes"
     UNITS = "units"
     PEOPLE = "people"
+
 
 class ResourceCreate(BaseModel):
     name: str
@@ -31,6 +34,7 @@ class ResourceCreate(BaseModel):
     maximum_capacity: int
     location: Optional[str] = None
     description: Optional[str] = None
+
 
 class ResourceOut(BaseModel):
     id: str
@@ -46,15 +50,18 @@ class ResourceOut(BaseModel):
     created_at: datetime
     updated_at: Optional[datetime]
 
+
 class ResourceUpdate(BaseModel):
     current_quantity: Optional[int] = None
     minimum_threshold: Optional[int] = None
     maximum_capacity: Optional[int] = None
     location: Optional[str] = None
 
+
 class ResourceReplenish(BaseModel):
     quantity: int
     notes: Optional[str] = None
+
 
 class ResourceConsume(BaseModel):
     quantity: int

@@ -4,6 +4,7 @@ from typing import Optional, List
 from datetime import datetime
 from enum import Enum
 
+
 class RequestType(str, Enum):
     FOOD = "food"
     WATER = "water"
@@ -12,11 +13,13 @@ class RequestType(str, Enum):
     RESCUE = "rescue"
     OTHER = "other"
 
+
 class Priority(str, Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
+
 
 class RequestStatus(str, Enum):
     PENDING = "pending"
@@ -26,6 +29,7 @@ class RequestStatus(str, Enum):
     COMPLETED = "completed"
     CANCELLED = "cancelled"
 
+
 class RequestCreate(BaseModel):
     title: str
     description: str
@@ -33,6 +37,7 @@ class RequestCreate(BaseModel):
     contact_info: Optional[str] = None
     urgency_level: Optional[str] = None
     needs: Optional[List[str]] = []
+
 
 class RequestOut(BaseModel):
     id: str
@@ -48,6 +53,7 @@ class RequestOut(BaseModel):
     created_at: datetime
     updated_at: Optional[datetime]
     assigned_to: Optional[str]
+
 
 class RequestUpdate(BaseModel):
     priority: Optional[Priority] = None

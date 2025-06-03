@@ -5,6 +5,7 @@ A comprehensive disaster response management system featuring AI-powered multi-a
 ## 🚀 Features
 
 ### Core Functionality
+
 - **AI-Powered Agent Workflow**: Automated disaster request processing through Intake → Prioritization → Assignment → Communication agents
 - **Real-time Coordination**: WebSocket-based live updates and notifications
 - **Role-based Dashboards**: Specialized interfaces for Affected Individuals, Volunteers, First Responders, and Administrators
@@ -13,6 +14,7 @@ A comprehensive disaster response management system featuring AI-powered multi-a
 - **Multi-channel Communication**: SMS, email, and in-app notifications
 
 ### Technology Stack
+
 - **Frontend**: React 19 + TypeScript, Tailwind CSS, React Router, React Query, Zustand
 - **Backend**: FastAPI (Python), PostgreSQL, Redis, WebSockets
 - **AI Agents**: AGNO framework with OpenAI GPT-4o-mini models
@@ -22,6 +24,7 @@ A comprehensive disaster response management system featuring AI-powered multi-a
 ## 🛠 Quick Setup
 
 ### Prerequisites
+
 - Docker and Docker Compose
 - Git
 - Make (for convenience commands)
@@ -110,7 +113,7 @@ Once running, access the system via:
 Sample accounts for testing (password: `password123`):
 
 - **Admin**: admin@disaster.response
-- **First Responder**: john.responder@fire.dept  
+- **First Responder**: john.responder@fire.dept
 - **Volunteer**: sarah.volunteer@rescue.org
 - **Affected Individual**: mike.affected@gmail.com
 
@@ -147,24 +150,28 @@ Request Intake → Prioritization → Task Assignment → Communication
 ## 📊 Role-Based Dashboards
 
 ### Affected Individuals
+
 - Submit emergency help requests
 - Track request status and updates
 - Access safety tips and resources
 - Receive notifications about assistance
 
 ### Volunteers
+
 - View available tasks and requests
 - Accept and manage assigned tasks
 - Update task progress and completion
 - Access resource information
 
 ### First Responders
+
 - Monitor critical and high-priority incidents
 - Manage emergency dispatch operations
 - Coordinate with volunteer teams
 - Access real-time situation reports
 
 ### Administrators
+
 - System-wide overview and analytics
 - User and resource management
 - Agent workflow monitoring
@@ -173,14 +180,16 @@ Request Intake → Prioritization → Task Assignment → Communication
 ## 🤖 AI Agent Details
 
 ### 1. Intake Agent
+
 - **Purpose**: Process and validate incoming emergency requests
 - **Model**: OpenAI GPT-4o-mini
-- **Functions**: 
+- **Functions**:
   - Extract key information from requests
   - Validate request completeness
   - Initial categorization
 
 ### 2. Prioritization Agent
+
 - **Purpose**: Assess and prioritize requests based on severity
 - **Model**: OpenAI GPT-4o-mini
 - **Functions**:
@@ -189,6 +198,7 @@ Request Intake → Prioritization → Task Assignment → Communication
   - Resource requirement estimation
 
 ### 3. Assignment Agent
+
 - **Purpose**: Match requests with appropriate responders
 - **Model**: OpenAI GPT-4o-mini
 - **Functions**:
@@ -197,6 +207,7 @@ Request Intake → Prioritization → Task Assignment → Communication
   - Workload balancing
 
 ### 4. Communication Agent
+
 - **Purpose**: Handle notifications and status updates
 - **Model**: OpenAI GPT-4o-mini
 - **Functions**:
@@ -259,6 +270,7 @@ pnpm test
 ### Test Data
 
 The system includes comprehensive test data:
+
 - 5 sample users (different roles)
 - 4 emergency requests (various types and priorities)
 - Multiple tasks and assignments
@@ -270,6 +282,7 @@ The system includes comprehensive test data:
 ### Common Issues
 
 1. **Port Conflicts**:
+
    ```bash
    # Check which ports are in use
    netstat -tulpn | grep :<port>
@@ -277,6 +290,7 @@ The system includes comprehensive test data:
    ```
 
 2. **Database Connection Issues**:
+
    ```bash
    # Reset database containers
    make docker-down
@@ -285,6 +299,7 @@ The system includes comprehensive test data:
    ```
 
 3. **OpenAI API Issues**:
+
    - Verify API key is correct in `.env`
    - Check API quota and billing
    - Review agent logs: `docker-compose logs ai_services`
@@ -300,6 +315,7 @@ The system includes comprehensive test data:
 ---
 
 **Quick Start Summary:**
+
 1. Clone repo
 2. Copy `ai_services/.env.example` to `ai_services/.env`
 3. Add your OpenAI API key

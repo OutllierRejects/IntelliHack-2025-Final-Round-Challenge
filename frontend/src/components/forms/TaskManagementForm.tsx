@@ -1,16 +1,22 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
-import { Card } from '../ui/Card';
-import { useUpdateTask } from '../../hooks/api';
-import { TaskStatus, TaskPriority, Task } from '../../types';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
+import { Card } from "../ui/Card";
+import { useUpdateTask } from "../../hooks/api";
+import { TaskStatus, TaskPriority, Task } from "../../types";
 
 const taskUpdateSchema = z.object({
-  status: z.enum(['pending', 'assigned', 'in_progress', 'completed', 'cancelled']),
-  priority: z.enum(['low', 'medium', 'high', 'critical']),
+  status: z.enum([
+    "pending",
+    "assigned",
+    "in_progress",
+    "completed",
+    "cancelled",
+  ]),
+  priority: z.enum(["low", "medium", "high", "critical"]),
   assignedTo: z.string().optional(),
   notes: z.string().optional(),
   estimatedTime: z.number().min(0).optional(),
@@ -36,8 +42,8 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
     defaultValues: {
       status: task.status,
       priority: task.priority,
-      assignedTo: task.assignedTo || '',
-      notes: task.notes || '',
+      assignedTo: task.assignedTo || "",
+      notes: task.notes || "",
       estimatedTime: task.estimatedTime || 0,
     },
   });
@@ -52,23 +58,23 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
       });
       onClose();
     } catch (error) {
-      console.error('Failed to update task:', error);
+      console.error("Failed to update task:", error);
     }
   };
 
   const statusOptions: { value: TaskStatus; label: string }[] = [
-    { value: 'pending', label: 'Pending' },
-    { value: 'assigned', label: 'Assigned' },
-    { value: 'in_progress', label: 'In Progress' },
-    { value: 'completed', label: 'Completed' },
-    { value: 'cancelled', label: 'Cancelled' },
+    { value: "pending", label: "Pending" },
+    { value: "assigned", label: "Assigned" },
+    { value: "in_progress", label: "In Progress" },
+    { value: "completed", label: "Completed" },
+    { value: "cancelled", label: "Cancelled" },
   ];
 
   const priorityOptions: { value: TaskPriority; label: string }[] = [
-    { value: 'low', label: 'Low' },
-    { value: 'medium', label: 'Medium' },
-    { value: 'high', label: 'High' },
-    { value: 'critical', label: 'Critical' },
+    { value: "low", label: "Low" },
+    { value: "medium", label: "Medium" },
+    { value: "high", label: "High" },
+    { value: "critical", label: "Critical" },
   ];
 
   return (
@@ -85,7 +91,7 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
               Status
             </label>
             <select
-              {...register('status')}
+              {...register("status")}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               {statusOptions.map((option) => (
@@ -95,7 +101,9 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
               ))}
             </select>
             {errors.status && (
-              <p className="mt-1 text-sm text-red-600">{errors.status.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.status.message}
+              </p>
             )}
           </div>
 
@@ -104,7 +112,7 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
               Priority
             </label>
             <select
-              {...register('priority')}
+              {...register("priority")}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               {priorityOptions.map((option) => (
@@ -114,7 +122,9 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
               ))}
             </select>
             {errors.priority && (
-              <p className="mt-1 text-sm text-red-600">{errors.priority.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.priority.message}
+              </p>
             )}
           </div>
         </div>
@@ -124,7 +134,7 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
             Assigned To (User ID)
           </label>
           <Input
-            {...register('assignedTo')}
+            {...register("assignedTo")}
             placeholder="Enter user ID to assign task"
             error={errors.assignedTo?.message}
           />
@@ -138,7 +148,7 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
             type="number"
             step="0.5"
             min="0"
-            {...register('estimatedTime', { valueAsNumber: true })}
+            {...register("estimatedTime", { valueAsNumber: true })}
             placeholder="0"
             error={errors.estimatedTime?.message}
           />
@@ -149,7 +159,7 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
             Notes
           </label>
           <textarea
-            {...register('notes')}
+            {...register("notes")}
             rows={3}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Add any notes or updates..."
@@ -168,11 +178,7 @@ export const TaskManagementForm: React.FC<TaskManagementFormProps> = ({
           >
             Cancel
           </Button>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            loading={isSubmitting}
-          >
+          <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
             Update Task
           </Button>
         </div>

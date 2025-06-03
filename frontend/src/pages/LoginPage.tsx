@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuthStore } from '../store';
-import { authService } from '../services';
-import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
-import { Card } from '../components/ui/Card';
-import { Loading } from '../components/ui/Loading';
+import React, { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuthStore } from "../store";
+import { authService } from "../services";
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
+import { Card } from "../components/ui/Card";
+import { Loading } from "../components/ui/Loading";
 
 export const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { setUser, setToken } = useAuthStore();
 
@@ -19,10 +19,10 @@ export const LoginPage: React.FC = () => {
     onSuccess: (data) => {
       setUser(data.user);
       setToken(data.access_token);
-      navigate('/dashboard');
+      navigate("/dashboard");
     },
     onError: (error: any) => {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       // TODO: Show error toast
     },
   });
@@ -48,7 +48,10 @@ export const LoginPage: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
               Email Address
             </label>
             <Input
@@ -63,7 +66,10 @@ export const LoginPage: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
               Password
             </label>
             <Input
@@ -85,7 +91,7 @@ export const LoginPage: React.FC = () => {
             {loginMutation.isPending ? (
               <Loading size="sm" className="text-white" />
             ) : (
-              'Sign In'
+              "Sign In"
             )}
           </Button>
 
@@ -98,7 +104,7 @@ export const LoginPage: React.FC = () => {
 
         <div className="mt-6 text-center">
           <p className="text-gray-300">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <Link
               to="/register"
               className="text-blue-400 hover:text-blue-300 font-medium"

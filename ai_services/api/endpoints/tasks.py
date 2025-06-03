@@ -3,8 +3,13 @@ from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from typing import List, Optional
 from models.task import TaskCreate, TaskOut, TaskUpdate
 from services.task_service import (
-    create_task, get_tasks, update_task, assign_task, 
-    complete_task, get_available_tasks, get_user_tasks
+    create_task,
+    get_tasks,
+    update_task,
+    assign_task,
+    complete_task,
+    get_available_tasks,
+    get_user_tasks,
 )
 from core.auth import get_current_user
 import logging
@@ -19,7 +24,7 @@ def get_task_list(
     status: Optional[str] = None,
     priority: Optional[str] = None,
     assigned_to_me: bool = False,
-    limit: int = 50
+    limit: int = 50,
 ):
     """Get tasks with optional filtering"""
     try:
@@ -28,10 +33,10 @@ def get_task_list(
             filters["status"] = status
         if priority:
             filters["priority"] = priority
-        
+
         user_role = user.get("role", "volunteer")
         user_id = user.get("id") or user.get("email")
-        
+
         if assigned_to_me or user_role == "affected":
             # Show only user's tasks for affected individuals
             return get_user_tasks(user_id)
@@ -45,7 +50,7 @@ def get_task_list(
         else:
             # Admins and responders see all tasks
             return get_tasks(filters, limit)
-            
+
     except Exception as e:
         logger.error(f"Failed to get tasks: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -53,8 +58,7 @@ def get_task_list(
 
 @router.get("/tasks/available", response_model=List[TaskOut])
 def get_available_task_list(
-    user=Depends(get_current_user),
-    location: Optional[str] = None
+    user=Depends(get_current_user), location: Optional[str] = None
 ):
     """Get available tasks for assignment"""
     try:
@@ -77,19 +81,16 @@ def get_my_tasks(user=Depends(get_current_user)):
 
 
 @router.post("/tasks", response_model=TaskOut)
-def create_new_task(
-    payload: TaskCreate,
-    user=Depends(get_current_user)
-):
+def create_new_task(payload: TaskCreate, user=Depends(get_current_user)):
     """Create a new task (admin/responder only)"""
     try:
         user_role = user.get("role", "volunteer")
         if user_role not in ["admin", "first_responder"]:
             raise HTTPException(status_code=403, detail="Insufficient permissions")
-        
+
         task_data = payload.model_dump()
         task_data["created_by"] = user.get("id") or user.get("email")
-        
+
         return create_task(task_data)
     except HTTPException:
         raise
@@ -99,24 +100,20 @@ def create_new_task(
 
 
 @router.patch("/tasks/{task_id}/assign", response_model=TaskOut)
-def assign_task_to_user(
-    task_id: str,
-    assignee_id: str,
-    user=Depends(get_current_user)
-):
+def assign_task_to_user(task_id: str, assignee_id: str, user=Depends(get_current_user)):
     """Assign a task to a user"""
     try:
         user_role = user.get("role", "volunteer")
         user_id = user.get("id") or user.get("email")
-        
+
         # Volunteers can self-assign, others need admin/responder role
         if assignee_id != user_id and user_role not in ["admin", "first_responder"]:
             raise HTTPException(status_code=403, detail="Insufficient permissions")
-        
+
         result = assign_task(task_id, assignee_id, user_id)
         if not result:
             raise HTTPException(status_code=404, detail="Task not found")
-        
+
         return result
     except HTTPException:
         raise
@@ -126,17 +123,16 @@ def assign_task_to_user(
 
 
 @router.patch("/tasks/{task_id}/accept", response_model=TaskOut)
-def accept_task(
-    task_id: str,
-    user=Depends(get_current_user)
-):
+def accept_task(task_id: str, user=Depends(get_current_user)):
     """Accept a task (volunteer self-assignment)"""
     try:
         user_id = user.get("id") or user.get("email")
         result = assign_task(task_id, user_id, user_id)
         if not result:
-            raise HTTPException(status_code=404, detail="Task not found or already assigned")
-        
+            raise HTTPException(
+                status_code=404, detail="Task not found or already assigned"
+            )
+
         return result
     except HTTPException:
         raise
@@ -147,22 +143,20 @@ def accept_task(
 
 @router.patch("/tasks/{task_id}/complete", response_model=TaskOut)
 def complete_task_endpoint(
-    task_id: str,
-    completion_data: Optional[dict] = None,
-    user=Depends(get_current_user)
+    task_id: str, completion_data: Optional[dict] = None, user=Depends(get_current_user)
 ):
     """Mark a task as completed"""
     try:
         user_id = user.get("id") or user.get("email")
-        
+
         # Add completion info
         completion_info = completion_data or {}
         completion_info["completed_by"] = user_id
-        
+
         result = complete_task(task_id, completion_info)
         if not result:
             raise HTTPException(status_code=404, detail="Task not found")
-        
+
         return result
     except HTTPException:
         raise
@@ -173,23 +167,21 @@ def complete_task_endpoint(
 
 @router.patch("/tasks/{task_id}", response_model=TaskOut)
 def update_task_endpoint(
-    task_id: str,
-    payload: TaskUpdate,
-    user=Depends(get_current_user)
+    task_id: str, payload: TaskUpdate, user=Depends(get_current_user)
 ):
     """Update task details (admin/responder only)"""
     try:
         user_role = user.get("role", "volunteer")
         if user_role not in ["admin", "first_responder"]:
             raise HTTPException(status_code=403, detail="Insufficient permissions")
-        
+
         update_data = payload.model_dump(exclude_unset=True)
         update_data["updated_by"] = user.get("id") or user.get("email")
-        
+
         result = update_task(task_id, update_data)
         if not result:
             raise HTTPException(status_code=404, detail="Task not found")
-        
+
         return result
     except HTTPException:
         raise
@@ -203,28 +195,28 @@ def get_task_dashboard_stats(user=Depends(get_current_user)):
     """Get task dashboard statistics"""
     try:
         from services.task_service import get_tasks
-        
+
         # Get counts by status
         status_counts = {}
         for status in ["open", "assigned", "in_progress", "completed"]:
             tasks = get_tasks({"status": status})
             status_counts[status] = len(tasks)
-        
+
         # Get counts by priority
         priority_counts = {}
         for priority in ["critical", "high", "medium", "low"]:
             tasks = get_tasks({"priority": priority})
             priority_counts[priority] = len(tasks)
-        
+
         # Get user's tasks if applicable
         user_id = user.get("id") or user.get("email")
         user_tasks = get_user_tasks(user_id)
-        
+
         return {
             "status_counts": status_counts,
             "priority_counts": priority_counts,
             "user_task_count": len(user_tasks),
-            "total_tasks": sum(status_counts.values())
+            "total_tasks": sum(status_counts.values()),
         }
     except Exception as e:
         logger.error(f"Failed to get task dashboard stats: {e}")

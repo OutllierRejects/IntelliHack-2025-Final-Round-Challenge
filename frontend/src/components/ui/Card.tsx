@@ -1,22 +1,18 @@
-import React from 'react';
-import { cn } from '../../utils';
+import React from "react";
+import { cn } from "../../utils";
 
 interface CardProps {
   children: React.ReactNode;
   className?: string;
-  padding?: 'none' | 'sm' | 'md' | 'lg';
+  padding?: "none" | "sm" | "md" | "lg";
 }
 
-const Card: React.FC<CardProps> = ({
-  children,
-  className,
-  padding = 'md'
-}) => {
+const Card: React.FC<CardProps> = ({ children, className, padding = "md" }) => {
   const paddingClasses = {
-    none: '',
-    sm: 'p-4',
-    md: 'p-6',
-    lg: 'p-8'
+    none: "",
+    sm: "p-4",
+    md: "p-6",
+    lg: "p-8",
   };
 
   return (
@@ -38,11 +34,7 @@ interface CardHeaderProps {
 }
 
 const CardHeader: React.FC<CardHeaderProps> = ({ children, className }) => {
-  return (
-    <div className={cn("mb-4", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn("mb-4", className)}>{children}</div>;
 };
 
 interface CardTitleProps {
@@ -64,11 +56,7 @@ interface CardContentProps {
 }
 
 const CardContent: React.FC<CardContentProps> = ({ children, className }) => {
-  return (
-    <div className={cn("", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn("", className)}>{children}</div>;
 };
 
 export { Card, CardHeader, CardTitle, CardContent };

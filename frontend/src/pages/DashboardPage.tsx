@@ -1,9 +1,9 @@
-import React from 'react';
-import { useAuthStore } from '../store';
-import { AffectedIndividualDashboard } from '../components/dashboards/AffectedIndividualDashboard';
-import { VolunteerDashboard } from '../components/dashboards/VolunteerDashboard';
-import { FirstResponderDashboard } from '../components/dashboards/FirstResponderDashboard';
-import { AdminDashboard } from '../components/dashboards/AdminDashboard';
+import React from "react";
+import { useAuthStore } from "../store";
+import { AffectedIndividualDashboard } from "../components/dashboards/AffectedIndividualDashboard";
+import { VolunteerDashboard } from "../components/dashboards/VolunteerDashboard";
+import { FirstResponderDashboard } from "../components/dashboards/FirstResponderDashboard";
+import { AdminDashboard } from "../components/dashboards/AdminDashboard";
 
 export const DashboardPage: React.FC = () => {
   const { user } = useAuthStore();
@@ -22,13 +22,13 @@ export const DashboardPage: React.FC = () => {
 
   const renderDashboard = () => {
     switch (user.role) {
-      case 'affected_individual':
+      case "affected_individual":
         return <AffectedIndividualDashboard />;
-      case 'volunteer':
+      case "volunteer":
         return <VolunteerDashboard />;
-      case 'first_responder':
+      case "first_responder":
         return <FirstResponderDashboard />;
-      case 'admin':
+      case "admin":
         return <AdminDashboard />;
       default:
         return (
@@ -46,9 +46,5 @@ export const DashboardPage: React.FC = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {renderDashboard()}
-    </div>
-  );
+  return <div className="min-h-screen bg-gray-50">{renderDashboard()}</div>;
 };

@@ -19,14 +19,12 @@ class CommunicationAgent(Agent):
     def __init__(self):
         # Initialize AGNO Agent with OpenAI only
         if not os.getenv("OPENAI_API_KEY"):
-            raise ValueError("OPENAI_API_KEY environment variable is required for CommunicationAgent")
-        
-        model = OpenAIChat(
-            id="gpt-4o-mini",
-            temperature=0.4,
-            max_tokens=800
-        )
-        
+            raise ValueError(
+                "OPENAI_API_KEY environment variable is required for CommunicationAgent"
+            )
+
+        model = OpenAIChat(id="gpt-4o-mini", temperature=0.4, max_tokens=800)
+
         super().__init__(
             name="DisasterCommunicationAgent",
             model=model,
@@ -55,10 +53,10 @@ Message types:
 """,
             add_history_to_messages=True,
             num_history_responses=3,
-            markdown=False
+            markdown=False,
         )
         self.version = "1.0.0"
-        
+
         # Email configuration
         self.smtp_host = os.getenv("SMTP_HOST", "smtp.gmail.com")
         self.smtp_port = int(os.getenv("SMTP_PORT", "587"))
@@ -144,10 +142,13 @@ Message types and guidelines:
 
             # Get AI response
             response = self.run(ai_prompt)
-            ai_result = response.content if hasattr(response, 'content') else str(response)
-            
+            ai_result = (
+                response.content if hasattr(response, "content") else str(response)
+            )
+
             # Parse AI response
             import json
+
             try:
                 message_data = json.loads(ai_result)
                 return message_data
@@ -158,9 +159,9 @@ Message types and guidelines:
                     "message": f"Update regarding your disaster response {message_type.replace('_', ' ')}.",
                     "urgency": "medium",
                     "call_to_action": "Please check your dashboard for details.",
-                    "contact_info": "Contact support if you need assistance."
+                    "contact_info": "Contact support if you need assistance.",
                 }
-                
+
         except Exception as e:
             logger.error(f"Failed to generate message: {e}")
             return {
@@ -168,7 +169,7 @@ Message types and guidelines:
                 "message": "Please check your dashboard for the latest updates.",
                 "urgency": "medium",
                 "call_to_action": "Check dashboard",
-                "contact_info": "Contact support for assistance."
+                "contact_info": "Contact support for assistance.",
             }
 
     def send_email(self, to_email: str, subject: str, message: str) -> bool:
@@ -177,28 +178,28 @@ Message types and guidelines:
             if not self.smtp_user or not self.smtp_password:
                 logger.warning("SMTP credentials not configured, skipping email")
                 return False
-            
+
             # Create message
             msg = MIMEMultipart()
-            msg['From'] = self.smtp_user
-            msg['To'] = to_email
-            msg['Subject'] = subject
-            
+            msg["From"] = self.smtp_user
+            msg["To"] = to_email
+            msg["Subject"] = subject
+
             # Add body
-            msg.attach(MIMEText(message, 'plain'))
-            
+            msg.attach(MIMEText(message, "plain"))
+
             # Send email
             server = smtplib.SMTP(self.smtp_host, self.smtp_port)
             server.starttls()
             server.login(self.smtp_user, self.smtp_password)
-            
+
             text = msg.as_string()
             server.sendmail(self.smtp_user, to_email, text)
             server.quit()
-            
+
             logger.info(f"Email sent successfully to {to_email}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to send email to {to_email}: {e}")
             return False
@@ -206,36 +207,40 @@ Message types and guidelines:
     def process_task_assignments(self, assignments: List[Dict]) -> List[Dict]:
         """Process new task assignment notifications"""
         notifications = []
-        
+
         for assignment in assignments:
             try:
                 # Get assignee email
                 assignee_email = assignment.get("users", {}).get("email", "")
                 if not assignee_email:
                     continue
-                
+
                 # Prepare context
                 context = {
-                    "assignee_name": assignment.get("users", {}).get("name", "Volunteer"),
+                    "assignee_name": assignment.get("users", {}).get(
+                        "name", "Volunteer"
+                    ),
                     "task_title": assignment.get("title", ""),
                     "task_description": assignment.get("description", ""),
                     "priority": assignment.get("priority", "medium"),
                     "location": assignment.get("location", ""),
                     "special_instructions": assignment.get("special_instructions", ""),
-                    "request_description": assignment.get("requests", {}).get("description", ""),
-                    "estimated_duration": assignment.get("estimated_duration", "")
+                    "request_description": assignment.get("requests", {}).get(
+                        "description", ""
+                    ),
+                    "estimated_duration": assignment.get("estimated_duration", ""),
                 }
-                
+
                 # Generate message
                 message_data = self.generate_message("task_assignment", context)
-                
+
                 # Send email
                 email_sent = self.send_email(
                     assignee_email,
                     message_data.get("subject", "Task Assignment"),
-                    message_data.get("message", "You have been assigned a new task.")
+                    message_data.get("message", "You have been assigned a new task."),
                 )
-                
+
                 # Create notification record
                 notification = {
                     "id": f"notif_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{assignment.get('id')}",
@@ -248,34 +253,36 @@ Message types and guidelines:
                     "urgency": message_data.get("urgency", "medium"),
                     "status": "sent" if email_sent else "failed",
                     "sent_at": datetime.utcnow().isoformat() if email_sent else None,
-                    "created_at": datetime.utcnow().isoformat()
+                    "created_at": datetime.utcnow().isoformat(),
                 }
-                
+
                 notifications.append(notification)
-                
+
                 # Update task to mark notification as sent
                 if email_sent:
-                    supabase.table("tasks").update({
-                        "notification_sent": True,
-                        "notification_sent_at": datetime.utcnow().isoformat()
-                    }).eq("id", assignment.get("id")).execute()
-                
+                    supabase.table("tasks").update(
+                        {
+                            "notification_sent": True,
+                            "notification_sent_at": datetime.utcnow().isoformat(),
+                        }
+                    ).eq("id", assignment.get("id")).execute()
+
             except Exception as e:
                 logger.error(f"Failed to process assignment notification: {e}")
-        
+
         return notifications
 
     def process_status_updates(self, updates: List[Dict]) -> List[Dict]:
         """Process status update notifications"""
         notifications = []
-        
+
         for update in updates:
             try:
                 # Get requester email
                 requester_email = update.get("users", {}).get("email", "")
                 if not requester_email:
                     continue
-                
+
                 # Prepare context
                 context = {
                     "requester_name": update.get("users", {}).get("name", ""),
@@ -284,19 +291,21 @@ Message types and guidelines:
                     "priority": update.get("priority", "medium"),
                     "location": update.get("location", ""),
                     "assigned_at": update.get("assigned_at", ""),
-                    "description": update.get("description", "")
+                    "description": update.get("description", ""),
                 }
-                
+
                 # Generate message
                 message_data = self.generate_message("status_update", context)
-                
+
                 # Send email
                 email_sent = self.send_email(
                     requester_email,
                     message_data.get("subject", "Request Status Update"),
-                    message_data.get("message", "Your request status has been updated.")
+                    message_data.get(
+                        "message", "Your request status has been updated."
+                    ),
                 )
-                
+
                 # Create notification record
                 notification = {
                     "id": f"notif_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{update.get('id')}",
@@ -309,29 +318,33 @@ Message types and guidelines:
                     "urgency": message_data.get("urgency", "medium"),
                     "status": "sent" if email_sent else "failed",
                     "sent_at": datetime.utcnow().isoformat() if email_sent else None,
-                    "created_at": datetime.utcnow().isoformat()
+                    "created_at": datetime.utcnow().isoformat(),
                 }
-                
+
                 notifications.append(notification)
-                
+
                 # Update request to mark notification as sent
                 if email_sent:
-                    supabase.table("requests").update({
-                        "status_notification_sent": True,
-                        "status_notification_sent_at": datetime.utcnow().isoformat()
-                    }).eq("id", update.get("id")).execute()
-                
+                    supabase.table("requests").update(
+                        {
+                            "status_notification_sent": True,
+                            "status_notification_sent_at": datetime.utcnow().isoformat(),
+                        }
+                    ).eq("id", update.get("id")).execute()
+
             except Exception as e:
                 logger.error(f"Failed to process status update notification: {e}")
-        
+
         return notifications
 
     def save_notifications_to_db(self, notifications: List[Dict]) -> bool:
         """Save notification records to database"""
         try:
             if notifications:
-                response = supabase.table("notifications").insert(notifications).execute()
-                
+                response = (
+                    supabase.table("notifications").insert(notifications).execute()
+                )
+
                 if response.data:
                     logger.info(f"Saved {len(notifications)} notifications to database")
                     return True
@@ -339,7 +352,7 @@ Message types and guidelines:
                     logger.error("Failed to save notifications to database")
                     return False
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to save notifications: {e}")
             return False
@@ -350,34 +363,36 @@ Message types and guidelines:
             # Get new assignments
             new_assignments = self.get_new_assignments()
             assignment_notifications = self.process_task_assignments(new_assignments)
-            
+
             # Get status updates
             status_updates = self.get_status_updates()
             status_notifications = self.process_status_updates(status_updates)
-            
+
             # Combine all notifications
             all_notifications = assignment_notifications + status_notifications
-            
+
             # Save to database
             saved = self.save_notifications_to_db(all_notifications)
-            
+
             result = {
                 "status": "completed",
                 "assignment_notifications": len(assignment_notifications),
                 "status_notifications": len(status_notifications),
                 "total_notifications": len(all_notifications),
                 "notifications_saved": saved,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
-            
+
             logger.info(f"Communication cycle completed: {result}")
             return result
-            
+
         except Exception as e:
             logger.error(f"Communication cycle failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    def send_resource_alert(self, resource_type: str, current_stock: int, threshold: int, location: str) -> bool:
+    def send_resource_alert(
+        self, resource_type: str, current_stock: int, threshold: int, location: str
+    ) -> bool:
         """Send resource shortage alert to administrators"""
         try:
             # Get admin users
@@ -387,24 +402,24 @@ Message types and guidelines:
                 .eq("role", "admin")
                 .execute()
             )
-            
+
             admins = response.data if response.data else []
-            
+
             if not admins:
                 logger.warning("No admin users found for resource alert")
                 return False
-            
+
             # Generate alert message
             context = {
                 "resource_type": resource_type,
                 "current_stock": current_stock,
                 "threshold": threshold,
                 "location": location,
-                "shortage_amount": threshold - current_stock
+                "shortage_amount": threshold - current_stock,
             }
-            
+
             message_data = self.generate_message("resource_alert", context)
-            
+
             # Send to all admins
             notifications_sent = 0
             for admin in admins:
@@ -413,14 +428,17 @@ Message types and guidelines:
                     email_sent = self.send_email(
                         admin_email,
                         f"URGENT: Low Resource Alert - {resource_type}",
-                        message_data.get("message", f"Low stock alert for {resource_type} at {location}")
+                        message_data.get(
+                            "message",
+                            f"Low stock alert for {resource_type} at {location}",
+                        ),
                     )
                     if email_sent:
                         notifications_sent += 1
-            
+
             logger.info(f"Resource alert sent to {notifications_sent} administrators")
             return notifications_sent > 0
-            
+
         except Exception as e:
             logger.error(f"Failed to send resource alert: {e}")
             return False
@@ -443,11 +461,15 @@ def send_custom_notification(recipient_email: str, subject: str, message: str) -
         return False
 
 
-def alert_low_resources(resource_type: str, current_stock: int, threshold: int, location: str) -> bool:
+def alert_low_resources(
+    resource_type: str, current_stock: int, threshold: int, location: str
+) -> bool:
     """Send low resource alert to administrators"""
     try:
         agent = CommunicationAgent()
-        return agent.send_resource_alert(resource_type, current_stock, threshold, location)
+        return agent.send_resource_alert(
+            resource_type, current_stock, threshold, location
+        )
     except Exception as e:
         logger.error(f"Failed to send resource alert: {e}")
         return False

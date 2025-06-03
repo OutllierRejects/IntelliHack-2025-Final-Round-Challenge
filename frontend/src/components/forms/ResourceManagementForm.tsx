@@ -1,21 +1,29 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
-import { Card } from '../ui/Card';
-import { useCreateResource, useUpdateResource } from '../../hooks/api';
-import { Resource } from '../../types';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
+import { Card } from "../ui/Card";
+import { useCreateResource, useUpdateResource } from "../../hooks/api";
+import { Resource } from "../../types";
 
 const resourceSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  type: z.enum(['medical', 'food', 'shelter', 'clothing', 'equipment', 'transport', 'other']),
-  quantity: z.number().min(0, 'Quantity must be positive'),
-  unit: z.string().min(1, 'Unit is required'),
-  location: z.string().min(1, 'Location is required'),
+  name: z.string().min(1, "Name is required"),
+  type: z.enum([
+    "medical",
+    "food",
+    "shelter",
+    "clothing",
+    "equipment",
+    "transport",
+    "other",
+  ]),
+  quantity: z.number().min(0, "Quantity must be positive"),
+  unit: z.string().min(1, "Unit is required"),
+  location: z.string().min(1, "Location is required"),
   description: z.string().optional(),
-  minimumStock: z.number().min(0, 'Minimum stock must be positive').optional(),
+  minimumStock: z.number().min(0, "Minimum stock must be positive").optional(),
 });
 
 type ResourceForm = z.infer<typeof resourceSchema>;
@@ -30,30 +38,32 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
   onClose,
 }) => {
   const isEditing = !!resource;
-  
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ResourceForm>({
     resolver: zodResolver(resourceSchema),
-    defaultValues: resource ? {
-      name: resource.name,
-      type: resource.type,
-      quantity: resource.quantity,
-      unit: resource.unit,
-      location: resource.location,
-      description: resource.description || '',
-      minimumStock: resource.minimumStock || 0,
-    } : {
-      name: '',
-      type: 'other',
-      quantity: 0,
-      unit: '',
-      location: '',
-      description: '',
-      minimumStock: 0,
-    },
+    defaultValues: resource
+      ? {
+          name: resource.name,
+          type: resource.type,
+          quantity: resource.quantity,
+          unit: resource.unit,
+          location: resource.location,
+          description: resource.description || "",
+          minimumStock: resource.minimumStock || 0,
+        }
+      : {
+          name: "",
+          type: "other",
+          quantity: 0,
+          unit: "",
+          location: "",
+          description: "",
+          minimumStock: 0,
+        },
   });
 
   const createResourceMutation = useCreateResource();
@@ -71,31 +81,30 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
       }
       onClose();
     } catch (error) {
-      console.error('Failed to save resource:', error);
+      console.error("Failed to save resource:", error);
     }
   };
 
   const resourceTypes = [
-    { value: 'medical', label: 'Medical Supplies' },
-    { value: 'food', label: 'Food & Water' },
-    { value: 'shelter', label: 'Shelter Materials' },
-    { value: 'clothing', label: 'Clothing' },
-    { value: 'equipment', label: 'Equipment' },
-    { value: 'transport', label: 'Transportation' },
-    { value: 'other', label: 'Other' },
+    { value: "medical", label: "Medical Supplies" },
+    { value: "food", label: "Food & Water" },
+    { value: "shelter", label: "Shelter Materials" },
+    { value: "clothing", label: "Clothing" },
+    { value: "equipment", label: "Equipment" },
+    { value: "transport", label: "Transportation" },
+    { value: "other", label: "Other" },
   ];
 
   return (
     <Card className="max-w-2xl mx-auto p-6">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900">
-          {isEditing ? 'Update Resource' : 'Add New Resource'}
+          {isEditing ? "Update Resource" : "Add New Resource"}
         </h2>
         <p className="text-gray-600">
-          {isEditing 
-            ? 'Update resource information and stock levels' 
-            : 'Register a new resource in the system'
-          }
+          {isEditing
+            ? "Update resource information and stock levels"
+            : "Register a new resource in the system"}
         </p>
       </div>
 
@@ -106,7 +115,7 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
               Resource Name *
             </label>
             <Input
-              {...register('name')}
+              {...register("name")}
               placeholder="e.g., First Aid Kit"
               error={errors.name?.message}
             />
@@ -117,7 +126,7 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
               Type *
             </label>
             <select
-              {...register('type')}
+              {...register("type")}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               {resourceTypes.map((type) => (
@@ -141,7 +150,7 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
               type="number"
               min="0"
               step="1"
-              {...register('quantity', { valueAsNumber: true })}
+              {...register("quantity", { valueAsNumber: true })}
               placeholder="0"
               error={errors.quantity?.message}
             />
@@ -152,7 +161,7 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
               Unit *
             </label>
             <Input
-              {...register('unit')}
+              {...register("unit")}
               placeholder="e.g., boxes, liters, pieces"
               error={errors.unit?.message}
             />
@@ -166,7 +175,7 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
               type="number"
               min="0"
               step="1"
-              {...register('minimumStock', { valueAsNumber: true })}
+              {...register("minimumStock", { valueAsNumber: true })}
               placeholder="0"
               error={errors.minimumStock?.message}
             />
@@ -178,7 +187,7 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
             Location *
           </label>
           <Input
-            {...register('location')}
+            {...register("location")}
             placeholder="e.g., Warehouse A, Room 101"
             error={errors.location?.message}
           />
@@ -189,13 +198,15 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
             Description
           </label>
           <textarea
-            {...register('description')}
+            {...register("description")}
             rows={3}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Additional details about the resource..."
           />
           {errors.description && (
-            <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.description.message}
+            </p>
           )}
         </div>
 
@@ -208,12 +219,8 @@ export const ResourceManagementForm: React.FC<ResourceManagementFormProps> = ({
           >
             Cancel
           </Button>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            loading={isSubmitting}
-          >
-            {isEditing ? 'Update Resource' : 'Add Resource'}
+          <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
+            {isEditing ? "Update Resource" : "Add Resource"}
           </Button>
         </div>
       </form>
