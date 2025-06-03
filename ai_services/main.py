@@ -1,8 +1,34 @@
 from fastapi import FastAPI
-from api.endpoints import users, incidents
+from fastapi.middleware.cors import CORSMiddleware
+from api.endpoints import users, incidents, requests, tasks, resources
 
-app = FastAPI()
+app = FastAPI(
+    title="Disaster Response Coordination API",
+    description="AI-powered disaster response coordination system with AGNO agents",
+    version="1.0.0"
+)
 
-app.include_router(users.router, prefix="/api/users", tags=["Users"])
-app.include_router(incidents.router, prefix="/api", tags=["Incidents"])
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://localhost:5173", "https://*.vercel.app"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Include routers
+app.include_router(users.router, prefix="/api/v1/users", tags=["Users"])
+app.include_router(requests.router, prefix="/api/v1", tags=["Requests"])
+app.include_router(tasks.router, prefix="/api/v1", tags=["Tasks"])
+app.include_router(resources.router, prefix="/api/v1", tags=["Resources"])
+app.include_router(incidents.router, prefix="/api/v1", tags=["Incidents"])
+
+@app.get("/")
+def root():
+    return {"message": "Disaster Response Coordination API", "version": "1.0.0"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy", "service": "disaster-response-api"}
 
