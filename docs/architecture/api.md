@@ -31,7 +31,7 @@ graph TB
         MOBILE[Mobile App]
         THIRD_PARTY[Third-party Clients]
     end
-    
+
     subgraph "API Gateway Layer"
         GATEWAY[API Gateway]
         RATE_LIMIT[Rate Limiting]
@@ -39,7 +39,7 @@ graph TB
         TRANSFORM[Request/Response Transform]
         CACHE[Response Cache]
     end
-    
+
     subgraph "API Services"
         USER_API[User Service API]
         REQUEST_API[Request Service API]
@@ -48,7 +48,7 @@ graph TB
         NOTIFICATION_API[Notification Service API]
         AI_API[AI Agent Service API]
     end
-    
+
     subgraph "Business Logic Layer"
         USER_BL[User Business Logic]
         REQUEST_BL[Request Business Logic]
@@ -57,7 +57,7 @@ graph TB
         NOTIFICATION_BL[Notification Business Logic]
         AI_BL[AI Agent Business Logic]
     end
-    
+
     subgraph "Data Access Layer"
         USER_DAL[User Data Access]
         REQUEST_DAL[Request Data Access]
@@ -66,43 +66,43 @@ graph TB
         NOTIFICATION_DAL[Notification Data Access]
         AI_DAL[AI Data Access]
     end
-    
+
     subgraph "Data Layer"
         POSTGRES[(PostgreSQL)]
         REDIS[(Redis Cache)]
         SEARCH[(Elasticsearch)]
     end
-    
+
     WEB --> GATEWAY
     MOBILE --> GATEWAY
     THIRD_PARTY --> GATEWAY
-    
+
     GATEWAY --> RATE_LIMIT
     RATE_LIMIT --> AUTH
     AUTH --> TRANSFORM
     TRANSFORM --> CACHE
-    
+
     CACHE --> USER_API
     CACHE --> REQUEST_API
     CACHE --> TASK_API
     CACHE --> RESOURCE_API
     CACHE --> NOTIFICATION_API
     CACHE --> AI_API
-    
+
     USER_API --> USER_BL --> USER_DAL
     REQUEST_API --> REQUEST_BL --> REQUEST_DAL
     TASK_API --> TASK_BL --> TASK_DAL
     RESOURCE_API --> RESOURCE_BL --> RESOURCE_DAL
     NOTIFICATION_API --> NOTIFICATION_BL --> NOTIFICATION_DAL
     AI_API --> AI_BL --> AI_DAL
-    
+
     USER_DAL --> POSTGRES
     REQUEST_DAL --> POSTGRES
     TASK_DAL --> POSTGRES
     RESOURCE_DAL --> POSTGRES
     NOTIFICATION_DAL --> POSTGRES
     AI_DAL --> POSTGRES
-    
+
     USER_DAL --> REDIS
     REQUEST_DAL --> REDIS
     TASK_DAL --> SEARCH
@@ -113,6 +113,7 @@ graph TB
 ### Core API Services
 
 #### 1. User Service API
+
 ```
 Base Path: /api/v1/users
 
@@ -132,6 +133,7 @@ Endpoints:
 ```
 
 #### 2. Emergency Requests Service API
+
 ```
 Base Path: /api/v1/requests
 
@@ -151,6 +153,7 @@ Endpoints:
 ```
 
 #### 3. Task Management Service API
+
 ```
 Base Path: /api/v1/tasks
 
@@ -169,6 +172,7 @@ Endpoints:
 ```
 
 #### 4. Resource Management Service API
+
 ```
 Base Path: /api/v1/resources
 
@@ -186,6 +190,7 @@ Endpoints:
 ```
 
 #### 5. Notification Service API
+
 ```
 Base Path: /api/v1/notifications
 
@@ -202,6 +207,7 @@ Endpoints:
 ```
 
 #### 6. AI Agent Service API
+
 ```
 Base Path: /api/v1/ai-agents
 
@@ -222,17 +228,20 @@ Endpoints:
 ### Standard Request Format
 
 #### Authentication Header
+
 ```http
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 #### Content Type
+
 ```http
 Content-Type: application/json
 Accept: application/json
 ```
 
 #### Request Body Structure
+
 ```json
 {
   "data": {
@@ -249,6 +258,7 @@ Accept: application/json
 ### Standard Response Format
 
 #### Success Response
+
 ```json
 {
   "success": true,
@@ -272,6 +282,7 @@ Accept: application/json
 ```
 
 #### Error Response
+
 ```json
 {
   "success": false,
@@ -318,38 +329,38 @@ Accept: application/json
 ```typescript
 interface UserPermissions {
   affected_individual: [
-    'request_create',
-    'request_read_own',
-    'request_update_own',
-    'notification_read_own'
+    "request_create",
+    "request_read_own",
+    "request_update_own",
+    "notification_read_own"
   ];
   volunteer: [
-    'request_read',
-    'task_read',
-    'task_accept',
-    'task_complete',
-    'resource_read',
-    'notification_read_own'
+    "request_read",
+    "task_read",
+    "task_accept",
+    "task_complete",
+    "resource_read",
+    "notification_read_own"
   ];
   first_responder: [
-    'request_read',
-    'request_assign',
-    'task_read',
-    'task_create',
-    'task_assign',
-    'resource_read',
-    'resource_allocate',
-    'notification_send'
+    "request_read",
+    "request_assign",
+    "task_read",
+    "task_create",
+    "task_assign",
+    "resource_read",
+    "resource_allocate",
+    "notification_send"
   ];
   government_admin: [
-    'user_read',
-    'user_manage',
-    'request_read_all',
-    'task_read_all',
-    'resource_read_all',
-    'resource_manage',
-    'notification_send_all',
-    'analytics_read'
+    "user_read",
+    "user_manage",
+    "request_read_all",
+    "task_read_all",
+    "resource_read_all",
+    "resource_manage",
+    "notification_send_all",
+    "analytics_read"
   ];
 }
 ```
@@ -357,8 +368,8 @@ interface UserPermissions {
 ### Authorization Middleware
 
 ```typescript
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
 interface AuthenticatedRequest extends Request {
   user?: {
@@ -369,17 +380,21 @@ interface AuthenticatedRequest extends Request {
   };
 }
 
-export const authenticate = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const authenticate = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
-    
+    const token = req.header("Authorization")?.replace("Bearer ", "");
+
     if (!token) {
       return res.status(401).json({
         success: false,
         error: {
-          code: 'MISSING_TOKEN',
-          message: 'Access token is required'
-        }
+          code: "MISSING_TOKEN",
+          message: "Access token is required",
+        },
       });
     }
 
@@ -390,9 +405,9 @@ export const authenticate = (req: AuthenticatedRequest, res: Response, next: Nex
     return res.status(401).json({
       success: false,
       error: {
-        code: 'INVALID_TOKEN',
-        message: 'Invalid or expired token'
-      }
+        code: "INVALID_TOKEN",
+        message: "Invalid or expired token",
+      },
     });
   }
 };
@@ -403,13 +418,13 @@ export const authorize = (requiredPermission: string) => {
       return res.status(403).json({
         success: false,
         error: {
-          code: 'INSUFFICIENT_PERMISSIONS',
-          message: 'Insufficient permissions for this action',
+          code: "INSUFFICIENT_PERMISSIONS",
+          message: "Insufficient permissions for this action",
           details: {
             required: requiredPermission,
-            user_permissions: req.user?.permissions || []
-          }
-        }
+            user_permissions: req.user?.permissions || [],
+          },
+        },
       });
     }
     next();
@@ -422,18 +437,22 @@ export const authorize = (requiredPermission: string) => {
 ### Rate Limiting Strategy
 
 ```typescript
-import rateLimit from 'express-rate-limit';
-import RedisStore from 'rate-limit-redis';
-import Redis from 'ioredis';
+import rateLimit from "express-rate-limit";
+import RedisStore from "rate-limit-redis";
+import Redis from "ioredis";
 
 const redis = new Redis(process.env.REDIS_URL);
 
 // Different rate limits for different user types
-const createRateLimiter = (windowMs: number, max: number, keyGenerator?: (req: Request) => string) => {
+const createRateLimiter = (
+  windowMs: number,
+  max: number,
+  keyGenerator?: (req: Request) => string
+) => {
   return rateLimit({
     store: new RedisStore({
       client: redis,
-      prefix: 'rl:'
+      prefix: "rl:",
     }),
     windowMs,
     max,
@@ -441,25 +460,29 @@ const createRateLimiter = (windowMs: number, max: number, keyGenerator?: (req: R
     message: {
       success: false,
       error: {
-        code: 'RATE_LIMIT_EXCEEDED',
-        message: 'Too many requests, please try again later'
-      }
-    }
+        code: "RATE_LIMIT_EXCEEDED",
+        message: "Too many requests, please try again later",
+      },
+    },
   });
 };
 
 // Apply different limits based on user role
-export const dynamicRateLimit = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const userRole = req.user?.role || 'anonymous';
-  
+export const dynamicRateLimit = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const userRole = req.user?.role || "anonymous";
+
   const limits = {
     anonymous: createRateLimiter(15 * 60 * 1000, 100), // 100 requests per 15 minutes
     affected_individual: createRateLimiter(15 * 60 * 1000, 200),
     volunteer: createRateLimiter(15 * 60 * 1000, 500),
     first_responder: createRateLimiter(15 * 60 * 1000, 1000),
-    government_admin: createRateLimiter(15 * 60 * 1000, 2000)
+    government_admin: createRateLimiter(15 * 60 * 1000, 2000),
   };
-  
+
   const limiter = limits[userRole] || limits.anonymous;
   limiter(req, res, next);
 };
@@ -468,30 +491,30 @@ export const dynamicRateLimit = (req: AuthenticatedRequest, res: Response, next:
 ### Request Validation
 
 ```typescript
-import Joi from 'joi';
-import { Request, Response, NextFunction } from 'express';
+import Joi from "joi";
+import { Request, Response, NextFunction } from "express";
 
 export const validateRequest = (schema: Joi.ObjectSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const { error, value } = schema.validate(req.body, {
       abortEarly: false,
-      stripUnknown: true
+      stripUnknown: true,
     });
 
     if (error) {
-      const validationErrors = error.details.map(detail => ({
-        field: detail.path.join('.'),
+      const validationErrors = error.details.map((detail) => ({
+        field: detail.path.join("."),
         message: detail.message,
-        value: detail.context?.value
+        value: detail.context?.value,
       }));
 
       return res.status(400).json({
         success: false,
         error: {
-          code: 'VALIDATION_ERROR',
-          message: 'Request validation failed',
-          details: validationErrors
-        }
+          code: "VALIDATION_ERROR",
+          message: "Request validation failed",
+          details: validationErrors,
+        },
       });
     }
 
@@ -504,19 +527,29 @@ export const validateRequest = (schema: Joi.ObjectSchema) => {
 export const createEmergencyRequestSchema = Joi.object({
   title: Joi.string().required().min(10).max(255),
   description: Joi.string().required().min(20).max(2000),
-  category: Joi.string().valid('medical', 'fire', 'natural_disaster', 'accident', 'security', 'utility_failure', 'other').required(),
-  severity: Joi.string().valid('low', 'medium', 'high', 'critical').required(),
+  category: Joi.string()
+    .valid(
+      "medical",
+      "fire",
+      "natural_disaster",
+      "accident",
+      "security",
+      "utility_failure",
+      "other"
+    )
+    .required(),
+  severity: Joi.string().valid("low", "medium", "high", "critical").required(),
   location: Joi.object({
     latitude: Joi.number().min(-90).max(90).required(),
     longitude: Joi.number().min(-180).max(180).required(),
-    address: Joi.string().max(500)
+    address: Joi.string().max(500),
   }).required(),
   contact_info: Joi.object({
     phone: Joi.string().pattern(/^\+[1-9]\d{1,14}$/),
     email: Joi.string().email(),
-    name: Joi.string().max(100)
+    name: Joi.string().max(100),
   }),
-  media_urls: Joi.array().items(Joi.string().uri()).max(10)
+  media_urls: Joi.array().items(Joi.string().uri()).max(10),
 });
 ```
 
@@ -525,19 +558,21 @@ export const createEmergencyRequestSchema = Joi.object({
 ### Multi-Layer Caching
 
 ```typescript
-import Redis from 'ioredis';
-import { Request, Response, NextFunction } from 'express';
+import Redis from "ioredis";
+import { Request, Response, NextFunction } from "express";
 
 const redis = new Redis(process.env.REDIS_URL);
 
 // Cache middleware
-export const cacheResponse = (ttl: number = 300, keyPrefix: string = 'api') => {
+export const cacheResponse = (ttl: number = 300, keyPrefix: string = "api") => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const cacheKey = `${keyPrefix}:${req.method}:${req.path}:${JSON.stringify(req.query)}`;
-    
+    const cacheKey = `${keyPrefix}:${req.method}:${req.path}:${JSON.stringify(
+      req.query
+    )}`;
+
     try {
       const cachedResponse = await redis.get(cacheKey);
-      
+
       if (cachedResponse) {
         const parsed = JSON.parse(cachedResponse);
         return res.json({
@@ -545,25 +580,25 @@ export const cacheResponse = (ttl: number = 300, keyPrefix: string = 'api') => {
           metadata: {
             ...parsed.metadata,
             cached: true,
-            cache_age: Date.now() - parsed.metadata.timestamp
-          }
+            cache_age: Date.now() - parsed.metadata.timestamp,
+          },
         });
       }
-      
+
       // Store original res.json function
       const originalJson = res.json;
-      
+
       // Override res.json to cache the response
-      res.json = function(body: any) {
+      res.json = function (body: any) {
         // Cache successful responses only
         if (body.success !== false) {
           redis.setex(cacheKey, ttl, JSON.stringify(body));
         }
-        
+
         // Call original function
         return originalJson.call(this, body);
       };
-      
+
       next();
     } catch (error) {
       // If cache fails, continue without caching
@@ -587,9 +622,9 @@ export const invalidateCache = async (pattern: string) => {
 export const setCacheHeaders = (maxAge: number = 300) => {
   return (req: Request, res: Response, next: NextFunction) => {
     res.set({
-      'Cache-Control': `public, max-age=${maxAge}`,
-      'ETag': `"${Date.now()}"`,
-      'Last-Modified': new Date().toUTCString()
+      "Cache-Control": `public, max-age=${maxAge}`,
+      ETag: `"${Date.now()}"`,
+      "Last-Modified": new Date().toUTCString(),
     });
     next();
   };
@@ -601,8 +636,8 @@ export const setCacheHeaders = (maxAge: number = 300) => {
 ### WebSocket Integration
 
 ```typescript
-import { Server as SocketIOServer } from 'socket.io';
-import { authenticate as authenticateWebSocket } from '../middleware/auth';
+import { Server as SocketIOServer } from "socket.io";
+import { authenticate as authenticateWebSocket } from "../middleware/auth";
 
 export class WebSocketService {
   private io: SocketIOServer;
@@ -619,17 +654,17 @@ export class WebSocketService {
   }
 
   private setupEventHandlers() {
-    this.io.on('connection', (socket) => {
+    this.io.on("connection", (socket) => {
       const userId = socket.data.user.id;
-      
+
       // Track user connections
       const userConnections = this.userSockets.get(userId) || [];
       userConnections.push(socket.id);
       this.userSockets.set(userId, userConnections);
 
       // Handle subscriptions
-      socket.on('subscribe', (channels: string[]) => {
-        channels.forEach(channel => {
+      socket.on("subscribe", (channels: string[]) => {
+        channels.forEach((channel) => {
           if (this.canSubscribeToChannel(socket.data.user, channel)) {
             socket.join(channel);
           }
@@ -637,10 +672,12 @@ export class WebSocketService {
       });
 
       // Handle disconnection
-      socket.on('disconnect', () => {
+      socket.on("disconnect", () => {
         const userConnections = this.userSockets.get(userId) || [];
-        const updatedConnections = userConnections.filter(id => id !== socket.id);
-        
+        const updatedConnections = userConnections.filter(
+          (id) => id !== socket.id
+        );
+
         if (updatedConnections.length === 0) {
           this.userSockets.delete(userId);
         } else {
@@ -652,23 +689,23 @@ export class WebSocketService {
 
   private canSubscribeToChannel(user: any, channel: string): boolean {
     const channelPermissions = {
-      'emergency_alerts': ['volunteer', 'first_responder', 'government_admin'],
-      'task_updates': ['volunteer', 'first_responder', 'government_admin'],
-      'resource_changes': ['first_responder', 'government_admin'],
-      'system_alerts': ['government_admin']
+      emergency_alerts: ["volunteer", "first_responder", "government_admin"],
+      task_updates: ["volunteer", "first_responder", "government_admin"],
+      resource_changes: ["first_responder", "government_admin"],
+      system_alerts: ["government_admin"],
     };
 
     return channelPermissions[channel]?.includes(user.role) || false;
   }
 
   public broadcastToChannel(channel: string, data: any) {
-    this.io.to(channel).emit('message', data);
+    this.io.to(channel).emit("message", data);
   }
 
   public sendToUser(userId: string, data: any) {
     const userConnections = this.userSockets.get(userId) || [];
-    userConnections.forEach(socketId => {
-      this.io.to(socketId).emit('message', data);
+    userConnections.forEach((socketId) => {
+      this.io.to(socketId).emit("message", data);
     });
   }
 }
@@ -677,8 +714,8 @@ export class WebSocketService {
 ### Server-Sent Events (SSE)
 
 ```typescript
-import { Request, Response } from 'express';
-import { EventEmitter } from 'events';
+import { Request, Response } from "express";
+import { EventEmitter } from "events";
 
 class SSEService extends EventEmitter {
   private connections: Map<string, Response[]> = new Map();
@@ -690,26 +727,31 @@ class SSEService extends EventEmitter {
 
     // Setup SSE headers
     res.writeHead(200, {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Cache-Control'
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Cache-Control",
     });
 
     // Send initial connection message
-    res.write(`data: ${JSON.stringify({ type: 'connected', timestamp: new Date().toISOString() })}\n\n`);
+    res.write(
+      `data: ${JSON.stringify({
+        type: "connected",
+        timestamp: new Date().toISOString(),
+      })}\n\n`
+    );
 
     // Handle connection close
-    res.on('close', () => {
+    res.on("close", () => {
       this.removeConnection(userId, res);
     });
   }
 
   private removeConnection(userId: string, res: Response) {
     const userConnections = this.connections.get(userId) || [];
-    const updatedConnections = userConnections.filter(conn => conn !== res);
-    
+    const updatedConnections = userConnections.filter((conn) => conn !== res);
+
     if (updatedConnections.length === 0) {
       this.connections.delete(userId);
     } else {
@@ -720,8 +762,8 @@ class SSEService extends EventEmitter {
   public sendEventToUser(userId: string, event: string, data: any) {
     const userConnections = this.connections.get(userId) || [];
     const message = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
-    
-    userConnections.forEach(res => {
+
+    userConnections.forEach((res) => {
       try {
         res.write(message);
       } catch (error) {
@@ -732,9 +774,9 @@ class SSEService extends EventEmitter {
 
   public broadcastEvent(event: string, data: any) {
     const message = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
-    
+
     this.connections.forEach((connections, userId) => {
-      connections.forEach(res => {
+      connections.forEach((res) => {
         try {
           res.write(message);
         } catch (error) {
@@ -810,13 +852,22 @@ components:
           maxLength: 2000
         category:
           type: string
-          enum: [medical, fire, natural_disaster, accident, security, utility_failure, other]
+          enum:
+            [
+              medical,
+              fire,
+              natural_disaster,
+              accident,
+              security,
+              utility_failure,
+              other,
+            ]
         severity:
           type: string
           enum: [low, medium, high, critical]
         location:
-          $ref: '#/components/schemas/Location'
-        
+          $ref: "#/components/schemas/Location"
+
     Location:
       type: object
       required:
@@ -844,9 +895,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmergencyRequest'
+              $ref: "#/components/schemas/EmergencyRequest"
       responses:
-        '201':
+        "201":
           description: Emergency request created successfully
           content:
             application/json:
@@ -857,7 +908,7 @@ paths:
                     type: boolean
                     example: true
                   data:
-                    $ref: '#/components/schemas/EmergencyRequest'
+                    $ref: "#/components/schemas/EmergencyRequest"
 ```
 
 ## Error Handling
@@ -865,9 +916,9 @@ paths:
 ### Global Error Handler
 
 ```typescript
-import { Request, Response, NextFunction } from 'express';
-import { ValidationError } from 'joi';
-import { JsonWebTokenError } from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import { ValidationError } from "joi";
+import { JsonWebTokenError } from "jsonwebtoken";
 
 export interface ApiError extends Error {
   statusCode?: number;
@@ -882,26 +933,26 @@ export const globalErrorHandler = (
   next: NextFunction
 ) => {
   let statusCode = error.statusCode || 500;
-  let errorCode = error.code || 'INTERNAL_SERVER_ERROR';
-  let message = error.message || 'An unexpected error occurred';
+  let errorCode = error.code || "INTERNAL_SERVER_ERROR";
+  let message = error.message || "An unexpected error occurred";
   let details = error.details || null;
 
   // Handle specific error types
   if (error instanceof ValidationError) {
     statusCode = 400;
-    errorCode = 'VALIDATION_ERROR';
-    details = error.details.map(detail => ({
-      field: detail.path.join('.'),
-      message: detail.message
+    errorCode = "VALIDATION_ERROR";
+    details = error.details.map((detail) => ({
+      field: detail.path.join("."),
+      message: detail.message,
     }));
   } else if (error instanceof JsonWebTokenError) {
     statusCode = 401;
-    errorCode = 'AUTHENTICATION_ERROR';
-    message = 'Invalid or expired token';
+    errorCode = "AUTHENTICATION_ERROR";
+    message = "Invalid or expired token";
   }
 
   // Log error for monitoring
-  console.error('API Error:', {
+  console.error("API Error:", {
     statusCode,
     errorCode,
     message,
@@ -909,7 +960,7 @@ export const globalErrorHandler = (
     stack: error.stack,
     url: req.url,
     method: req.method,
-    userId: (req as any).user?.id
+    userId: (req as any).user?.id,
   });
 
   res.status(statusCode).json({
@@ -918,12 +969,12 @@ export const globalErrorHandler = (
       code: errorCode,
       message,
       details,
-      trace_id: req.headers['x-trace-id'] || 'unknown'
+      trace_id: req.headers["x-trace-id"] || "unknown",
     },
     metadata: {
       timestamp: new Date().toISOString(),
-      request_id: req.headers['x-request-id'] || 'unknown'
-    }
+      request_id: req.headers["x-request-id"] || "unknown",
+    },
   });
 };
 ```
@@ -933,34 +984,38 @@ export const globalErrorHandler = (
 ### Response Time Middleware
 
 ```typescript
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 
-export const responseTimeMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const responseTimeMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const startTime = Date.now();
-  
+
   // Override res.json to capture response time
   const originalJson = res.json;
-  res.json = function(body: any) {
+  res.json = function (body: any) {
     const responseTime = Date.now() - startTime;
-    
+
     // Add response time to metadata
-    if (body && typeof body === 'object' && body.metadata) {
+    if (body && typeof body === "object" && body.metadata) {
       body.metadata.processing_time_ms = responseTime;
     }
-    
+
     // Log slow requests
     if (responseTime > 1000) {
-      console.warn('Slow API request:', {
+      console.warn("Slow API request:", {
         url: req.url,
         method: req.method,
         responseTime,
-        userId: (req as any).user?.id
+        userId: (req as any).user?.id,
       });
     }
-    
+
     return originalJson.call(this, body);
   };
-  
+
   next();
 };
 ```
@@ -968,9 +1023,9 @@ export const responseTimeMiddleware = (req: Request, res: Response, next: NextFu
 ### Health Check Endpoints
 
 ```typescript
-import { Request, Response } from 'express';
-import { Pool } from 'pg';
-import Redis from 'ioredis';
+import { Request, Response } from "express";
+import { Pool } from "pg";
+import Redis from "ioredis";
 
 const db = new Pool({ connectionString: process.env.DATABASE_URL });
 const redis = new Redis(process.env.REDIS_URL);
@@ -980,15 +1035,15 @@ export const healthCheck = async (req: Request, res: Response) => {
   const checks = {
     database: false,
     redis: false,
-    external_services: false
+    external_services: false,
   };
 
   try {
     // Database health check
-    await db.query('SELECT 1');
+    await db.query("SELECT 1");
     checks.database = true;
   } catch (error) {
-    console.error('Database health check failed:', error);
+    console.error("Database health check failed:", error);
   }
 
   try {
@@ -996,7 +1051,7 @@ export const healthCheck = async (req: Request, res: Response) => {
     await redis.ping();
     checks.redis = true;
   } catch (error) {
-    console.error('Redis health check failed:', error);
+    console.error("Redis health check failed:", error);
   }
 
   try {
@@ -1004,19 +1059,19 @@ export const healthCheck = async (req: Request, res: Response) => {
     // Add checks for critical external services
     checks.external_services = true;
   } catch (error) {
-    console.error('External services health check failed:', error);
+    console.error("External services health check failed:", error);
   }
 
-  const isHealthy = Object.values(checks).every(check => check);
+  const isHealthy = Object.values(checks).every((check) => check);
   const responseTime = Date.now() - startTime;
 
   res.status(isHealthy ? 200 : 503).json({
-    status: isHealthy ? 'healthy' : 'unhealthy',
+    status: isHealthy ? "healthy" : "unhealthy",
     timestamp: new Date().toISOString(),
     response_time_ms: responseTime,
     checks,
-    version: process.env.API_VERSION || '1.0.0',
-    uptime: process.uptime()
+    version: process.env.API_VERSION || "1.0.0",
+    uptime: process.uptime(),
   });
 };
 ```
@@ -1026,37 +1081,37 @@ export const healthCheck = async (req: Request, res: Response) => {
 ### Unit Tests
 
 ```typescript
-import request from 'supertest';
-import { app } from '../app';
-import { createTestUser, generateJWT } from '../utils/test-helpers';
+import request from "supertest";
+import { app } from "../app";
+import { createTestUser, generateJWT } from "../utils/test-helpers";
 
-describe('Emergency Requests API', () => {
+describe("Emergency Requests API", () => {
   let userToken: string;
   let userId: string;
 
   beforeEach(async () => {
-    const user = await createTestUser({ role: 'affected_individual' });
+    const user = await createTestUser({ role: "affected_individual" });
     userId = user.id;
     userToken = generateJWT(user);
   });
 
-  describe('POST /api/v1/requests', () => {
-    it('should create emergency request with valid data', async () => {
+  describe("POST /api/v1/requests", () => {
+    it("should create emergency request with valid data", async () => {
       const requestData = {
-        title: 'Medical emergency - chest pain',
-        description: 'Experiencing severe chest pain and shortness of breath',
-        category: 'medical',
-        severity: 'high',
+        title: "Medical emergency - chest pain",
+        description: "Experiencing severe chest pain and shortness of breath",
+        category: "medical",
+        severity: "high",
         location: {
           latitude: 6.9271,
           longitude: 79.8612,
-          address: '123 Main Street, Colombo'
-        }
+          address: "123 Main Street, Colombo",
+        },
       };
 
       const response = await request(app)
-        .post('/api/v1/requests')
-        .set('Authorization', `Bearer ${userToken}`)
+        .post("/api/v1/requests")
+        .set("Authorization", `Bearer ${userToken}`)
         .send(requestData)
         .expect(201);
 
@@ -1065,26 +1120,26 @@ describe('Emergency Requests API', () => {
       expect(response.body.data.user_id).toBe(userId);
     });
 
-    it('should return validation error for invalid data', async () => {
+    it("should return validation error for invalid data", async () => {
       const invalidData = {
-        title: 'Short',  // Too short
-        description: 'Short description',  // Too short
-        category: 'invalid_category',  // Invalid category
-        severity: 'high',
+        title: "Short", // Too short
+        description: "Short description", // Too short
+        category: "invalid_category", // Invalid category
+        severity: "high",
         location: {
-          latitude: 200,  // Invalid latitude
-          longitude: 79.8612
-        }
+          latitude: 200, // Invalid latitude
+          longitude: 79.8612,
+        },
       };
 
       const response = await request(app)
-        .post('/api/v1/requests')
-        .set('Authorization', `Bearer ${userToken}`)
+        .post("/api/v1/requests")
+        .set("Authorization", `Bearer ${userToken}`)
         .send(invalidData)
         .expect(400);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error.code).toBe('VALIDATION_ERROR');
+      expect(response.body.error.code).toBe("VALIDATION_ERROR");
     });
   });
 });
@@ -1093,22 +1148,22 @@ describe('Emergency Requests API', () => {
 ### Integration Tests
 
 ```typescript
-describe('Emergency Request Workflow Integration', () => {
-  it('should complete full emergency request workflow', async () => {
+describe("Emergency Request Workflow Integration", () => {
+  it("should complete full emergency request workflow", async () => {
     // 1. Create emergency request
     const request = await createEmergencyRequest();
-    
+
     // 2. AI agent should analyze request
     await waitForAIAnalysis(request.id);
-    
+
     // 3. Tasks should be created
     const tasks = await getTasks(request.id);
     expect(tasks.length).toBeGreaterThan(0);
-    
+
     // 4. Resources should be allocated
     const resources = await getResources(request.id);
     expect(resources.length).toBeGreaterThan(0);
-    
+
     // 5. Notifications should be sent
     const notifications = await getNotifications(request.id);
     expect(notifications.length).toBeGreaterThan(0);
@@ -1126,27 +1181,27 @@ export const config = {
   database: {
     url: process.env.DATABASE_URL!,
     pool: {
-      min: parseInt(process.env.DB_POOL_MIN || '2'),
-      max: parseInt(process.env.DB_POOL_MAX || '10')
-    }
+      min: parseInt(process.env.DB_POOL_MIN || "2"),
+      max: parseInt(process.env.DB_POOL_MAX || "10"),
+    },
   },
   redis: {
     url: process.env.REDIS_URL!,
     retryDelayOnFailover: 100,
-    maxRetriesPerRequest: 3
+    maxRetriesPerRequest: 3,
   },
   jwt: {
     secret: process.env.JWT_SECRET!,
-    expiresIn: process.env.JWT_EXPIRES_IN || '24h'
+    expiresIn: process.env.JWT_EXPIRES_IN || "24h",
   },
   rateLimit: {
-    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW || '900000'), // 15 minutes
-    max: parseInt(process.env.RATE_LIMIT_MAX || '100')
+    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW || "900000"), // 15 minutes
+    max: parseInt(process.env.RATE_LIMIT_MAX || "100"),
   },
   cors: {
-    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:3000'],
-    credentials: true
-  }
+    origin: process.env.CORS_ORIGIN?.split(",") || ["http://localhost:3000"],
+    credentials: true,
+  },
 };
 ```
 

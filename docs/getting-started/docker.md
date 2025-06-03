@@ -24,31 +24,31 @@ graph TB
             NGINX[Nginx<br/>Port: 80]
             REACT[React Dev<br/>Port: 3000]
         end
-        
+
         subgraph "Backend Services"
             API[FastAPI<br/>Port: 8000]
             AI[AI Agents<br/>AGNO Workers]
         end
-        
+
         subgraph "Data Services"
             PG[(PostgreSQL<br/>Port: 5432)]
             REDIS[(Redis<br/>Port: 6379)]
         end
-        
+
         subgraph "Management Tools"
             PGADMIN[pgAdmin<br/>Port: 5050]
             REDISCOM[Redis Commander<br/>Port: 8081]
             FLOWER[Flower<br/>Port: 5555]
         end
     end
-    
+
     NGINX --> API
     REACT --> API
     API --> PG
     API --> REDIS
     AI --> PG
     AI --> REDIS
-    
+
     PGADMIN --> PG
     REDISCOM --> REDIS
     FLOWER --> AI
@@ -97,27 +97,27 @@ docker-compose exec api python database/init_db.py
 
 ### Core Application Services
 
-| Service | Description | Port | Health Check |
-|---------|-------------|------|--------------|
-| `frontend` | React development server | 3000 | http://localhost:3000 |
-| `api` | FastAPI backend | 8000 | http://localhost:8000/health |
-| `ai_services` | AGNO AI agents | - | Internal |
-| `nginx` | Reverse proxy | 80 | http://localhost |
+| Service       | Description              | Port | Health Check                 |
+| ------------- | ------------------------ | ---- | ---------------------------- |
+| `frontend`    | React development server | 3000 | http://localhost:3000        |
+| `api`         | FastAPI backend          | 8000 | http://localhost:8000/health |
+| `ai_services` | AGNO AI agents           | -    | Internal                     |
+| `nginx`       | Reverse proxy            | 80   | http://localhost             |
 
 ### Data Services
 
-| Service | Description | Port | Credentials |
-|---------|-------------|------|-------------|
-| `postgres` | PostgreSQL database | 5432 | postgres/password |
-| `redis` | Redis cache & sessions | 6379 | No password |
+| Service    | Description            | Port | Credentials       |
+| ---------- | ---------------------- | ---- | ----------------- |
+| `postgres` | PostgreSQL database    | 5432 | postgres/password |
+| `redis`    | Redis cache & sessions | 6379 | No password       |
 
 ### Management Tools
 
-| Service | Description | Port | Access |
-|---------|-------------|------|--------|
-| `pgadmin` | Database management | 5050 | admin@admin.com/admin |
-| `redis-commander` | Redis management | 8081 | No auth |
-| `flower` | Task monitoring | 5555 | No auth |
+| Service           | Description         | Port | Access                |
+| ----------------- | ------------------- | ---- | --------------------- |
+| `pgadmin`         | Database management | 5050 | admin@admin.com/admin |
+| `redis-commander` | Redis management    | 8081 | No auth               |
+| `flower`          | Task monitoring     | 5555 | No auth               |
 
 ## 📋 Docker Commands
 
@@ -214,7 +214,7 @@ docker system prune -f
 Create `docker-compose.override.yml` for local customizations:
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   api:
@@ -225,7 +225,7 @@ services:
       LOG_LEVEL: "DEBUG"
     volumes:
       - ./ai_services:/app:cached
-      
+
   frontend:
     ports:
       - "3000:3000"
@@ -268,10 +268,10 @@ The system uses these volumes:
 
 ```yaml
 volumes:
-  postgres_data:          # Database persistence
-  redis_data:             # Redis persistence
-  node_modules:           # Frontend dependencies
-  ai_services_cache:      # Python cache
+  postgres_data: # Database persistence
+  redis_data: # Redis persistence
+  node_modules: # Frontend dependencies
+  ai_services_cache: # Python cache
 ```
 
 ## 🌐 Network Configuration
@@ -297,11 +297,11 @@ To avoid conflicts, modify `docker-compose.yml`:
 services:
   frontend:
     ports:
-      - "3001:3000"  # Use port 3001 instead
-      
+      - "3001:3000" # Use port 3001 instead
+
   api:
     ports:
-      - "8001:8000"  # Use port 8001 instead
+      - "8001:8000" # Use port 8001 instead
 ```
 
 ## 🏗️ Development Workflow
@@ -354,7 +354,7 @@ docker-compose exec api pytest --cov=./ --cov-report=html
 Create `docker-compose.prod.yml`:
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   frontend:
@@ -363,7 +363,7 @@ services:
       dockerfile: Dockerfile
     environment:
       NODE_ENV: production
-      
+
   api:
     build:
       context: ./ai_services
@@ -371,7 +371,7 @@ services:
     environment:
       ENVIRONMENT: production
       DEBUG: "false"
-      
+
   nginx:
     image: nginx:alpine
     ports:

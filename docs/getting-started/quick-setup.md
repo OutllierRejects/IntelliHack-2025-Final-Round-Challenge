@@ -125,33 +125,33 @@ make clean         # Clean up containers and volumes
 ### Common Issues
 
 !!! error "Port Already in Use"
-    
+
     If ports 3000 or 8000 are in use:
-    
+
     ```bash
     # Check what's using the port
     lsof -i :3000
     lsof -i :8000
-    
+
     # Kill the process or change ports in docker-compose.yml
     ```
 
 !!! error "Database Connection Failed"
-    
+
     Ensure PostgreSQL is running:
-    
+
     ```bash
     # Check container status
     docker-compose ps
-    
+
     # View database logs
     docker-compose logs postgres
     ```
 
 !!! error "AI Agents Not Working"
-    
+
     Verify OpenAI API key:
-    
+
     ```bash
     # Test API key
     curl -H "Authorization: Bearer $OPENAI_API_KEY" \

@@ -16,7 +16,7 @@ OPENAI_MAX_TOKENS=1000
 ```
 
 !!! tip "Getting OpenAI API Key"
-    
+
     1. Visit [OpenAI Platform](https://platform.openai.com/)
     2. Create an account or sign in
     3. Navigate to API Keys section
@@ -41,7 +41,7 @@ Choose between local PostgreSQL or Supabase:
     SUPABASE_URL=https://your-project.supabase.co
     SUPABASE_ANON_KEY=your-supabase-anon-key
     SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
-    
+
     # Override database URL
     DATABASE_URL=postgresql://postgres.your-project:password@aws-0-region.pooler.supabase.com:5432/postgres
     ```
@@ -59,7 +59,7 @@ SESSION_SECRET=your-session-secret-key
 ```
 
 !!! warning "Security Best Practices"
-    
+
     - Use strong, random secrets (minimum 32 characters)
     - Never commit `.env` files to version control
     - Rotate secrets regularly in production
@@ -231,27 +231,27 @@ uv run python -c "from core.config import settings; print('✅ Configuration val
 ### Common Validation Errors
 
 !!! error "Missing OpenAI API Key"
-    
+
     ```
     Error: OPENAI_API_KEY is required
     ```
-    
+
     **Solution**: Add your OpenAI API key to `.env` file
 
 !!! error "Invalid Database URL"
-    
+
     ```
     Error: Cannot connect to database
     ```
-    
+
     **Solution**: Verify database is running and URL is correct
 
 !!! error "Weak JWT Secret"
-    
+
     ```
     Warning: JWT_SECRET should be at least 32 characters
     ```
-    
+
     **Solution**: Generate a longer random secret
 
 ## 🚀 Quick Setup Commands

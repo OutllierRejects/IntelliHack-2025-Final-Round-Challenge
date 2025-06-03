@@ -8,7 +8,7 @@ The Disaster Response Coordination System uses a multi-agent AI workflow built o
 sequenceDiagram
     participant R as Request
     participant I as Intake Agent
-    participant P as Prioritization Agent  
+    participant P as Prioritization Agent
     participant A as Assignment Agent
     participant C as Communication Agent
     participant S as Stakeholders
@@ -30,7 +30,8 @@ sequenceDiagram
 
 **Purpose**: Process and validate incoming emergency requests
 
-**Technology**: 
+**Technology**:
+
 - AGNO Agent with OpenAI GPT-4o-mini
 - Temperature: 0.1 (low for consistent output)
 - Max tokens: 1000
@@ -42,7 +43,7 @@ sequenceDiagram
     ```python
     def extract_needs(self, description: str) -> List[str]:
         """Extract needs using AI and keyword matching"""
-        # AI categorizes into: food, water, medical, 
+        # AI categorizes into: food, water, medical,
         # shelter, rescue, transport
     ```
 
@@ -76,7 +77,7 @@ sequenceDiagram
 {
   "needs": ["medical", "rescue"],
   "priority": "critical",
-  "urgency_level": "critical", 
+  "urgency_level": "critical",
   "extracted_location": "Main Street and 1st Ave",
   "request_type": "medical",
   "confidence_score": 0.95
@@ -88,6 +89,7 @@ sequenceDiagram
 **Purpose**: Assess and prioritize requests based on multiple factors
 
 **Technology**:
+
 - AGNO Agent with OpenAI GPT-4o-mini
 - Temperature: 0.2 (low-medium for consistent prioritization)
 - Max tokens: 800
@@ -136,19 +138,20 @@ mindmap
 **Priority Matrix**:
 
 | Severity | Resource Availability | Time Sensitivity | Final Priority |
-|----------|----------------------|------------------|----------------|
-| Critical | Available | Immediate | CRITICAL |
-| Critical | Limited | Immediate | HIGH |
-| High | Available | Within 1hr | HIGH |
-| Medium | Available | Within 6hr | MEDIUM |
-| Low | Any | Non-urgent | LOW |
+| -------- | --------------------- | ---------------- | -------------- |
+| Critical | Available             | Immediate        | CRITICAL       |
+| Critical | Limited               | Immediate        | HIGH           |
+| High     | Available             | Within 1hr       | HIGH           |
+| Medium   | Available             | Within 6hr       | MEDIUM         |
+| Low      | Any                   | Non-urgent       | LOW            |
 
 ### 3. Assignment Agent
 
 **Purpose**: Match requests with appropriate responders and resources
 
 **Technology**:
-- AGNO Agent with OpenAI GPT-4o-mini  
+
+- AGNO Agent with OpenAI GPT-4o-mini
 - Temperature: 0.3 (medium for balanced assignment)
 - Max tokens: 1200
 
@@ -161,15 +164,15 @@ flowchart TD
     B -->|No| D{Rescue Needed?}
     D -->|Yes| E[Assign Rescue Team]
     D -->|No| F[Assign Volunteers]
-    
+
     C --> G[Check Resource Availability]
     E --> G
     F --> G
-    
+
     G --> H{Resources Available?}
     H -->|Yes| I[Create Task Assignment]
     H -->|No| J[Queue for Resources]
-    
+
     I --> K[Update Database]
     J --> K
 ```
@@ -195,8 +198,8 @@ flowchart TD
 === "Task Creation"
 
     ```python
-    def create_assignments(self, requests: List[Dict], 
-                          personnel: List[Dict], 
+    def create_assignments(self, requests: List[Dict],
+                          personnel: List[Dict],
                           resources: Dict) -> List[Dict]:
         """AI-powered task assignment optimization"""
         # Creates detailed task instructions
@@ -209,14 +212,12 @@ flowchart TD
   "assignments": [
     {
       "request_id": "req_123",
-      "assignee_id": "volunteer_456", 
+      "assignee_id": "volunteer_456",
       "task_title": "Medical Emergency Response",
       "task_description": "Respond to medical emergency at Main St",
       "priority": "critical",
       "estimated_duration": "30 minutes",
-      "required_resources": [
-        {"resource_type": "medical", "quantity": 1}
-      ],
+      "required_resources": [{ "resource_type": "medical", "quantity": 1 }],
       "special_instructions": "Bring first aid kit",
       "contact_info": "Emergency contact: 911"
     }
@@ -229,6 +230,7 @@ flowchart TD
 **Purpose**: Handle notifications and status updates
 
 **Technology**:
+
 - AGNO Agent with OpenAI GPT-4o-mini
 - Temperature: 0.4 (medium for natural communication)
 - Max tokens: 800
@@ -241,7 +243,7 @@ graph LR
     A --> C[SMS Alerts]
     A --> D[In-App Messages]
     A --> E[WebSocket Updates]
-    
+
     B --> F[Task Assignments]
     B --> G[Status Updates]
     C --> H[Urgent Alerts]
@@ -287,11 +289,11 @@ class AgentCoordinator:
         self.prioritization_agent = PrioritizationAgent()
         self.assignment_agent = AssignmentAgent()
         self.communication_agent = CommunicationAgent()
-    
+
     async def process_incident_pipeline(self, incident_data: Dict) -> Dict:
         """Process through all four agents sequentially"""
         # 1. Intake processing
-        # 2. Prioritization assessment  
+        # 2. Prioritization assessment
         # 3. Resource assignment
         # 4. Communication dispatch
 ```
@@ -324,7 +326,7 @@ def get_performance_metrics(self) -> Dict:
         "average_response_time": 2.3,  # seconds
         "agent_availability": {
             "intake": True,
-            "prioritization": True, 
+            "prioritization": True,
             "assignment": True,
             "communication": True
         }

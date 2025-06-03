@@ -17,16 +17,18 @@ WebSocket connections enable:
 
 ```javascript
 // Connect to WebSocket with authentication
-const token = localStorage.getItem('auth_token');
+const token = localStorage.getItem("auth_token");
 const socket = new WebSocket(`ws://localhost:8000/ws?token=${token}`);
 
 socket.onopen = (event) => {
-  console.log('WebSocket connected');
+  console.log("WebSocket connected");
   // Send initial subscription preferences
-  socket.send(JSON.stringify({
-    type: 'subscribe',
-    channels: ['emergency_alerts', 'task_updates', 'resource_changes']
-  }));
+  socket.send(
+    JSON.stringify({
+      type: "subscribe",
+      channels: ["emergency_alerts", "task_updates", "resource_changes"],
+    })
+  );
 };
 
 socket.onmessage = (event) => {
@@ -35,13 +37,13 @@ socket.onmessage = (event) => {
 };
 
 socket.onclose = (event) => {
-  console.log('WebSocket disconnected:', event.code, event.reason);
+  console.log("WebSocket disconnected:", event.code, event.reason);
   // Implement reconnection logic
   setTimeout(reconnectWebSocket, 1000);
 };
 
 socket.onerror = (error) => {
-  console.error('WebSocket error:', error);
+  console.error("WebSocket error:", error);
 };
 ```
 
@@ -55,10 +57,12 @@ const socket = new WebSocket(`ws://localhost:8000/ws?token=${jwt_token}`);
 
 // Option 2: Initial message after connection
 socket.onopen = () => {
-  socket.send(JSON.stringify({
-    type: 'authenticate',
-    token: jwt_token
-  }));
+  socket.send(
+    JSON.stringify({
+      type: "authenticate",
+      token: jwt_token,
+    })
+  );
 };
 ```
 
@@ -356,31 +360,37 @@ Real-time messaging between users:
 ## Channel Types
 
 ### emergency_alerts
+
 - Critical emergency notifications
 - Immediate response required
 - Location-based filtering available
 
 ### task_updates
+
 - Task assignments and status changes
 - Progress notifications
 - Completion confirmations
 
 ### resource_changes
+
 - Resource availability updates
 - Allocation notifications
 - Capacity changes
 
 ### ai_agent_updates
+
 - AI agent recommendations
 - Automated alerts and predictions
 - System optimization notifications
 
 ### chat_messages
+
 - Direct user communication
 - Group messaging
 - Coordination messages
 
 ### system_alerts
+
 - System maintenance notifications
 - Security alerts
 - Performance warnings
@@ -388,6 +398,7 @@ Real-time messaging between users:
 ## Connection States
 
 ### Connected
+
 ```javascript
 {
   "type": "connection_established",
@@ -399,6 +410,7 @@ Real-time messaging between users:
 ```
 
 ### Authenticated
+
 ```javascript
 {
   "type": "authentication_success",
@@ -412,6 +424,7 @@ Real-time messaging between users:
 ## Error Handling
 
 ### Authentication Errors
+
 ```javascript
 {
   "type": "error",
@@ -425,6 +438,7 @@ Real-time messaging between users:
 ```
 
 ### Subscription Errors
+
 ```javascript
 {
   "type": "error",
@@ -438,6 +452,7 @@ Real-time messaging between users:
 ```
 
 ### Rate Limiting
+
 ```javascript
 {
   "type": "error",
@@ -463,16 +478,16 @@ class WebSocketManager {
     this.reconnectDelay = 1000;
     this.subscriptions = [];
   }
-  
+
   connect() {
     this.socket = new WebSocket(`${this.url}?token=${this.token}`);
-    
+
     this.socket.onopen = () => {
-      console.log('WebSocket connected');
+      console.log("WebSocket connected");
       this.reconnectAttempts = 0;
       this.resubscribe();
     };
-    
+
     this.socket.onclose = () => {
       if (this.reconnectAttempts < this.maxReconnectAttempts) {
         setTimeout(() => {
@@ -482,13 +497,15 @@ class WebSocketManager {
       }
     };
   }
-  
+
   resubscribe() {
     if (this.subscriptions.length > 0) {
-      this.socket.send(JSON.stringify({
-        type: 'subscribe',
-        channels: this.subscriptions
-      }));
+      this.socket.send(
+        JSON.stringify({
+          type: "subscribe",
+          channels: this.subscriptions,
+        })
+      );
     }
   }
 }
@@ -497,6 +514,7 @@ class WebSocketManager {
 ## Performance Optimization
 
 ### Message Batching
+
 ```javascript
 // Batch multiple updates
 {
@@ -515,6 +533,7 @@ class WebSocketManager {
 ```
 
 ### Heartbeat/Ping-Pong
+
 ```javascript
 // Client ping
 {
@@ -532,16 +551,19 @@ class WebSocketManager {
 ## Security Considerations
 
 ### Message Validation
+
 - All incoming messages are validated against schemas
 - User permissions checked for each channel subscription
 - Rate limiting prevents abuse
 
 ### Data Encryption
+
 - Sensitive data encrypted in transit
 - User-specific channels for private communications
 - Audit logging for security monitoring
 
 ### Access Control
+
 - Role-based channel access
 - Geographic filtering for location-sensitive data
 - Time-based session management
@@ -549,12 +571,14 @@ class WebSocketManager {
 ## Best Practices
 
 ### Client Implementation
+
 - Implement exponential backoff for reconnections
 - Handle connection state changes gracefully
 - Store critical messages locally during disconnections
 - Use message acknowledgments for important updates
 
 ### Server Implementation
+
 - Implement proper connection limits
 - Use message queuing for reliability
 - Monitor connection health

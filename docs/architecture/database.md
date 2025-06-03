@@ -9,6 +9,7 @@ This document outlines the database design, schema structure, data relationships
 The system uses PostgreSQL as the primary database for its ACID compliance, advanced features, and excellent performance characteristics.
 
 **Key Features Used:**
+
 - JSONB for flexible document storage
 - Full-text search capabilities
 - Geographic data types (PostGIS)
@@ -21,6 +22,7 @@ The system uses PostgreSQL as the primary database for its ACID compliance, adva
 Redis provides high-performance caching and session storage.
 
 **Use Cases:**
+
 - Session management
 - API response caching
 - Real-time data caching
@@ -32,6 +34,7 @@ Redis provides high-performance caching and session storage.
 ### Core Tables
 
 #### Users Table
+
 ```sql
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -60,6 +63,7 @@ CREATE INDEX idx_users_profile_gin ON users USING GIN(profile);
 ```
 
 #### Emergency Requests Table
+
 ```sql
 CREATE TABLE emergency_requests (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -99,6 +103,7 @@ CREATE TABLE emergency_requests_2024_01 PARTITION OF emergency_requests
 ```
 
 #### Tasks Table
+
 ```sql
 CREATE TABLE tasks (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -135,6 +140,7 @@ CREATE INDEX idx_tasks_skills_gin ON tasks USING GIN(skills_required);
 ```
 
 #### Resources Table
+
 ```sql
 CREATE TABLE resources (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -166,6 +172,7 @@ CREATE INDEX idx_resources_specifications_gin ON resources USING GIN(specificati
 ```
 
 #### Resource Allocations Table
+
 ```sql
 CREATE TABLE resource_allocations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -197,6 +204,7 @@ CREATE INDEX idx_resource_allocations_allocated_at ON resource_allocations(alloc
 ### Supporting Tables
 
 #### Notifications Table
+
 ```sql
 CREATE TABLE notifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -227,6 +235,7 @@ CREATE TABLE notifications_2024_01 PARTITION OF notifications
 ```
 
 #### AI Agent Interactions Table
+
 ```sql
 CREATE TABLE ai_agent_interactions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -256,6 +265,7 @@ CREATE INDEX idx_ai_interactions_input_gin ON ai_agent_interactions USING GIN(in
 ```
 
 #### Audit Log Table
+
 ```sql
 CREATE TABLE audit_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -285,6 +295,7 @@ CREATE TABLE audit_logs_2024_01 PARTITION OF audit_logs
 ## Custom Data Types
 
 ### Enumerations
+
 ```sql
 -- User roles
 CREATE TYPE user_role AS ENUM (
@@ -422,16 +433,16 @@ erDiagram
     USERS ||--o{ NOTIFICATIONS : receives
     USERS ||--o{ RESOURCE_ALLOCATIONS : allocates
     USERS ||--o{ AUDIT_LOGS : performs
-    
+
     EMERGENCY_REQUESTS ||--o{ TASKS : generates
     EMERGENCY_REQUESTS ||--o{ RESOURCE_ALLOCATIONS : requires
     EMERGENCY_REQUESTS ||--o{ AI_AGENT_INTERACTIONS : analyzed_by
-    
+
     TASKS ||--o{ RESOURCE_ALLOCATIONS : uses
     TASKS ||--o{ AI_AGENT_INTERACTIONS : processed_by
-    
+
     RESOURCES ||--o{ RESOURCE_ALLOCATIONS : allocated_in
-    
+
     USERS {
         uuid id PK
         string email UK
@@ -446,7 +457,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     EMERGENCY_REQUESTS {
         uuid id PK
         uuid user_id FK
@@ -464,7 +475,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     TASKS {
         uuid id PK
         uuid request_id FK
@@ -479,7 +490,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     RESOURCES {
         uuid id PK
         string name
@@ -499,6 +510,7 @@ erDiagram
 ### Indexing Strategy
 
 #### Primary Indexes
+
 ```sql
 -- Composite indexes for common queries
 CREATE INDEX idx_emergency_requests_status_priority ON emergency_requests(status, priority DESC);
@@ -506,18 +518,19 @@ CREATE INDEX idx_tasks_assigned_status ON tasks(assigned_to, status);
 CREATE INDEX idx_resources_type_status_location ON resources(type, status) INCLUDE (location);
 
 -- Partial indexes for specific conditions
-CREATE INDEX idx_active_emergency_requests ON emergency_requests(created_at DESC) 
+CREATE INDEX idx_active_emergency_requests ON emergency_requests(created_at DESC)
     WHERE status IN ('pending', 'assigned', 'in_progress');
 
-CREATE INDEX idx_available_resources ON resources(type, location) 
+CREATE INDEX idx_available_resources ON resources(type, location)
     WHERE status = 'available';
 
 -- Expression indexes
-CREATE INDEX idx_emergency_requests_location_text ON emergency_requests 
+CREATE INDEX idx_emergency_requests_location_text ON emergency_requests
     USING GIN(to_tsvector('english', location_address));
 ```
 
 #### Geographic Indexes
+
 ```sql
 -- Spatial indexes for location-based queries
 CREATE INDEX idx_emergency_requests_location_gist ON emergency_requests USING GIST(location);
@@ -531,6 +544,7 @@ CREATE INDEX idx_resources_type_location ON resources USING GIST(type, location)
 ### Partitioning Strategy
 
 #### Time-based Partitioning
+
 ```sql
 -- Emergency requests partitioned by month
 CREATE TABLE emergency_requests_y2024m01 PARTITION OF emergency_requests
@@ -548,7 +562,7 @@ DECLARE
 BEGIN
     partition_name := table_name || '_y' || EXTRACT(YEAR FROM start_date) || 'm' || LPAD(EXTRACT(MONTH FROM start_date)::TEXT, 2, '0');
     end_date := start_date + INTERVAL '1 month';
-    
+
     EXECUTE format('CREATE TABLE %I PARTITION OF %I FOR VALUES FROM (%L) TO (%L)',
                    partition_name, table_name, start_date, end_date);
 END;
@@ -558,10 +572,11 @@ $$ LANGUAGE plpgsql;
 ### Query Optimization
 
 #### Common Query Patterns
+
 ```sql
 -- Nearby emergency requests
-EXPLAIN (ANALYZE, BUFFERS) 
-SELECT * FROM emergency_requests 
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT * FROM emergency_requests
 WHERE ST_DWithin(location, ST_MakePoint(79.8612, 6.9271)::geography, 5000)
   AND status IN ('pending', 'assigned')
 ORDER BY priority DESC, created_at DESC
@@ -569,8 +584,8 @@ LIMIT 10;
 
 -- Available resources by type and location
 EXPLAIN (ANALYZE, BUFFERS)
-SELECT * FROM resources 
-WHERE type = 'ambulance' 
+SELECT * FROM resources
+WHERE type = 'ambulance'
   AND status = 'available'
   AND ST_DWithin(location, ST_MakePoint(79.8612, 6.9271)::geography, 10000)
 ORDER BY ST_Distance(location, ST_MakePoint(79.8612, 6.9271)::geography)
@@ -592,6 +607,7 @@ ORDER BY t.completed_at DESC;
 ### Backup Strategy
 
 #### Automated Backups
+
 ```sql
 -- Daily full backup
 pg_dump --verbose --format=custom --no-owner --no-acl \
@@ -605,6 +621,7 @@ wal_level = replica
 ```
 
 #### Point-in-Time Recovery
+
 ```sql
 -- Restore to specific point in time
 pg_restore --verbose --clean --no-acl --no-owner \
@@ -618,32 +635,34 @@ recovery_target_time = '2024-01-15 14:30:00'
 ### Data Retention Policies
 
 #### Automated Cleanup
+
 ```sql
 -- Delete old notifications (older than 90 days)
-DELETE FROM notifications 
+DELETE FROM notifications
 WHERE created_at < NOW() - INTERVAL '90 days'
   AND status IN ('delivered', 'failed');
 
 -- Archive old emergency requests (older than 2 years)
-INSERT INTO emergency_requests_archive 
-SELECT * FROM emergency_requests 
+INSERT INTO emergency_requests_archive
+SELECT * FROM emergency_requests
 WHERE created_at < NOW() - INTERVAL '2 years';
 
-DELETE FROM emergency_requests 
+DELETE FROM emergency_requests
 WHERE created_at < NOW() - INTERVAL '2 years';
 ```
 
 ### Data Integrity
 
 #### Constraints and Triggers
+
 ```sql
 -- Data validation constraints
-ALTER TABLE emergency_requests 
-ADD CONSTRAINT chk_priority_range 
+ALTER TABLE emergency_requests
+ADD CONSTRAINT chk_priority_range
 CHECK (priority >= 0 AND priority <= 100);
 
-ALTER TABLE tasks 
-ADD CONSTRAINT chk_rating_range 
+ALTER TABLE tasks
+ADD CONSTRAINT chk_rating_range
 CHECK (rating IS NULL OR (rating >= 1 AND rating <= 5));
 
 -- Audit trigger
@@ -676,6 +695,7 @@ CREATE TRIGGER audit_emergency_requests
 ## Scaling Considerations
 
 ### Read Replicas
+
 ```sql
 -- Read replica configuration
 primary_conninfo = 'host=primary-db port=5432 user=replicator'
@@ -684,6 +704,7 @@ standby_mode = on
 ```
 
 ### Connection Pooling
+
 ```javascript
 // PgBouncer configuration
 [databases]
@@ -699,6 +720,7 @@ reserve_pool_size = 5
 ### Monitoring and Maintenance
 
 #### Performance Monitoring
+
 ```sql
 -- Monitor slow queries
 SELECT query, mean_time, calls, total_time
@@ -712,7 +734,7 @@ FROM pg_stat_user_indexes
 ORDER BY idx_scan ASC;
 
 -- Monitor table sizes
-SELECT schemaname, tablename, 
+SELECT schemaname, tablename,
        pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) as size
 FROM pg_tables
 WHERE schemaname = 'public'
@@ -720,6 +742,7 @@ ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 ```
 
 #### Maintenance Tasks
+
 ```sql
 -- Automated vacuum and analyze
 vacuum_cost_delay = 20ms
@@ -735,6 +758,7 @@ REINDEX INDEX CONCURRENTLY idx_emergency_requests_location_gist;
 ## Security Considerations
 
 ### Row Level Security
+
 ```sql
 -- Enable RLS on sensitive tables
 ALTER TABLE emergency_requests ENABLE ROW LEVEL SECURITY;
@@ -751,6 +775,7 @@ CREATE POLICY responder_assigned_requests ON emergency_requests
 ```
 
 ### Data Encryption
+
 ```sql
 -- Encrypt sensitive fields
 CREATE EXTENSION IF NOT EXISTS pgcrypto;

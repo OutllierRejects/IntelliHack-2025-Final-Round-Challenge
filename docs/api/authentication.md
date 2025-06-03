@@ -13,12 +13,12 @@ The authentication system provides:
 
 ## 👥 User Roles
 
-| Role | Description | Permissions |
-|------|-------------|-------------|
-| `affected_individual` | People seeking help | Submit requests, view own requests |
-| `volunteer` | Community volunteers | View/accept tasks, update status |
-| `first_responder` | Emergency professionals | All volunteer permissions + priority access |
-| `admin` | System administrators | Full system access and management |
+| Role                  | Description             | Permissions                                 |
+| --------------------- | ----------------------- | ------------------------------------------- |
+| `affected_individual` | People seeking help     | Submit requests, view own requests          |
+| `volunteer`           | Community volunteers    | View/accept tasks, update status            |
+| `first_responder`     | Emergency professionals | All volunteer permissions + priority access |
+| `admin`               | System administrators   | Full system access and management           |
 
 ## 🔑 Authentication Flow
 
@@ -28,18 +28,18 @@ sequenceDiagram
     participant API as FastAPI
     participant DB as Database
     participant Redis
-    
+
     Client->>API: POST /auth/login
     API->>DB: Verify credentials
     DB-->>API: User data
     API->>Redis: Store session
     API-->>Client: JWT Access Token + Refresh Token
-    
+
     Client->>API: Authenticated Request
     Note over Client,API: Authorization: Bearer {token}
     API->>Redis: Validate session
     API-->>Client: Protected resource
-    
+
     Client->>API: POST /auth/refresh
     API->>Redis: Validate refresh token
     API-->>Client: New access token
@@ -291,11 +291,11 @@ JWT payload structure:
 
 ### Rate Limiting
 
-| Endpoint | Limit | Window |
-|----------|-------|--------|
-| `/auth/login` | 5 attempts | 15 minutes |
-| `/auth/register` | 3 attempts | 1 hour |
-| `/auth/refresh` | 10 attempts | 1 hour |
+| Endpoint         | Limit       | Window     |
+| ---------------- | ----------- | ---------- |
+| `/auth/login`    | 5 attempts  | 15 minutes |
+| `/auth/register` | 3 attempts  | 1 hour     |
+| `/auth/refresh`  | 10 attempts | 1 hour     |
 
 ### Session Management
 
@@ -361,39 +361,39 @@ JWT payload structure:
 
 ```typescript
 class AuthService {
-  private baseURL = 'http://localhost:8000/auth';
-  private tokenKey = 'disaster_response_token';
-  
+  private baseURL = "http://localhost:8000/auth";
+  private tokenKey = "disaster_response_token";
+
   async login(email: string, password: string) {
     const response = await fetch(`${this.baseURL}/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
-    
+
     if (!response.ok) {
-      throw new Error('Login failed');
+      throw new Error("Login failed");
     }
-    
+
     const data = await response.json();
     localStorage.setItem(this.tokenKey, data.access_token);
     return data;
   }
-  
+
   async makeAuthenticatedRequest(url: string, options: RequestInit = {}) {
     const token = localStorage.getItem(this.tokenKey);
-    
+
     return fetch(url, {
       ...options,
       headers: {
         ...options.headers,
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
   }
-  
+
   logout() {
     localStorage.removeItem(this.tokenKey);
   }
@@ -411,25 +411,25 @@ class DisasterResponseAuth:
         self.base_url = base_url
         self.access_token: Optional[str] = None
         self.refresh_token: Optional[str] = None
-    
+
     def login(self, email: str, password: str) -> dict:
         response = requests.post(
             f"{self.base_url}/auth/login",
             json={"email": email, "password": password}
         )
         response.raise_for_status()
-        
+
         data = response.json()
         self.access_token = data["access_token"]
         self.refresh_token = data["refresh_token"]
         return data
-    
+
     def get_headers(self) -> dict:
         if not self.access_token:
             raise ValueError("Not authenticated")
-        
+
         return {"Authorization": f"Bearer {self.access_token}"}
-    
+
     def request(self, method: str, endpoint: str, **kwargs) -> requests.Response:
         return requests.request(
             method,

@@ -32,11 +32,13 @@ flowchart TD
 ### Step-by-Step Instructions
 
 1. **Access the System**
+
    - Website: [http://localhost:3000](http://localhost:3000)
    - Mobile app (if available)
    - Emergency hotline integration
 
 2. **Quick Registration**
+
    - Email and phone number
    - Basic location information
    - Emergency contact details
@@ -46,6 +48,7 @@ flowchart TD
    ![Emergency Request Form](../assets/emergency-request-form.png)
 
    **Required Information:**
+
    - **Emergency Type**: Medical, Fire, Rescue, Shelter, Supplies
    - **Description**: Clear, detailed explanation
    - **Location**: Exact address or GPS coordinates
@@ -54,6 +57,7 @@ flowchart TD
    - **Contact Information**: Phone, preferred contact method
 
    **Optional but Helpful:**
+
    - Photos of the situation
    - Voice recordings
    - Special needs (medical conditions, disabilities)
@@ -62,64 +66,64 @@ flowchart TD
 ### Emergency Types Guide
 
 === "🏥 Medical Emergency"
-    
+
     **When to use**: Injuries, illness, medical crisis
-    
+
     **Information to include**:
     - Nature of medical issue
     - Patient's condition
     - Symptoms observed
     - Any medications or allergies
     - Access to the patient
-    
+
     **Example**: "Elderly neighbor fell down stairs. Conscious but can't move. Possible broken leg. She's diabetic and takes insulin."
 
 === "🔥 Fire Emergency"
-    
+
     **When to use**: Structure fires, wildfires, gas leaks
-    
+
     **Information to include**:
     - Type and size of fire
     - People trapped or evacuated
     - Nearby structures at risk
     - Fire department contacted?
-    
+
     **Example**: "Kitchen fire spreading to living room. Family evacuated safely. 2-story house, neighbors' homes 20 feet away."
 
 === "⛑️ Rescue Operation"
-    
+
     **When to use**: People trapped, missing persons, vehicle accidents
-    
+
     **Information to include**:
     - Number of people involved
     - Type of entrapment
     - Hazards present
     - Equipment needed
-    
+
     **Example**: "Car accident on Highway 101. Driver trapped in vehicle. Conscious but injured. Heavy traffic area."
 
 === "🏠 Shelter Needed"
-    
+
     **When to use**: Displacement due to disaster, homelessness
-    
+
     **Information to include**:
     - Number of people needing shelter
     - Special needs (children, elderly, pets)
     - Duration of need
     - Current temporary location
-    
+
     **Example**: "Family of 4 displaced by flooding. Need temporary shelter for 3-5 days. Have elderly grandmother requiring medication."
 
 === "📦 Supplies Request"
-    
+
     **When to use**: Food, water, medicine, clothing needs
-    
+
     **Information to include**:
     - Specific items needed
     - Quantities required
     - Urgent vs. non-urgent items
     - Delivery accessibility
-    
+
     **Example**: "Isolated by landslide. Need food and water for 6 people for 3 days. Baby formula urgently needed."
 
 ## 📱 Dashboard Overview
@@ -137,7 +141,7 @@ graph TB
         C --> G[Community Resources]
         D --> H[Safety Tips]
     end
-    
+
     style A fill:#ff6b6b
     style B fill:#4ecdc4
     style E fill:#45b7d1
@@ -147,15 +151,15 @@ graph TB
 
 Track your request through these stages:
 
-| Status | Description | What to Expect |
-|--------|-------------|----------------|
-| 🔍 **Submitted** | Request received | AI analysis in progress (2-5 minutes) |
-| ⚡ **Processing** | AI categorizing | Priority assignment and matching |
-| 📋 **Prioritized** | Urgency assessed | Looking for available responders |
-| 👤 **Assigned** | Responder matched | Responder notified, ETA provided |
-| 🚀 **En Route** | Help coming | Responder traveling to location |
-| 🎯 **In Progress** | Help arrived | Assistance being provided |
-| ✅ **Completed** | Help provided | Request resolved |
+| Status             | Description       | What to Expect                        |
+| ------------------ | ----------------- | ------------------------------------- |
+| 🔍 **Submitted**   | Request received  | AI analysis in progress (2-5 minutes) |
+| ⚡ **Processing**  | AI categorizing   | Priority assignment and matching      |
+| 📋 **Prioritized** | Urgency assessed  | Looking for available responders      |
+| 👤 **Assigned**    | Responder matched | Responder notified, ETA provided      |
+| 🚀 **En Route**    | Help coming       | Responder traveling to location       |
+| 🎯 **In Progress** | Help arrived      | Assistance being provided             |
+| ✅ **Completed**   | Help provided     | Request resolved                      |
 
 ### Real-Time Updates
 
@@ -163,22 +167,24 @@ You'll receive updates via:
 
 - **In-app notifications**
 - **SMS messages** to your phone
-- **Email updates** 
+- **Email updates**
 - **Push notifications** (mobile app)
 
-Example update: *"Emergency responder Jane Smith has been assigned to your medical emergency request. ETA: 8 minutes. Contact: +1-555-0123"*
+Example update: _"Emergency responder Jane Smith has been assigned to your medical emergency request. ETA: 8 minutes. Contact: +1-555-0123"_
 
 ## 💬 Communication with Responders
 
 ### Messaging System
 
 **Send Updates**:
+
 - Changes in situation
 - Additional information
 - Answer responder questions
 - Share photos/videos
 
 **Receive Information**:
+
 - Responder ETA
 - What to prepare
 - Safety instructions
@@ -206,6 +212,7 @@ Use pre-written messages for common updates:
 ### Providing Accurate Location
 
 **Best Practices**:
+
 - Use GPS coordinates when possible
 - Include landmarks and cross streets
 - Specify apartment/unit numbers
@@ -213,6 +220,7 @@ Use pre-written messages for common updates:
 - Mark safe meeting points
 
 **Location Sharing**:
+
 - Allow real-time location tracking
 - Update if you move to safety
 - Share alternative access routes
@@ -220,6 +228,7 @@ Use pre-written messages for common updates:
 ### Safety While Waiting
 
 **Do**:
+
 - Stay in safe location if possible
 - Keep phone charged and accessible
 - Follow responder instructions
@@ -227,6 +236,7 @@ Use pre-written messages for common updates:
 - Gather essential medications/items
 
 **Don't**:
+
 - Leave designated location without updating
 - Ignore safety instructions
 - Block access routes
@@ -239,13 +249,13 @@ Use pre-written messages for common updates:
 
 Keep these numbers readily available:
 
-| Contact | Number | When to Use |
-|---------|--------|-------------|
-| Emergency Services | 911 | Life-threatening situations |
-| Poison Control | 1-800-222-1222 | Poisoning emergencies |
-| Mental Health Crisis | 988 | Mental health emergencies |
-| Red Cross | 1-800-733-2767 | Disaster assistance |
-| System Support | [Support Number] | App/platform issues |
+| Contact              | Number           | When to Use                 |
+| -------------------- | ---------------- | --------------------------- |
+| Emergency Services   | 911              | Life-threatening situations |
+| Poison Control       | 1-800-222-1222   | Poisoning emergencies       |
+| Mental Health Crisis | 988              | Mental health emergencies   |
+| Red Cross            | 1-800-733-2767   | Disaster assistance         |
+| System Support       | [Support Number] | App/platform issues         |
 
 ### Community Resources
 
@@ -311,17 +321,20 @@ Some situations require ongoing support:
 ### What We Share
 
 **With Responders**:
+
 - Contact information
 - Location data
 - Emergency details
 - Medical information (if provided)
 
 **With Authorities** (only when legally required):
+
 - Basic incident information
 - Location for coordination
 - Safety-critical details
 
 **Never Shared**:
+
 - Unrelated personal information
 - Financial details
 - Private communications
@@ -332,9 +345,11 @@ Some situations require ongoing support:
 ### Writing Clear Descriptions
 
 **Good Example**:
+
 > "Medical emergency: 65-year-old male fell from ladder while cleaning gutters. Unconscious for 2 minutes, now conscious but severe pain in left leg. Possible fracture. Patient is diabetic, takes metformin. Located in backyard, accessible through side gate. Family member with first aid training on scene."
 
 **Poor Example**:
+
 > "Someone fell, please help"
 
 ### Urgency Level Guidelines
@@ -348,12 +363,14 @@ Some situations require ongoing support:
 ### Photo/Video Best Practices
 
 **Do Include**:
+
 - Wide shots showing overall situation
 - Close-ups of specific issues
 - Multiple angles when helpful
 - Faces (with permission) for missing persons
 
 **Don't Include**:
+
 - Graphic injuries (unless specifically needed)
 - Unrelated personal items
 - Other people without permission
@@ -364,12 +381,14 @@ Some situations require ongoing support:
 ### Getting Help with the System
 
 **Technical Support**:
+
 - App not working properly
 - Can't submit request
 - Login problems
 - Feature questions
 
 **Emergency Assistance**:
+
 - Can't reach through app
 - System-wide outage
 - Alternative contact methods
@@ -393,4 +412,4 @@ While our system provides excellent coordination and support, immediate life-thr
 
 ---
 
-*Need more help? Contact our 24/7 support line or check the [Troubleshooting Guide](../troubleshooting.md)*
+_Need more help? Contact our 24/7 support line or check the [Troubleshooting Guide](../troubleshooting.md)_

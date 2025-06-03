@@ -10,31 +10,31 @@ graph TB
         UI[React Dashboard]
         WS[WebSocket Client]
     end
-    
+
     subgraph "API Gateway"
         API[FastAPI Server]
         AUTH[JWT Authentication]
     end
-    
+
     subgraph "AI Agent Pipeline"
         IA[Intake Agent]
-        PA[Prioritization Agent]  
+        PA[Prioritization Agent]
         AA[Assignment Agent]
         CA[Communication Agent]
     end
-    
+
     subgraph "Data Layer"
         DB[(PostgreSQL)]
         REDIS[(Redis Cache)]
         SUPABASE[Supabase]
     end
-    
+
     subgraph "External Services"
         OPENAI[OpenAI GPT-4o-mini]
         EMAIL[Email Service]
         SMS[SMS Service]
     end
-    
+
     UI --> API
     WS --> API
     API --> AUTH
@@ -42,21 +42,21 @@ graph TB
     IA --> PA
     PA --> AA
     AA --> CA
-    
+
     IA <--> OPENAI
     PA <--> OPENAI
     AA <--> OPENAI
     CA <--> OPENAI
-    
+
     API <--> DB
     API <--> REDIS
     API <--> SUPABASE
-    
+
     CA --> EMAIL
     CA --> SMS
-    
+
     style IA fill:#ff9999
-    style PA fill:#99ff99  
+    style PA fill:#99ff99
     style AA fill:#9999ff
     style CA fill:#ffff99
 ```
@@ -75,18 +75,18 @@ sequenceDiagram
 
     User->>System: Submit Emergency Request
     System->>IA: Process Request
-    
+
     IA->>IA: Extract Information<br/>• Needs Assessment<br/>• Location Parsing<br/>• Urgency Analysis
     IA->>System: Structured Data
-    
+
     System->>PA: Prioritize Request
     PA->>PA: Risk Assessment<br/>• Severity Scoring<br/>• Resource Analysis<br/>• Time Sensitivity
     PA->>System: Priority Level
-    
+
     System->>AA: Assign Resources
     AA->>AA: Match Resources<br/>• Skill Mapping<br/>• Availability Check<br/>• Optimization
     AA->>System: Task Assignments
-    
+
     System->>CA: Send Notifications
     CA->>CA: Generate Messages<br/>• Multi-channel<br/>• Role-specific<br/>• Status Updates
     CA->>Responder: Task Assignment
@@ -249,14 +249,14 @@ graph LR
         R[First Responder]
         M[Administrator]
     end
-    
+
     subgraph "Dashboard Features"
         A --> A1[Submit Requests<br/>Track Status<br/>Safety Resources]
         V --> V1[Available Tasks<br/>Accept Assignments<br/>Update Progress]
         R --> R1[Emergency Alerts<br/>Resource Allocation<br/>Team Coordination]
         M --> M1[System Overview<br/>Analytics<br/>User Management]
     end
-    
+
     style A fill:#ffcccc
     style V fill:#ccffcc
     style R fill:#ccccff
@@ -266,12 +266,14 @@ graph LR
 ### 🚨 Affected Individuals Dashboard
 
 **Primary Functions:**
+
 - Submit emergency help requests with location and details
 - Track request status in real-time
 - Access safety tips and emergency resources
 - Receive notifications about assistance status
 
 **Key Features:**
+
 ```mermaid
 mindmap
   root((Affected Individual))
@@ -295,12 +297,14 @@ mindmap
 ### 🙋‍♀️ Volunteer Dashboard
 
 **Primary Functions:**
+
 - View available tasks matching skills and location
 - Accept task assignments
 - Update task progress and completion
 - Access training materials and guidelines
 
 **Task Management Flow:**
+
 ```mermaid
 stateDiagram-v2
     [*] --> Available
@@ -310,7 +314,7 @@ stateDiagram-v2
     InProgress --> NeedHelp : Request Support
     NeedHelp --> InProgress : Support Received
     Completed --> [*]
-    
+
     note right of Available : Skills matched automatically
     note right of InProgress : Real-time location tracking
 ```
@@ -318,12 +322,14 @@ stateDiagram-v2
 ### 🚒 First Responder Dashboard
 
 **Primary Functions:**
+
 - Receive emergency alerts and assignments
 - Coordinate with teams and manage resources
 - Update incident status and resource needs
 - Access tactical information and maps
 
 **Emergency Response Workflow:**
+
 ```mermaid
 sequenceDiagram
     participant Alert as Emergency Alert
@@ -345,12 +351,14 @@ sequenceDiagram
 ### 👨‍💼 Administrator Dashboard
 
 **Primary Functions:**
+
 - Monitor system-wide operations and performance
 - Manage users, resources, and system configuration
 - Generate reports and analytics
 - Oversee AI agent performance
 
 **System Overview:**
+
 ```mermaid
 graph TB
     subgraph "Real-time Monitoring"
@@ -359,14 +367,14 @@ graph TB
         C[Response Teams: 8 Active]
         D[Resources: 89% Available]
     end
-    
+
     subgraph "AI Agent Status"
         E[Intake Agent: ✅ Active]
         F[Prioritization: ✅ Active]
-        G[Assignment: ✅ Active]  
+        G[Assignment: ✅ Active]
         H[Communication: ✅ Active]
     end
-    
+
     subgraph "Performance Metrics"
         I[Avg Response Time: 4.2 min]
         J[Success Rate: 94.5%]
@@ -386,22 +394,22 @@ graph LR
         Custom[Custom AI Apps]
         Other[Other MCP Clients]
     end
-    
+
     subgraph "MCP Server"
         Tools[Disaster Response Tools]
         Resources[Real-time Data]
     end
-    
+
     subgraph "Disaster System"
         Agents[AGNO Agents]
         Database[Database]
         WebSocket[WebSocket Updates]
     end
-    
+
     Claude --> Tools
     Custom --> Tools
     Other --> Tools
-    
+
     Tools --> Agents
     Resources --> Database
     Tools --> WebSocket
@@ -460,6 +468,7 @@ make mcp-server
 - **Purpose**: Handle notifications and status updates
 - **Model**: OpenAI GPT-4o-mini
 - **Functions**:
+
   - Multi-channel messaging
   - Status update generation
   - Escalation handling

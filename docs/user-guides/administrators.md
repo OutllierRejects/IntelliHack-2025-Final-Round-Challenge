@@ -31,6 +31,7 @@ Password: Secure password with MFA required
 ```
 
 **First-time Setup Checklist:**
+
 - [ ] Complete security profile setup
 - [ ] Configure system-wide settings
 - [ ] Set up user role templates
@@ -43,6 +44,7 @@ Password: Secure password with MFA required
 ### System Overview
 
 #### Real-time System Status
+
 ```
 ┌─────────────────────────────────────────┐
 │ SYSTEM STATUS - 2024-01-15 12:00:00     │
@@ -56,12 +58,14 @@ Password: Secure password with MFA required
 ```
 
 #### Performance Metrics
+
 - **System Performance**: Response times, uptime, error rates
 - **User Activity**: Active users, session duration, feature usage
 - **Incident Statistics**: Resolution times, success rates, resource utilization
 - **Resource Efficiency**: Allocation effectiveness, utilization rates
 
 #### Geographic Overview
+
 - **Regional Activity**: Activity levels by geographic region
 - **Resource Distribution**: Resource allocation across regions
 - **Response Coverage**: Geographic response coverage analysis
@@ -72,6 +76,7 @@ Password: Secure password with MFA required
 ### User Account Administration
 
 #### Create User Accounts
+
 ```http
 POST /admin/users/create
 Content-Type: application/json
@@ -92,6 +97,7 @@ Content-Type: application/json
 ```
 
 #### User Role Management
+
 ```
 Available Roles:
 ├── affected_individual (Basic emergency request access)
@@ -103,6 +109,7 @@ Available Roles:
 ```
 
 #### Bulk User Operations
+
 - **Import Users**: CSV/Excel import for multiple users
 - **Role Assignment**: Bulk role changes and updates
 - **Deactivation**: Bulk account deactivation
@@ -111,6 +118,7 @@ Available Roles:
 ### User Monitoring and Analytics
 
 #### User Activity Dashboard
+
 ```
 ┌────────────────────────────────────────────┐
 │ USER ACTIVITY - LAST 30 DAYS              │
@@ -125,6 +133,7 @@ Available Roles:
 ```
 
 #### Performance Tracking
+
 - **Response Rates**: User response rates to assignments
 - **Completion Rates**: Task and incident completion statistics
 - **Efficiency Metrics**: User performance and productivity
@@ -135,6 +144,7 @@ Available Roles:
 ### Global Settings
 
 #### System Parameters
+
 ```json
 {
   "system_settings": {
@@ -163,6 +173,7 @@ Available Roles:
 ```
 
 #### Geographic Configuration
+
 - **Service Areas**: Define geographic service boundaries
 - **Response Zones**: Configure response zone assignments
 - **Resource Staging**: Set strategic resource positioning
@@ -171,6 +182,7 @@ Available Roles:
 ### Policy Configuration
 
 #### Response Policies
+
 ```
 Emergency Response Policies:
 ├── Auto-assignment rules
@@ -181,6 +193,7 @@ Emergency Response Policies:
 ```
 
 #### User Policies
+
 - **Account Security**: Password policies, MFA requirements
 - **Access Control**: Role-based access restrictions
 - **Data Privacy**: Personal information handling policies
@@ -189,12 +202,14 @@ Emergency Response Policies:
 ### Integration Management
 
 #### Third-party Integrations
+
 - **Weather Services**: Meteorological data integration
 - **Emergency Services**: 911/119 system integration
 - **Government Systems**: Inter-agency system connections
 - **Communication Platforms**: SMS, email service providers
 
 #### API Management
+
 - **Rate Limiting**: Configure API usage limits
 - **Authentication**: Manage API keys and tokens
 - **Monitoring**: Track API usage and performance
@@ -205,6 +220,7 @@ Emergency Response Policies:
 ### System Analytics
 
 #### Performance Dashboard
+
 ```
 SYSTEM PERFORMANCE - REAL-TIME
 ┌─────────────────────────────────────────┐
@@ -218,6 +234,7 @@ SYSTEM PERFORMANCE - REAL-TIME
 ```
 
 #### Historical Analytics
+
 - **Trend Analysis**: Performance trends over time
 - **Capacity Planning**: System growth and scaling needs
 - **Bottleneck Identification**: Performance bottleneck analysis
@@ -226,6 +243,7 @@ SYSTEM PERFORMANCE - REAL-TIME
 ### Incident Analytics
 
 #### Response Effectiveness
+
 ```
 INCIDENT RESPONSE ANALYTICS - MONTHLY
 ┌─────────────────────────────────────────┐
@@ -239,6 +257,7 @@ INCIDENT RESPONSE ANALYTICS - MONTHLY
 ```
 
 #### Geographic Performance
+
 - **Regional Statistics**: Performance by geographic region
 - **Hotspot Analysis**: Areas with high incident rates
 - **Coverage Gaps**: Underserved geographic areas
@@ -249,12 +268,14 @@ INCIDENT RESPONSE ANALYTICS - MONTHLY
 ### Large-Scale Incident Coordination
 
 #### Multi-Agency Coordination
+
 1. **Activation Procedures**: Emergency operations center activation
 2. **Resource Mobilization**: Large-scale resource deployment
 3. **Communication Coordination**: Multi-agency communication setup
 4. **Public Information**: Coordinated public messaging
 
 #### System Scaling
+
 - **Capacity Expansion**: Temporary system capacity increases
 - **User Surge Management**: Handle increased user activity
 - **Resource Reallocation**: Emergency resource redistribution
@@ -263,6 +284,7 @@ INCIDENT RESPONSE ANALYTICS - MONTHLY
 ### Crisis Management
 
 #### System Emergency Procedures
+
 ```
 CRISIS RESPONSE LEVELS
 ├── Level 1: Normal Operations
@@ -273,6 +295,7 @@ CRISIS RESPONSE LEVELS
 ```
 
 #### Emergency Protocols
+
 - **System Backup**: Ensure system redundancy and backup
 - **Communication Continuity**: Maintain communication capabilities
 - **Data Protection**: Secure critical system data
@@ -283,6 +306,7 @@ CRISIS RESPONSE LEVELS
 ### Administrative Reports
 
 #### Daily Operations Report
+
 ```
 DAILY OPERATIONS SUMMARY - 2024-01-15
 =====================================
@@ -304,12 +328,14 @@ Performance Metrics:
 ```
 
 #### Weekly Performance Report
+
 - **System Performance**: Weekly performance summary
 - **User Activity**: User engagement and activity trends
 - **Incident Analysis**: Incident patterns and outcomes
 - **Resource Efficiency**: Resource utilization analysis
 
 #### Monthly Strategic Report
+
 - **Strategic Metrics**: High-level performance indicators
 - **Trend Analysis**: Monthly and quarterly trends
 - **Budget Impact**: Cost analysis and budget implications
@@ -318,6 +344,7 @@ Performance Metrics:
 ### Custom Reporting
 
 #### Report Builder
+
 ```
 Report Configuration:
 ┌─────────────────────────────────┐
@@ -331,6 +358,7 @@ Report Configuration:
 ```
 
 #### Automated Reporting
+
 - **Scheduled Reports**: Automated report generation and distribution
 - **Alert-Based Reports**: Reports triggered by specific events
 - **Executive Dashboards**: High-level executive summary reports
@@ -341,12 +369,14 @@ Report Configuration:
 ### System Security
 
 #### Access Control Management
+
 - **Role-Based Access**: Manage role-based permissions
 - **Session Management**: Monitor and control user sessions
 - **API Security**: Secure API access and usage
 - **Data Encryption**: Manage data encryption policies
 
 #### Security Monitoring
+
 ```
 SECURITY DASHBOARD
 ┌─────────────────────────────────────────┐
@@ -361,12 +391,14 @@ SECURITY DASHBOARD
 ### Audit and Compliance
 
 #### Audit Logging
+
 - **User Actions**: Log all significant user actions
 - **System Changes**: Track system configuration changes
 - **Data Access**: Monitor data access and modifications
 - **Security Events**: Log security-related events
 
 #### Compliance Management
+
 - **Data Privacy**: GDPR/CCPA compliance monitoring
 - **Regulatory Requirements**: Government regulation compliance
 - **Policy Enforcement**: Monitor policy compliance
@@ -377,12 +409,14 @@ SECURITY DASHBOARD
 ### Administrator Training
 
 #### System Administration Training
+
 1. **Basic Administration**: User management and system configuration
 2. **Advanced Features**: Performance monitoring and optimization
 3. **Emergency Procedures**: Crisis management and emergency protocols
 4. **Security Management**: Security best practices and compliance
 
 #### Ongoing Education
+
 - **Regular Updates**: Training on new features and updates
 - **Best Practices**: Industry best practices and standards
 - **Case Studies**: Learn from real-world incidents and outcomes
@@ -391,12 +425,14 @@ SECURITY DASHBOARD
 ### User Support Management
 
 #### Support Operations
+
 - **Help Desk Management**: Oversee user support operations
 - **Training Coordination**: Coordinate user training programs
 - **Documentation Maintenance**: Keep documentation current
 - **Feedback Management**: Collect and act on user feedback
 
 #### Knowledge Management
+
 - **Training Materials**: Develop and maintain training resources
 - **Best Practices**: Document and share best practices
 - **Lessons Learned**: Capture and share lessons from incidents
@@ -407,6 +443,7 @@ SECURITY DASHBOARD
 ### Common Administrative Issues
 
 #### System Performance Issues
+
 ```
 Problem: System slow response times
 Investigation Steps:
@@ -424,6 +461,7 @@ Resolution Actions:
 ```
 
 #### User Access Issues
+
 ```
 Problem: Users unable to access system
 Investigation Steps:
@@ -443,6 +481,7 @@ Resolution Actions:
 ### Emergency Procedures
 
 #### System Outage Response
+
 1. **Immediate Assessment**: Determine outage scope and impact
 2. **Communication**: Notify users and stakeholders
 3. **Recovery Actions**: Implement recovery procedures
@@ -450,6 +489,7 @@ Resolution Actions:
 5. **Post-Incident Review**: Conduct lessons learned analysis
 
 #### Data Security Incident
+
 - **Containment**: Isolate affected systems
 - **Assessment**: Determine scope of security incident
 - **Notification**: Notify relevant authorities and users
@@ -459,17 +499,20 @@ Resolution Actions:
 ## Contact Information
 
 ### Administrative Support
+
 - **System Administration**: admin@disaster-response.com
 - **Technical Support**: tech-support@disaster-response.com
 - **Security Team**: security@disaster-response.com
 - **Training Coordination**: training@disaster-response.com
 
 ### Emergency Contacts
+
 - **System Emergency**: +94112345678 (24/7)
 - **Security Incidents**: +94112345679 (24/7)
 - **Executive Escalation**: +94112345680
 
 ### Vendor Support
+
 - **System Vendor**: Primary system support
 - **Cloud Provider**: Infrastructure support
 - **Security Vendor**: Security services support
@@ -478,18 +521,21 @@ Resolution Actions:
 ## Best Practices
 
 ### Administrative Excellence
+
 1. **Proactive Monitoring**: Monitor system health continuously
 2. **Regular Maintenance**: Perform regular system maintenance
 3. **User Engagement**: Maintain active user engagement
 4. **Continuous Improvement**: Continuously improve system operations
 
 ### Leadership and Coordination
+
 - **Strategic Planning**: Develop long-term strategic plans
 - **Stakeholder Management**: Maintain stakeholder relationships
 - **Change Management**: Effectively manage system changes
 - **Crisis Leadership**: Provide leadership during emergencies
 
 ### Technology Management
+
 - **System Optimization**: Continuously optimize system performance
 - **Security Awareness**: Maintain high security awareness
 - **Innovation Adoption**: Evaluate and adopt new technologies

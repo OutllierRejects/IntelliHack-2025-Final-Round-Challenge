@@ -23,12 +23,14 @@ GET /api/resources
 Retrieve all available resources with filtering options.
 
 **Query Parameters:**
+
 - `type` (string, optional): Filter by resource type (medical_supplies, vehicles, equipment, personnel)
 - `location` (string, optional): Filter by location coordinates or area
 - `status` (string, optional): Filter by availability status (available, allocated, maintenance)
 - `capacity` (number, optional): Minimum capacity requirement
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -48,11 +50,7 @@ Retrieve all available resources with filtering options.
         "patients": 2,
         "medical_crew": 3
       },
-      "equipment": [
-        "defibrillator",
-        "oxygen_tank",
-        "first_aid_kit"
-      ],
+      "equipment": ["defibrillator", "oxygen_tank", "first_aid_kit"],
       "availability_window": {
         "start": "2024-01-15T08:00:00Z",
         "end": "2024-01-15T20:00:00Z"
@@ -82,6 +80,7 @@ GET /api/resources/{resource_id}
 Retrieve detailed information about a specific resource.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -127,6 +126,7 @@ POST /api/resources/{resource_id}/allocate
 Allocate a resource to an emergency request or task.
 
 **Request Body:**
+
 ```json
 {
   "request_id": "req_789",
@@ -140,6 +140,7 @@ Allocate a resource to an emergency request or task.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -171,6 +172,7 @@ PATCH /api/resources/{resource_id}
 Update resource availability, location, or status.
 
 **Request Body:**
+
 ```json
 {
   "status": "maintenance",
@@ -192,11 +194,13 @@ GET /api/resources/forecast
 Get predicted resource availability for planning purposes.
 
 **Query Parameters:**
+
 - `location` (string, required): Target location for forecast
 - `timeframe` (string, optional): Forecast period (1h, 6h, 24h, 7d)
 - `resource_types` (array, optional): Specific resource types to forecast
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -230,24 +234,28 @@ Get predicted resource availability for planning purposes.
 ## Resource Types
 
 ### Vehicles
+
 - **Ambulances**: Patient transport with medical equipment
 - **Fire Trucks**: Fire suppression and rescue operations
 - **Rescue Vehicles**: Specialized rescue equipment transport
 - **Command Vehicles**: Mobile command centers
 
 ### Medical Supplies
+
 - **Emergency Kits**: First aid and trauma supplies
 - **Medications**: Emergency pharmaceuticals
 - **Medical Equipment**: Portable medical devices
 - **PPE**: Personal protective equipment
 
 ### Personnel
+
 - **Medical Teams**: Doctors, nurses, paramedics
 - **Rescue Teams**: Search and rescue specialists
 - **Technical Teams**: Engineers, utility specialists
 - **Support Staff**: Logistics and coordination personnel
 
 ### Equipment
+
 - **Communication**: Radios, satellite phones
 - **Search & Rescue**: Specialized rescue tools
 - **Shelter**: Temporary housing materials
@@ -285,11 +293,13 @@ socket.onmessage = (event) => {
 Resources are automatically managed by AI agents for optimal allocation:
 
 ### Intelligent Allocation
+
 - **Demand Prediction**: AI predicts resource needs based on historical data
 - **Optimization**: Automatic resource allocation optimization
 - **Rebalancing**: Dynamic resource redistribution
 
 ### Performance Monitoring
+
 - **Utilization Tracking**: Monitor resource usage patterns
 - **Efficiency Analysis**: Identify optimization opportunities
 - **Predictive Maintenance**: Anticipate equipment maintenance needs
@@ -299,6 +309,7 @@ Resources are automatically managed by AI agents for optimal allocation:
 Common error responses:
 
 ### Resource Not Found
+
 ```json
 {
   "success": false,
@@ -313,6 +324,7 @@ Common error responses:
 ```
 
 ### Resource Already Allocated
+
 ```json
 {
   "success": false,
@@ -330,6 +342,7 @@ Common error responses:
 ```
 
 ### Insufficient Capacity
+
 ```json
 {
   "success": false,
@@ -347,18 +360,21 @@ Common error responses:
 ## Best Practices
 
 ### Resource Management
+
 - **Regular Updates**: Keep resource status current
 - **Capacity Planning**: Maintain adequate resource reserves
 - **Geographic Distribution**: Ensure resources are strategically located
 - **Maintenance Scheduling**: Plan maintenance during low-demand periods
 
 ### Performance Optimization
+
 - **Caching**: Cache frequently accessed resource data
 - **Indexing**: Use location-based indexing for quick searches
 - **Batch Operations**: Group resource updates when possible
 - **Load Balancing**: Distribute resource queries across multiple servers
 
 ### Security Considerations
+
 - **Access Control**: Restrict resource allocation to authorized users
 - **Audit Logging**: Track all resource allocation changes
 - **Data Validation**: Validate resource status updates

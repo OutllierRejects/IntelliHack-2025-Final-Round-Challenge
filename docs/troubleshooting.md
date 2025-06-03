@@ -27,26 +27,29 @@ If the system is unavailable during an active emergency:
 **Solutions**:
 
 1. **Check credentials**:
+
    ```bash
    # Verify email format
    user@example.com ✅
    user@example ❌
-   
+
    # Check password requirements
    - Minimum 8 characters
    - Contains letters and numbers
    ```
 
 2. **Clear browser cache**:
+
    ```bash
    # Chrome/Edge
    Ctrl+Shift+Delete → Clear browsing data
-   
-   # Firefox  
+
+   # Firefox
    Ctrl+Shift+Delete → Clear cache
    ```
 
 3. **Try incognito/private mode**:
+
    - Chrome: Ctrl+Shift+N
    - Firefox: Ctrl+Shift+P
    - Edge: Ctrl+Shift+N
@@ -63,11 +66,13 @@ If the system is unavailable during an active emergency:
 **Solutions**:
 
 1. **Check browser settings**:
+
    - Enable cookies for the site
    - Disable ad blockers temporarily
    - Allow JavaScript execution
 
 2. **Update browser**:
+
    - Use latest version of Chrome, Firefox, or Edge
    - Clear old browser data
 
@@ -82,11 +87,13 @@ If the system is unavailable during an active emergency:
 **Solutions**:
 
 1. **Check phone/email**:
+
    - Verify correct phone number in profile
    - Check spam folder for emails
    - Ensure phone has cellular signal
 
 2. **Time synchronization**:
+
    - Ensure device time is accurate
    - Sync with network time
 
@@ -103,6 +110,7 @@ If the system is unavailable during an active emergency:
 **Solutions**:
 
 1. **Check internet speed**:
+
    ```bash
    # Test connection speed
    speedtest-cli
@@ -110,6 +118,7 @@ If the system is unavailable during an active emergency:
    ```
 
 2. **Reduce browser load**:
+
    - Close unnecessary tabs
    - Disable browser extensions
    - Clear cache and cookies
@@ -126,11 +135,13 @@ If the system is unavailable during an active emergency:
 **Solutions**:
 
 1. **JavaScript enabled**:
+
    - Check browser settings
    - Allow scripts for the site
    - Disable script blockers
 
 2. **Browser compatibility**:
+
    ```
    ✅ Supported Browsers:
    - Chrome 90+
@@ -153,11 +164,13 @@ If the system is unavailable during an active emergency:
 **Solutions**:
 
 1. **Restart app**:
+
    - Force close application
    - Clear app cache
    - Restart device
 
 2. **Update app**:
+
    - Check app store for updates
    - Ensure iOS 14+ or Android 8+
    - Free up device storage
@@ -174,11 +187,13 @@ If the system is unavailable during an active emergency:
 **Solutions**:
 
 1. **Permission settings**:
+
    - Allow location access for app
    - Enable high accuracy mode
    - Check privacy settings
 
 2. **GPS signal**:
+
    - Move to open area
    - Wait for GPS to acquire signal
    - Check if location services enabled
@@ -207,11 +222,13 @@ If the system is unavailable during an active emergency:
 #### Privacy Concerns
 
 **Location Privacy**:
+
 - Location only shared during active requests
 - Data encrypted in transit and storage
 - Location history can be deleted
 
 **Communication Privacy**:
+
 - Messages encrypted between users
 - Personal information protected
 - Communication logs can be requested
@@ -246,6 +263,7 @@ To export your data:
 **Solutions**:
 
 1. **Check connection**:
+
    ```bash
    # Test connectivity
    ping google.com
@@ -254,6 +272,7 @@ To export your data:
    ```
 
 2. **Router issues**:
+
    - Restart router/modem
    - Check cable connections
    - Contact ISP if persistent
@@ -270,6 +289,7 @@ To export your data:
 **Solutions**:
 
 1. **Check firewall settings**:
+
    - Whitelist disaster-response.com
    - Allow ports 80, 443, 8000, 3000
    - Contact IT administrator
@@ -286,6 +306,7 @@ To export your data:
 **Solutions**:
 
 1. **Network configuration**:
+
    - Allow WebSocket connections
    - Check corporate firewall
    - Verify proxy settings
@@ -304,11 +325,13 @@ To export your data:
 **Solutions**:
 
 1. **Check system status**:
+
    - Visit status page
    - Check service health
    - Review error messages
 
 2. **Wait and retry**:
+
    - AI processing may take 2-5 minutes
    - High load can cause delays
    - System will retry automatically
@@ -325,11 +348,13 @@ To export your data:
 **Solutions**:
 
 1. **Provide feedback**:
+
    - Rate AI accuracy
    - Report incorrect classifications
    - Suggest improvements
 
 2. **Add more details**:
+
    - Include specific keywords
    - Provide clearer descriptions
    - Add relevant photos
@@ -348,6 +373,7 @@ To export your data:
 **Symptoms**: Request stuck in submitted status
 
 **Checklist**:
+
 - [ ] All required fields completed
 - [ ] Valid location provided
 - [ ] Contact information correct
@@ -355,6 +381,7 @@ To export your data:
 - [ ] Photos uploaded successfully
 
 **Actions**:
+
 1. **Check request status** in dashboard
 2. **Update missing information**
 3. **Contact emergency hotline** if urgent
@@ -363,6 +390,7 @@ To export your data:
 #### Can't Contact Responder
 
 **Solutions**:
+
 1. **Use in-app messaging** first
 2. **Call emergency contact** if provided
 3. **Update request status** with new information
@@ -373,12 +401,14 @@ To export your data:
 #### No Tasks Available
 
 **Possible Causes**:
+
 - All tasks assigned
 - Location outside service area
 - Skills don't match current needs
 - Time restrictions
 
 **Solutions**:
+
 1. **Expand search radius**
 2. **Update skill profile**
 3. **Check availability settings**
@@ -387,12 +417,14 @@ To export your data:
 #### Task Assignment Issues
 
 **Can't Accept Task**:
+
 - Task may have been assigned to someone else
 - Your profile may not meet requirements
 - Check internet connectivity
 - Refresh task list
 
 **Incorrect Task Match**:
+
 - Update skill profile
 - Set location preferences
 - Adjust availability schedule
@@ -403,12 +435,14 @@ To export your data:
 #### Coordination Problems
 
 **Communication Issues**:
+
 - Check radio frequencies
 - Verify contact information
 - Use backup communication methods
 - Contact incident commander
 
 **Resource Conflicts**:
+
 - Check resource allocation system
 - Contact logistics coordinator
 - Report equipment issues
@@ -419,6 +453,7 @@ To export your data:
 #### Dashboard Not Loading
 
 **Solutions**:
+
 1. **Check administrator permissions**
 2. **Clear browser cache completely**
 3. **Try different browser**
@@ -429,6 +464,7 @@ To export your data:
 **Symptoms**: Reports show conflicting information
 
 **Actions**:
+
 1. **Check data source filters**
 2. **Verify time range settings**
 3. **Refresh data connections**
@@ -441,12 +477,14 @@ To export your data:
 #### Containers Won't Start
 
 **Check container status**:
+
 ```bash
 docker-compose ps
 docker-compose logs [service_name]
 ```
 
 **Common solutions**:
+
 ```bash
 # Restart containers
 docker-compose restart
@@ -465,6 +503,7 @@ make docker-up
 **Symptoms**: "Port already in use" errors
 
 **Find conflicting processes**:
+
 ```bash
 # Check port usage
 lsof -i :3000
@@ -473,6 +512,7 @@ netstat -tulpn | grep :3000
 ```
 
 **Solutions**:
+
 ```bash
 # Kill conflicting process
 sudo kill -9 [PID]
@@ -487,6 +527,7 @@ ports:
 **Symptoms**: "Connection refused" to PostgreSQL
 
 **Solutions**:
+
 ```bash
 # Check database container
 docker-compose logs postgres
@@ -505,6 +546,7 @@ docker-compose exec postgres psql -U postgres -c "\l"
 **Symptoms**: Application errors about missing config
 
 **Check environment file**:
+
 ```bash
 # Verify .env file exists
 ls -la ai_services/.env
@@ -514,6 +556,7 @@ grep -E "OPENAI_API_KEY|DATABASE_URL|JWT_SECRET" ai_services/.env
 ```
 
 **Fix missing variables**:
+
 ```bash
 # Copy template
 cp ai_services/.env.example ai_services/.env
@@ -525,6 +568,7 @@ echo "OPENAI_API_KEY=your-key-here" >> ai_services/.env
 #### API Key Issues
 
 **OpenAI API Problems**:
+
 ```bash
 # Test API key
 curl -H "Authorization: Bearer $OPENAI_API_KEY" \
@@ -542,15 +586,17 @@ curl -H "Authorization: Bearer $OPENAI_API_KEY" \
 #### Slow Queries
 
 **Identify slow queries**:
+
 ```sql
 -- PostgreSQL slow query log
-SELECT query, mean_time, calls 
-FROM pg_stat_statements 
-ORDER BY mean_time DESC 
+SELECT query, mean_time, calls
+FROM pg_stat_statements
+ORDER BY mean_time DESC
 LIMIT 10;
 ```
 
 **Optimize database**:
+
 ```bash
 # Vacuum and analyze
 docker-compose exec postgres psql -U postgres -d disaster_response -c "VACUUM ANALYZE;"
@@ -564,12 +610,14 @@ docker-compose exec postgres psql -U postgres -d disaster_response -c "\di"
 #### High Memory Usage
 
 **Check container memory**:
+
 ```bash
 docker stats
 docker-compose exec api free -h
 ```
 
 **Optimize memory usage**:
+
 ```bash
 # Restart services
 docker-compose restart api
@@ -586,11 +634,13 @@ deploy:
 #### Slow API Responses
 
 **Check API logs**:
+
 ```bash
 docker-compose logs api | grep "ERROR\|WARNING"
 ```
 
 **Performance monitoring**:
+
 ```bash
 # Check response times
 curl -w "@curl-format.txt" -o /dev/null -s http://localhost:8000/health
@@ -603,30 +653,33 @@ docker-compose exec api top
 
 ### Support Channels
 
-| Issue Type | Contact Method | Response Time |
-|------------|----------------|---------------|
-| Emergency | Emergency Hotline | Immediate |
-| System Down | Status Page + Email | 15 minutes |
-| Critical Bug | Support Ticket | 2 hours |
-| General Issue | Email Support | 24 hours |
-| Feature Request | Community Forum | 1 week |
+| Issue Type      | Contact Method      | Response Time |
+| --------------- | ------------------- | ------------- |
+| Emergency       | Emergency Hotline   | Immediate     |
+| System Down     | Status Page + Email | 15 minutes    |
+| Critical Bug    | Support Ticket      | 2 hours       |
+| General Issue   | Email Support       | 24 hours      |
+| Feature Request | Community Forum     | 1 week        |
 
 ### Information to Include
 
 When contacting support, provide:
 
 1. **User Information**:
+
    - User ID or email
    - Role (affected individual, volunteer, etc.)
    - Account creation date
 
 2. **Technical Details**:
+
    - Browser/app version
    - Operating system
    - Device type
    - Internet connection type
 
 3. **Error Information**:
+
    - Exact error messages
    - Steps to reproduce
    - Screenshots/screen recordings
@@ -641,17 +694,20 @@ When contacting support, provide:
 ### Self-Help Resources
 
 **Documentation**:
+
 - [User Guides](user-guides/affected-individuals.md)
 - [API Documentation](api/authentication.md)
 - [Setup Guides](getting-started/quick-setup.md)
 
 **Community**:
+
 - User forums
 - FAQ database
 - Video tutorials
 - Community wiki
 
 **Status and Updates**:
+
 - System status page
 - Maintenance announcements
 - Release notes
@@ -670,6 +726,7 @@ Help us improve the system by:
 - Contributing to documentation
 
 **Feedback Channels**:
+
 - In-app feedback forms
 - Support email
 - Community forums
@@ -678,4 +735,4 @@ Help us improve the system by:
 
 ---
 
-*Still need help? Contact our 24/7 support team or check the [community forums](https://community.disaster-response.com) for additional assistance.*
+_Still need help? Contact our 24/7 support team or check the [community forums](https://community.disaster-response.com) for additional assistance._

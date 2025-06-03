@@ -20,21 +20,21 @@ graph TB
     C --> D[Assignment Agent]
     D --> E[Communication Agent]
     E --> F[Real-time Updates]
-    
+
     subgraph "AI Agents (AGNO)"
         B
         C
         D
         E
     end
-    
+
     subgraph "User Interfaces"
         G[Affected Individuals]
         H[Volunteers]
-        I[First Responders] 
+        I[First Responders]
         J[Administrators]
     end
-    
+
     F --> G
     F --> H
     F --> I
@@ -45,37 +45,37 @@ graph TB
 
 <div class="grid cards" markdown>
 
--   :material-rocket-launch:{ .lg .middle } **Getting Started**
+- :material-rocket-launch:{ .lg .middle } **Getting Started**
 
-    ---
+  ***
 
-    Set up the system quickly with Docker and start coordinating disaster response
+  Set up the system quickly with Docker and start coordinating disaster response
 
-    [:octicons-arrow-right-24: Quick Setup](getting-started/quick-setup.md)
+  [:octicons-arrow-right-24: Quick Setup](getting-started/quick-setup.md)
 
--   :material-brain:{ .lg .middle } **AI Agents**
+- :material-brain:{ .lg .middle } **AI Agents**
 
-    ---
+  ***
 
-    Learn about the AGNO agent workflow for intelligent request processing
+  Learn about the AGNO agent workflow for intelligent request processing
 
-    [:octicons-arrow-right-24: AI Architecture](architecture/ai-agents.md)
+  [:octicons-arrow-right-24: AI Architecture](architecture/ai-agents.md)
 
--   :material-account-group:{ .lg .middle } **User Guides**
+- :material-account-group:{ .lg .middle } **User Guides**
 
-    ---
+  ***
 
-    Role-specific guides for all system users
+  Role-specific guides for all system users
 
-    [:octicons-arrow-right-24: User Guides](user-guides/affected-individuals.md)
+  [:octicons-arrow-right-24: User Guides](user-guides/affected-individuals.md)
 
--   :material-api:{ .lg .middle } **API Reference**
+- :material-api:{ .lg .middle } **API Reference**
 
-    ---
+  ***
 
-    Complete API documentation for developers
+  Complete API documentation for developers
 
-    [:octicons-arrow-right-24: API Docs](api/authentication.md)
+  [:octicons-arrow-right-24: API Docs](api/authentication.md)
 
 </div>
 
@@ -136,4 +136,4 @@ For technical support or questions:
 
 ---
 
-*Built for IntelliHack 2025 Final Round Challenge*
+_Built for IntelliHack 2025 Final Round Challenge_

@@ -23,6 +23,7 @@ POST /api/ai-agents/emergency-processor/analyze
 ```
 
 **Request Body:**
+
 ```json
 {
   "request_id": "req_789",
@@ -52,6 +53,7 @@ POST /api/ai-agents/emergency-processor/analyze
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -112,6 +114,7 @@ POST /api/ai-agents/resource-optimizer/optimize
 ```
 
 **Request Body:**
+
 ```json
 {
   "optimization_type": "emergency_response",
@@ -122,20 +125,20 @@ POST /api/ai-agents/resource-optimizer/optimize
         "request_id": "req_789",
         "category": "fire",
         "priority": "critical",
-        "location": {"latitude": 6.9271, "longitude": 79.8612}
+        "location": { "latitude": 6.9271, "longitude": 79.8612 }
       },
       {
         "request_id": "req_790",
         "category": "medical",
         "priority": "high",
-        "location": {"latitude": 6.9319, "longitude": 79.8478}
+        "location": { "latitude": 6.9319, "longitude": 79.8478 }
       }
     ],
     "available_resources": [
       {
         "resource_id": "fire_truck_001",
         "type": "fire_truck",
-        "location": {"latitude": 6.9200, "longitude": 79.8500},
+        "location": { "latitude": 6.92, "longitude": 79.85 },
         "status": "available"
       }
     ],
@@ -148,6 +151,7 @@ POST /api/ai-agents/resource-optimizer/optimize
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -194,6 +198,7 @@ POST /api/ai-agents/coordinator/assign-tasks
 ```
 
 **Request Body:**
+
 ```json
 {
   "emergency_request": "req_789",
@@ -201,13 +206,13 @@ POST /api/ai-agents/coordinator/assign-tasks
     {
       "user_id": "user_001",
       "skills": ["first_aid", "search_rescue"],
-      "location": {"latitude": 6.9271, "longitude": 79.8612},
+      "location": { "latitude": 6.9271, "longitude": 79.8612 },
       "availability": "immediate"
     },
     {
       "user_id": "user_002",
       "skills": ["medical_assistance", "translation"],
-      "location": {"latitude": 6.9300, "longitude": 79.8500},
+      "location": { "latitude": 6.93, "longitude": 79.85 },
       "availability": "30_minutes"
     }
   ],
@@ -220,6 +225,7 @@ POST /api/ai-agents/coordinator/assign-tasks
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -271,6 +277,7 @@ POST /api/ai-agents/predictor/forecast
 ```
 
 **Request Body:**
+
 ```json
 {
   "prediction_type": "demand_forecast",
@@ -292,6 +299,7 @@ POST /api/ai-agents/predictor/forecast
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -359,6 +367,7 @@ POST /api/ai-agents/communicator/send-notifications
 ```
 
 **Request Body:**
+
 ```json
 {
   "notification_type": "emergency_alert",
@@ -383,6 +392,7 @@ POST /api/ai-agents/communicator/send-notifications
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -432,6 +442,7 @@ GET /api/ai-agents/status
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -472,6 +483,7 @@ GET /api/ai-agents/{agent_name}/metrics
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -514,6 +526,7 @@ POST /api/ai-agents/feedback
 ```
 
 **Request Body:**
+
 ```json
 {
   "agent_name": "emergency_processor",
@@ -526,8 +539,8 @@ POST /api/ai-agents/feedback
     "notes": "Category and severity were accurate, but recommended 1 extra ambulance than needed",
     "actual_outcome": {
       "resources_used": [
-        {"type": "fire_truck", "quantity": 2},
-        {"type": "ambulance", "quantity": 1}
+        { "type": "fire_truck", "quantity": 2 },
+        { "type": "ambulance", "quantity": 1 }
       ],
       "resolution_time": "35 minutes",
       "casualties": 0
@@ -558,49 +571,54 @@ Trigger retraining of AI models with new data (admin only).
 const processEmergency = async (emergencyData) => {
   try {
     // Step 1: Analyze with AI agent
-    const analysis = await fetch('/api/ai-agents/emergency-processor/analyze', {
-      method: 'POST',
+    const analysis = await fetch("/api/ai-agents/emergency-processor/analyze", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(emergencyData)
+      body: JSON.stringify(emergencyData),
     });
-    
+
     const analysisResult = await analysis.json();
-    
+
     // Step 2: Get resource optimization
-    const optimization = await fetch('/api/ai-agents/resource-optimizer/optimize', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        optimization_type: 'emergency_response',
-        analysis: analysisResult.data
-      })
-    });
-    
+    const optimization = await fetch(
+      "/api/ai-agents/resource-optimizer/optimize",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          optimization_type: "emergency_response",
+          analysis: analysisResult.data,
+        }),
+      }
+    );
+
     const optimizationResult = await optimization.json();
-    
+
     // Step 3: Coordinate task assignments
-    const coordination = await fetch('/api/ai-agents/coordinator/assign-tasks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        emergency_request: emergencyData.request_id,
-        resource_plan: optimizationResult.data
-      })
-    });
-    
+    const coordination = await fetch(
+      "/api/ai-agents/coordinator/assign-tasks",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          emergency_request: emergencyData.request_id,
+          resource_plan: optimizationResult.data,
+        }),
+      }
+    );
+
     return await coordination.json();
-    
   } catch (error) {
-    console.error('AI processing failed:', error);
+    console.error("AI processing failed:", error);
     throw error;
   }
 };
@@ -610,32 +628,35 @@ const processEmergency = async (emergencyData) => {
 
 ```javascript
 // WebSocket integration with AI agents
-const socket = new WebSocket('ws://localhost:8000/ws');
+const socket = new WebSocket("ws://localhost:8000/ws");
 
 // Listen for AI agent updates
 socket.onmessage = (event) => {
   const message = JSON.parse(event.data);
-  
-  if (message.type === 'ai_agent_response') {
+
+  if (message.type === "ai_agent_response") {
     handleAgentResponse(message.data);
-  } else if (message.type === 'ai_agent_alert') {
+  } else if (message.type === "ai_agent_alert") {
     handleAgentAlert(message.data);
   }
 };
 
 // Request AI agent analysis
 const requestAgentAnalysis = (data) => {
-  socket.send(JSON.stringify({
-    type: 'ai_agent_request',
-    agent_type: 'emergency_processor',
-    request: data
-  }));
+  socket.send(
+    JSON.stringify({
+      type: "ai_agent_request",
+      agent_type: "emergency_processor",
+      request: data,
+    })
+  );
 };
 ```
 
 ## Error Handling
 
 ### Agent Unavailable
+
 ```json
 {
   "success": false,
@@ -651,6 +672,7 @@ const requestAgentAnalysis = (data) => {
 ```
 
 ### Processing Failed
+
 ```json
 {
   "success": false,
@@ -667,6 +689,7 @@ const requestAgentAnalysis = (data) => {
 ```
 
 ### Rate Limit Exceeded
+
 ```json
 {
   "success": false,
@@ -685,18 +708,21 @@ const requestAgentAnalysis = (data) => {
 ## Best Practices
 
 ### Agent Utilization
+
 - **Load Balancing**: Distribute requests across multiple agent instances
 - **Caching**: Cache frequently accessed predictions and analyses
 - **Fallback Strategies**: Implement manual processing when agents are unavailable
 - **Performance Monitoring**: Track agent response times and accuracy
 
 ### Data Quality
+
 - **Input Validation**: Ensure high-quality input data for better results
 - **Feedback Loops**: Continuously improve agents with outcome feedback
 - **Data Enrichment**: Provide context and historical data when available
 - **Error Handling**: Gracefully handle agent failures and partial results
 
 ### Integration Patterns
+
 - **Asynchronous Processing**: Use async patterns for long-running analyses
 - **Event-Driven Architecture**: Trigger agent actions based on system events
 - **Human-in-the-Loop**: Combine AI recommendations with human oversight

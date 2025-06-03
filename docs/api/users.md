@@ -22,6 +22,7 @@ POST /api/users/register
 Register a new user account with role-based capabilities.
 
 **Request Body:**
+
 ```json
 {
   "email": "john.doe@example.com",
@@ -61,6 +62,7 @@ Register a new user account with role-based capabilities.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -85,11 +87,13 @@ GET /api/users/profile
 Get the authenticated user's profile information.
 
 **Headers:**
+
 ```
 Authorization: Bearer {jwt_token}
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -153,11 +157,17 @@ PATCH /api/users/profile
 Update user profile information and settings.
 
 **Request Body:**
+
 ```json
 {
   "phone": "+94771234569",
   "profile": {
-    "skills": ["first_aid", "search_rescue", "medical_assistance", "translation"],
+    "skills": [
+      "first_aid",
+      "search_rescue",
+      "medical_assistance",
+      "translation"
+    ],
     "availability": {
       "days": ["monday", "tuesday", "wednesday", "saturday", "sunday"],
       "hours": {
@@ -185,6 +195,7 @@ GET /api/users
 List all users with filtering and pagination options.
 
 **Query Parameters:**
+
 - `role` (string, optional): Filter by user role
 - `status` (string, optional): Filter by user status (active, inactive, pending)
 - `location` (string, optional): Filter by location area
@@ -193,6 +204,7 @@ List all users with filtering and pagination options.
 - `limit` (number, optional): Number of users per page
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -232,6 +244,7 @@ POST /api/users/verify
 Verify user email address or credentials.
 
 **Request Body:**
+
 ```json
 {
   "token": "verify_abc123",
@@ -240,6 +253,7 @@ Verify user email address or credentials.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -261,6 +275,7 @@ PATCH /api/users/{user_id}/status
 Update user account status (admin only).
 
 **Request Body:**
+
 ```json
 {
   "status": "suspended",
@@ -278,6 +293,7 @@ GET /api/users/{user_id}/activity
 Get user activity and task history.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -320,24 +336,28 @@ Get user activity and task history.
 ## Role-Based Features
 
 ### Affected Individuals
+
 - **Emergency Requests**: Submit and track emergency requests
 - **Status Updates**: Receive real-time updates on assistance
 - **Resource Information**: Access available resources in their area
 - **Communication**: Direct communication with assigned responders
 
 ### Volunteers
+
 - **Task Management**: Browse, accept, and complete tasks
 - **Skill Matching**: Receive tasks matching their skills
 - **Availability Management**: Set availability schedules
 - **Performance Tracking**: View task completion metrics
 
 ### First Responders
+
 - **Professional Dashboard**: Advanced coordination tools
 - **Resource Management**: Access to resource allocation
 - **Team Coordination**: Collaborate with other responders
 - **Incident Command**: Lead response operations
 
 ### Government Help Centre
+
 - **System Administration**: User management and oversight
 - **Analytics Dashboard**: System-wide performance metrics
 - **Policy Management**: Configure system policies
@@ -346,6 +366,7 @@ Get user activity and task history.
 ## User Status Types
 
 ### Account Status
+
 - **active**: Full system access
 - **inactive**: Limited access, can reactivate
 - **suspended**: Temporary restriction
@@ -353,6 +374,7 @@ Get user activity and task history.
 - **pending_verification**: Awaiting email/credential verification
 
 ### Availability Status (Volunteers/Responders)
+
 - **available**: Ready to accept tasks
 - **busy**: Currently assigned to tasks
 - **unavailable**: Temporarily not available
@@ -388,12 +410,14 @@ Users can configure notification settings:
 ## Privacy and Security
 
 ### Data Protection
+
 - **Personal Information**: Secure storage and limited sharing
 - **Location Privacy**: Configurable location sharing settings
 - **Communication Privacy**: Encrypted messaging
 - **Data Retention**: Configurable data retention policies
 
 ### Access Control
+
 - **Role-Based Permissions**: Fine-grained access control
 - **API Rate Limiting**: Prevent abuse
 - **Session Management**: Secure session handling
@@ -402,6 +426,7 @@ Users can configure notification settings:
 ## Error Handling
 
 ### User Not Found
+
 ```json
 {
   "success": false,
@@ -413,6 +438,7 @@ Users can configure notification settings:
 ```
 
 ### Insufficient Permissions
+
 ```json
 {
   "success": false,
@@ -428,6 +454,7 @@ Users can configure notification settings:
 ```
 
 ### Validation Errors
+
 ```json
 {
   "success": false,
@@ -445,47 +472,49 @@ Users can configure notification settings:
 ## Integration Examples
 
 ### User Registration Flow
+
 ```javascript
 // Register new volunteer
 const registerUser = async (userData) => {
   try {
-    const response = await fetch('/api/users/register', {
-      method: 'POST',
+    const response = await fetch("/api/users/register", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData)
+      body: JSON.stringify(userData),
     });
-    
+
     const result = await response.json();
-    
+
     if (result.success) {
       // Redirect to verification page
       window.location.href = `/verify?token=${result.data.verification_token}`;
     }
   } catch (error) {
-    console.error('Registration failed:', error);
+    console.error("Registration failed:", error);
   }
 };
 ```
 
 ### Profile Management
+
 ```javascript
 // Update user availability
 const updateAvailability = async (availability) => {
-  const token = localStorage.getItem('auth_token');
-  
-  const response = await fetch('/api/users/profile', {
-    method: 'PATCH',
+  const token = localStorage.getItem("auth_token");
+
+  const response = await fetch("/api/users/profile", {
+    method: "PATCH",
     headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      profile: { availability }
-    })
+      profile: { availability },
+    }),
   });
-  
+
   return response.json();
 };
 ```
@@ -493,12 +522,14 @@ const updateAvailability = async (availability) => {
 ## Best Practices
 
 ### User Management
+
 - **Regular Verification**: Periodic credential verification
 - **Performance Monitoring**: Track user engagement and performance
 - **Feedback Collection**: Gather user feedback for improvements
 - **Training Programs**: Provide ongoing user training
 
 ### Security Best Practices
+
 - **Strong Authentication**: Enforce strong password policies
 - **Regular Audits**: Monitor user activity for suspicious behavior
 - **Data Minimization**: Collect only necessary user information

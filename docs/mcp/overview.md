@@ -15,27 +15,27 @@ graph TB
         B[Custom AI Assistant]
         C[Other MCP Clients]
     end
-    
+
     subgraph "MCP Server"
         D[Disaster Response MCP Server]
         E[Tool Handlers]
         F[Resource Providers]
     end
-    
+
     subgraph "Disaster Response System"
         G[AGNO Agents]
         H[Database]
         I[WebSocket System]
         J[Resource Management]
     end
-    
+
     A --> D
     B --> D
     C --> D
-    
+
     D --> E
     D --> F
-    
+
     E --> G
     E --> H
     F --> H
@@ -64,7 +64,7 @@ Process an emergency help request through the complete AGNO agent pipeline.
         "description": "Brief title of the emergency request"
       },
       "description": {
-        "type": "string", 
+        "type": "string",
         "description": "Detailed description of the emergency situation"
       },
       "location": {
@@ -82,6 +82,7 @@ Process an emergency help request through the complete AGNO agent pipeline.
 ```
 
 **Example Usage**:
+
 ```
 Human: Process this emergency: "Building collapse at 123 Main Street, people trapped"
 
@@ -130,14 +131,20 @@ Retrieve active disaster response requests with filtering options.
 
 ```json
 {
-  "name": "get_active_requests", 
+  "name": "get_active_requests",
   "description": "Retrieve active disaster response requests with their status",
   "inputSchema": {
     "type": "object",
     "properties": {
       "status": {
         "type": "string",
-        "enum": ["PENDING", "PROCESSING", "ASSIGNED", "IN_PROGRESS", "COMPLETED"],
+        "enum": [
+          "PENDING",
+          "PROCESSING",
+          "ASSIGNED",
+          "IN_PROGRESS",
+          "COMPLETED"
+        ],
         "description": "Filter requests by status (optional)"
       },
       "priority": {
@@ -191,13 +198,13 @@ sequenceDiagram
     participant LLM as LLM Application
     participant MCP as MCP Server
     participant System as Disaster Response System
-    
+
     LLM->>MCP: Request tool execution
     MCP->>System: Execute operation
     System->>System: Process through agents
     System->>MCP: Return results
     MCP->>LLM: Formatted response
-    
+
     Note over System: Real-time WebSocket updates
     System-->>MCP: Status notifications
     MCP-->>LLM: Live updates
@@ -249,7 +256,7 @@ AI: Let me find available volunteers with medical skills.
 
 Found 7 volunteers with medical training currently available:
 - Dr. Sarah Johnson (Emergency Medicine) - Downtown area
-- Nurse Mike Chen (ICU) - North district  
+- Nurse Mike Chen (ICU) - North district
 - EMT Lisa Rodriguez (Paramedic) - Central area
 ...
 
@@ -298,7 +305,7 @@ class DisasterResponseMCPServer:
 Key features:
 
 - **Async Support**: All operations are asynchronous for better performance
-- **Error Handling**: Comprehensive error handling with informative messages  
+- **Error Handling**: Comprehensive error handling with informative messages
 - **Type Safety**: Full type annotations and schema validation
 - **Logging**: Detailed logging for debugging and monitoring
 

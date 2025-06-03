@@ -25,7 +25,7 @@ stateDiagram-v2
     review --> completed: Approved
     review --> in_progress: Needs revision
     completed --> [*]
-    
+
     created --> cancelled: Request cancelled
     available --> cancelled: No responders
     assigned --> cancelled: Responder unavailable
@@ -53,7 +53,7 @@ stateDiagram-v2
   "location": {
     "address": "123 Main St, City, State 12345",
     "latitude": 40.7128,
-    "longitude": -74.0060,
+    "longitude": -74.006,
     "accessibility_info": "Third floor, elevator available"
   },
   "estimated_duration": 60,
@@ -81,7 +81,7 @@ stateDiagram-v2
       "notes": "Stable vital signs recorded"
     },
     {
-      "id": "check-2", 
+      "id": "check-2",
       "item": "Administer first aid if needed",
       "completed": false,
       "notes": null
@@ -134,16 +134,16 @@ Authorization: Bearer {token}
 
 **Query Parameters:**
 
-| Parameter | Type | Description | Default |
-|-----------|------|-------------|---------|
-| `skills` | array | Required skills filter | all |
-| `location` | string | Location preference | all |
-| `radius` | integer | Search radius (km) | 50 |
-| `priority` | string | Priority filter | all |
-| `task_type` | string | Task type filter | all |
-| `estimated_duration` | integer | Max duration (minutes) | all |
-| `limit` | integer | Results limit | 20 |
-| `offset` | integer | Page offset | 0 |
+| Parameter            | Type    | Description            | Default |
+| -------------------- | ------- | ---------------------- | ------- |
+| `skills`             | array   | Required skills filter | all     |
+| `location`           | string  | Location preference    | all     |
+| `radius`             | integer | Search radius (km)     | 50      |
+| `priority`           | string  | Priority filter        | all     |
+| `task_type`          | string  | Task type filter       | all     |
+| `estimated_duration` | integer | Max duration (minutes) | all     |
+| `limit`              | integer | Results limit          | 20      |
+| `offset`             | integer | Page offset            | 0       |
 
 **Response (200 OK):**
 
@@ -154,7 +154,7 @@ Authorization: Bearer {token}
       "id": "task-123",
       "title": "Medical Emergency Response",
       "task_type": "medical_response",
-      "priority": "high", 
+      "priority": "high",
       "estimated_duration": 60,
       "location": {
         "address": "123 Main St",
@@ -169,7 +169,7 @@ Authorization: Bearer {token}
   "total": 15,
   "user_location": {
     "latitude": 40.7128,
-    "longitude": -74.0060
+    "longitude": -74.006
   }
 }
 ```
@@ -281,7 +281,7 @@ Content-Type: application/json
   "notes": "Patient stabilized, awaiting ambulance",
   "location_update": {
     "latitude": 40.7128,
-    "longitude": -74.0060,
+    "longitude": -74.006,
     "timestamp": "2025-06-04T10:45:00Z"
   },
   "resource_usage": [
@@ -473,7 +473,7 @@ AI considers multiple factors for task assignment:
     "availability": 1.0,
     "workload_balance": 0.92,
     "past_performance": 0.94,
-    "resource_access": 0.90
+    "resource_access": 0.9
   },
   "overall_match_score": 0.93,
   "confidence": "high",
@@ -537,15 +537,15 @@ Tasks award points based on:
 
 ### Role-Based Task Access
 
-| Operation | Volunteer | First Responder | Admin |
-|-----------|-----------|-----------------|-------|
-| View available tasks | ✅ | ✅ | ✅ |
-| Accept tasks | ✅ | ✅ | ✅ |
-| Update progress | ✅ | ✅ | ✅ |
-| Request help | ✅ | ✅ | ✅ |
-| View all tasks | - | ✅ | ✅ |
-| Reassign tasks | - | ✅ | ✅ |
-| Override assignments | - | - | ✅ |
+| Operation            | Volunteer | First Responder | Admin |
+| -------------------- | --------- | --------------- | ----- |
+| View available tasks | ✅        | ✅              | ✅    |
+| Accept tasks         | ✅        | ✅              | ✅    |
+| Update progress      | ✅        | ✅              | ✅    |
+| Request help         | ✅        | ✅              | ✅    |
+| View all tasks       | -         | ✅              | ✅    |
+| Reassign tasks       | -         | ✅              | ✅    |
+| Override assignments | -         | -               | ✅    |
 
 ## 📱 Mobile Integration
 
@@ -559,6 +559,7 @@ Authorization: Bearer {token}
 ```
 
 Returns compressed task data with:
+
 - Complete task details
 - Offline maps
 - Contact information

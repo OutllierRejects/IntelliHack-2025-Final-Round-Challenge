@@ -5,6 +5,7 @@ This document provides comprehensive guidance for testing the disaster response 
 ## Testing Philosophy
 
 Our testing strategy follows the testing pyramid approach:
+
 - **Unit Tests**: Fast, isolated tests for individual functions and components
 - **Integration Tests**: Tests for interactions between components
 - **End-to-End Tests**: Full workflow tests simulating real user scenarios
@@ -12,18 +13,21 @@ Our testing strategy follows the testing pyramid approach:
 ## Testing Stack
 
 ### Frontend Testing
+
 - **Jest**: JavaScript testing framework
 - **React Testing Library**: React component testing utilities
 - **MSW (Mock Service Worker)**: API mocking for tests
 - **Cypress**: End-to-end testing framework
 
 ### Backend Testing
+
 - **pytest**: Python testing framework
 - **pytest-asyncio**: Async test support
 - **httpx**: Async HTTP client for API testing
 - **SQLAlchemy Testing**: Database testing utilities
 
 ### AI Services Testing
+
 - **pytest**: Python testing framework
 - **unittest.mock**: Mocking for AI model calls
 - **MCP Testing**: Custom testing utilities for MCP tools
@@ -151,42 +155,44 @@ backend/tests/
 
 ```typescript
 // components/__tests__/EmergencyRequestForm.test.tsx
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { EmergencyRequestForm } from '../EmergencyRequestForm';
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { EmergencyRequestForm } from "../EmergencyRequestForm";
 
-describe('EmergencyRequestForm', () => {
-  it('should submit emergency request with valid data', async () => {
+describe("EmergencyRequestForm", () => {
+  it("should submit emergency request with valid data", async () => {
     const mockSubmit = jest.fn();
     render(<EmergencyRequestForm onSubmit={mockSubmit} />);
-    
+
     // Fill form fields
     fireEvent.change(screen.getByLabelText(/emergency type/i), {
-      target: { value: 'medical' }
+      target: { value: "medical" },
     });
-    
+
     fireEvent.change(screen.getByLabelText(/description/i), {
-      target: { value: 'Medical emergency at location' }
+      target: { value: "Medical emergency at location" },
     });
-    
+
     // Submit form
-    fireEvent.click(screen.getByRole('button', { name: /submit/i }));
-    
+    fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+
     await waitFor(() => {
       expect(mockSubmit).toHaveBeenCalledWith({
-        type: 'medical',
-        description: 'Medical emergency at location'
+        type: "medical",
+        description: "Medical emergency at location",
       });
     });
   });
-  
-  it('should display validation errors for invalid input', async () => {
+
+  it("should display validation errors for invalid input", async () => {
     render(<EmergencyRequestForm onSubmit={jest.fn()} />);
-    
+
     // Submit without filling required fields
-    fireEvent.click(screen.getByRole('button', { name: /submit/i }));
-    
+    fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+
     await waitFor(() => {
-      expect(screen.getByText(/emergency type is required/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/emergency type is required/i)
+      ).toBeInTheDocument();
     });
   });
 });
@@ -213,9 +219,9 @@ async def test_create_emergency_request():
             },
             "priority": "high"
         }
-        
+
         response = await client.post("/api/v1/requests", json=request_data)
-        
+
         assert response.status_code == 201
         data = response.json()
         assert data["type"] == "medical"
@@ -251,12 +257,12 @@ async def test_process_emergency_request(emergency_agent):
         "location": {"latitude": 40.7128, "longitude": -74.0060},
         "priority": "critical"
     }
-    
+
     with patch.object(emergency_agent, '_analyze_severity') as mock_analyze:
         mock_analyze.return_value = {"severity": 9, "resources_needed": ["fire_truck", "ambulance"]}
-        
+
         result = await emergency_agent.process_request(request_data)
-        
+
         assert result["priority"] == "critical"
         assert "fire_truck" in result["resources_needed"]
         mock_analyze.assert_called_once()
@@ -268,15 +274,15 @@ async def test_resource_allocation(emergency_agent):
         {"id": 1, "type": "fire_truck", "location": {"lat": 40.7130, "lng": -74.0055}},
         {"id": 2, "type": "ambulance", "location": {"lat": 40.7125, "lng": -74.0065}}
     ]
-    
+
     request_location = {"latitude": 40.7128, "longitude": -74.0060}
-    
+
     allocation = await emergency_agent.allocate_resources(
-        available_resources, 
-        request_location, 
+        available_resources,
+        request_location,
         ["fire_truck", "ambulance"]
     )
-    
+
     assert len(allocation) == 2
     assert allocation[0]["type"] in ["fire_truck", "ambulance"]
 ```
@@ -356,38 +362,38 @@ def first_responder_user():
 
 ```typescript
 // src/__tests__/mocks/handlers.ts
-import { rest } from 'msw';
+import { rest } from "msw";
 
 export const handlers = [
   // Mock authentication
-  rest.post('/api/v1/auth/login', (req, res, ctx) => {
+  rest.post("/api/v1/auth/login", (req, res, ctx) => {
     return res(
       ctx.json({
-        access_token: 'mock-token',
-        token_type: 'bearer',
+        access_token: "mock-token",
+        token_type: "bearer",
         user: {
           id: 1,
-          email: 'test@example.com',
-          role: 'volunteer'
-        }
+          email: "test@example.com",
+          role: "volunteer",
+        },
       })
     );
   }),
-  
+
   // Mock emergency requests
-  rest.get('/api/v1/requests', (req, res, ctx) => {
+  rest.get("/api/v1/requests", (req, res, ctx) => {
     return res(
       ctx.json([
         {
           id: 1,
-          type: 'medical',
-          description: 'Medical emergency',
-          status: 'pending',
-          priority: 'high'
-        }
+          type: "medical",
+          description: "Medical emergency",
+          status: "pending",
+          priority: "high",
+        },
       ])
     );
-  })
+  }),
 ];
 ```
 
@@ -416,28 +422,28 @@ def mock_embedding_response():
 
 ```typescript
 // cypress/e2e/emergency-workflow.cy.ts
-describe('Emergency Request Workflow', () => {
+describe("Emergency Request Workflow", () => {
   beforeEach(() => {
     // Login as affected individual
-    cy.login('affected@example.com', 'password');
+    cy.login("affected@example.com", "password");
   });
-  
-  it('should complete full emergency request workflow', () => {
+
+  it("should complete full emergency request workflow", () => {
     // Submit emergency request
-    cy.visit('/emergency-request');
-    cy.get('[data-cy=emergency-type]').select('medical');
-    cy.get('[data-cy=description]').type('Chest pain and difficulty breathing');
-    cy.get('[data-cy=location-button]').click();
-    cy.get('[data-cy=submit-request]').click();
-    
+    cy.visit("/emergency-request");
+    cy.get("[data-cy=emergency-type]").select("medical");
+    cy.get("[data-cy=description]").type("Chest pain and difficulty breathing");
+    cy.get("[data-cy=location-button]").click();
+    cy.get("[data-cy=submit-request]").click();
+
     // Verify request was created
-    cy.get('[data-cy=request-confirmation]').should('be.visible');
-    cy.get('[data-cy=request-id]').should('contain', 'REQ-');
-    
+    cy.get("[data-cy=request-confirmation]").should("be.visible");
+    cy.get("[data-cy=request-id]").should("contain", "REQ-");
+
     // Check request status
-    cy.visit('/my-requests');
-    cy.get('[data-cy=request-list]').should('contain', 'medical');
-    cy.get('[data-cy=request-status]').should('contain', 'pending');
+    cy.visit("/my-requests");
+    cy.get("[data-cy=request-list]").should("contain", "medical");
+    cy.get("[data-cy=request-status]").should("contain", "pending");
   });
 });
 ```
@@ -463,15 +469,15 @@ async def test_complete_emergency_workflow():
         }
         response = await client.post("/api/v1/auth/register", json=user_data)
         assert response.status_code == 201
-        
+
         # 2. User logs in
         login_data = {"email": "emergency@test.com", "password": "testpass123"}
         response = await client.post("/api/v1/auth/login", data=login_data)
         assert response.status_code == 200
         token = response.json()["access_token"]
-        
+
         headers = {"Authorization": f"Bearer {token}"}
-        
+
         # 3. User submits emergency request
         request_data = {
             "type": "medical",
@@ -482,7 +488,7 @@ async def test_complete_emergency_workflow():
         response = await client.post("/api/v1/requests", json=request_data, headers=headers)
         assert response.status_code == 201
         request_id = response.json()["id"]
-        
+
         # 4. Check request status
         response = await client.get(f"/api/v1/requests/{request_id}", headers=headers)
         assert response.status_code == 200
@@ -506,7 +512,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
       - name: Install dependencies
         working-directory: ./frontend
         run: npm ci
@@ -515,14 +521,14 @@ jobs:
         run: npm test -- --coverage --watchAll=false
       - name: Upload coverage
         uses: codecov/codecov-action@v3
-        
+
   backend-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - name: Install dependencies
         working-directory: ./backend
         run: |

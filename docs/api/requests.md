@@ -25,7 +25,7 @@ stateDiagram-v2
     in_progress --> cancelled: Request cancelled
     completed --> [*]
     cancelled --> [*]
-    
+
     note right of submitted: Initial validation
     note right of processing: AI analysis & categorization
     note right of prioritized: Urgency assessment
@@ -45,7 +45,7 @@ stateDiagram-v2
   "location": {
     "address": "123 Main St, City, State 12345",
     "latitude": 40.7128,
-    "longitude": -74.0060,
+    "longitude": -74.006,
     "additional_info": "Apartment 3B, blue building"
   },
   "contact_info": {
@@ -109,7 +109,7 @@ Content-Type: application/json
   "location": {
     "address": "123 Main St, City, State 12345",
     "latitude": 40.7128,
-    "longitude": -74.0060,
+    "longitude": -74.006,
     "additional_info": "Apartment 3B, blue building"
   },
   "contact_info": {
@@ -148,19 +148,19 @@ Authorization: Bearer {token}
 
 **Query Parameters:**
 
-| Parameter | Type | Description | Default |
-|-----------|------|-------------|---------|
-| `status` | string | Filter by status | all |
-| `priority` | string | Filter by priority | all |
-| `request_type` | string | Filter by type | all |
-| `assigned_to` | string | Filter by assignee ID | all |
-| `requester` | string | Filter by requester ID | all |
-| `created_after` | datetime | Filter by creation date | none |
-| `created_before` | datetime | Filter by creation date | none |
-| `limit` | integer | Items per page (max 100) | 20 |
-| `offset` | integer | Page offset | 0 |
-| `sort` | string | Sort field | created_at |
-| `order` | string | Sort order (asc/desc) | desc |
+| Parameter        | Type     | Description              | Default    |
+| ---------------- | -------- | ------------------------ | ---------- |
+| `status`         | string   | Filter by status         | all        |
+| `priority`       | string   | Filter by priority       | all        |
+| `request_type`   | string   | Filter by type           | all        |
+| `assigned_to`    | string   | Filter by assignee ID    | all        |
+| `requester`      | string   | Filter by requester ID   | all        |
+| `created_after`  | datetime | Filter by creation date  | none       |
+| `created_before` | datetime | Filter by creation date  | none       |
+| `limit`          | integer  | Items per page (max 100) | 20         |
+| `offset`         | integer  | Page offset              | 0          |
+| `sort`           | string   | Sort field               | created_at |
+| `order`          | string   | Sort order (asc/desc)    | desc       |
 
 **Response (200 OK):**
 
@@ -212,7 +212,7 @@ Authorization: Bearer {token}
   "location": {
     "address": "123 Main St, City, State 12345",
     "latitude": 40.7128,
-    "longitude": -74.0060
+    "longitude": -74.006
   },
   "ai_analysis": {
     "category": "medical_emergency",
@@ -457,9 +457,9 @@ When a request is submitted, AI agents process it:
     "category": "medical_emergency",
     "confidence": 0.95,
     "extracted_entities": [
-      {"type": "person", "value": "elderly neighbor"},
-      {"type": "condition", "value": "fell down"},
-      {"type": "urgency", "value": "immediate"}
+      { "type": "person", "value": "elderly neighbor" },
+      { "type": "condition", "value": "fell down" },
+      { "type": "urgency", "value": "immediate" }
     ],
     "risk_assessment": "high_risk",
     "recommended_resources": ["paramedic", "ambulance"],
@@ -526,20 +526,20 @@ Requests emit real-time events via WebSocket:
 
 ### Role-Based Access
 
-| Operation | Affected Individual | Volunteer | First Responder | Admin |
-|-----------|-------------------|-----------|-----------------|-------|
-| Create request | ✅ | ✅ | ✅ | ✅ |
-| View own requests | ✅ | - | - | ✅ |
-| View assigned requests | - | ✅ | ✅ | ✅ |
-| View all requests | - | - | ✅ | ✅ |
-| Update status | - | ✅ | ✅ | ✅ |
-| Assign requests | - | - | ✅ | ✅ |
-| Delete requests | - | - | - | ✅ |
+| Operation              | Affected Individual | Volunteer | First Responder | Admin |
+| ---------------------- | ------------------- | --------- | --------------- | ----- |
+| Create request         | ✅                  | ✅        | ✅              | ✅    |
+| View own requests      | ✅                  | -         | -               | ✅    |
+| View assigned requests | -                   | ✅        | ✅              | ✅    |
+| View all requests      | -                   | -         | ✅              | ✅    |
+| Update status          | -                   | ✅        | ✅              | ✅    |
+| Assign requests        | -                   | -         | ✅              | ✅    |
+| Delete requests        | -                   | -         | -               | ✅    |
 
 ## 📚 Related APIs
 
 - [Tasks API](tasks.md) - Task management for requests
-- [Users API](users.md) - User and responder management  
+- [Users API](users.md) - User and responder management
 - [WebSocket API](websocket.md) - Real-time updates
 - [AI Agents API](agents.md) - AI processing status
 

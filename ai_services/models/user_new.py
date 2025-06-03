@@ -29,7 +29,6 @@ class User(Base):
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     email = Column(String, unique=True, nullable=False, index=True)
     full_name = Column(String, nullable=False)
-    password_hash = Column(String, nullable=True)  # For demo, password storage
     phone = Column(String, nullable=True)
     role = Column(SQLEnum(UserRole), nullable=False, default=UserRole.AFFECTED)
     status = Column(SQLEnum(UserStatus), nullable=False, default=UserStatus.ACTIVE)
