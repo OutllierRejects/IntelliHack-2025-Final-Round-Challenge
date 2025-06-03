@@ -1,7 +1,6 @@
 // Enhanced WebSocket provider with error handling and reconnection
 import React, {
   createContext,
-  useContext,
   useEffect,
   useState,
   useCallback,

@@ -1,0 +1,91 @@
+site_name: Disaster Response Coordination System
+site_description: AI-powered disaster response coordination with AGNO agents
+site_author: IntelliHack 2025 Team
+site_url: https://disaster-response-docs.com
+
+repo_name: IntelliHack-2025-Final-Round-Challenge
+repo_url: https://github.com/your-username/IntelliHack-2025-Final-Round-Challenge
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: red
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: red
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - toc.follow
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search
+  - mermaid2
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Quick Setup: getting-started/quick-setup.md
+    - Environment Configuration: getting-started/environment.md
+    - Docker Setup: getting-started/docker.md
+  - Architecture:
+    - System Overview: architecture/overview.md
+    - AI Agents: architecture/ai-agents.md
+    - Database Schema: architecture/database.md
+    - API Design: architecture/api.md
+  - User Guides:
+    - Affected Individuals: user-guides/affected-individuals.md
+    - Volunteers: user-guides/volunteers.md
+    - First Responders: user-guides/first-responders.md
+    - Administrators: user-guides/administrators.md
+  - API Reference:
+    - Authentication: api/authentication.md
+    - Requests: api/requests.md
+    - Tasks: api/tasks.md
+    - Resources: api/resources.md
+    - Users: api/users.md
+    - WebSocket: api/websocket.md
+    - AI Agents: api/agents.md
+  - MCP Integration:
+    - Overview: mcp/overview.md
+    - Available Tools: mcp/tools.md
+    - Setup Guide: mcp/setup.md
+  - Development:
+    - Project Structure: development/structure.md
+    - Testing: development/testing.md
+    - Contributing: development/contributing.md
+    - Deployment: development/deployment.md
+  - Troubleshooting: troubleshooting.md
