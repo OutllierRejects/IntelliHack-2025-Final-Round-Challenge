@@ -7,6 +7,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { Loading } from './components/ui/Loading';
+import { WebSocketProvider } from './components/providers/WebSocketProvider';
 import './App.css';
 
 // Create a query client
@@ -80,14 +81,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <Routes>
-          {/* Public Routes */}
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <LoginPage />
-              </PublicRoute>
+        <WebSocketProvider>
+          <Routes>
+            {/* Public Routes */}
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <LoginPage />
+                </PublicRoute>
             }
           />
           <Route
@@ -131,6 +133,7 @@ function App() {
             }
           />
         </Routes>
+        </WebSocketProvider>
       </Router>
 
       {/* Toast notifications */}
