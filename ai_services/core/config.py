@@ -6,6 +6,7 @@ from functools import lru_cache
 from pydantic_settings import BaseSettings
 from pydantic import Field
 
+
 class Settings(BaseSettings):
     """Environment settings for the service."""
 
@@ -26,6 +27,23 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379"
 
     OPENAI_API_KEY: str | None = None
+    OPENAI_MODEL: str = Field(default="gpt-4o-mini")
+
+    # CORS Configuration
+    ALLOWED_ORIGINS: str = Field(default="http://localhost:3000,http://localhost:5173")
+
+    # Agent Configuration
+    AGENT_PROCESSING_INTERVAL: int = Field(default=30)
+    MAX_CONCURRENT_AGENT_TASKS: int = Field(default=5)
+
+    # Application Configuration
+    APP_NAME: str = Field(default="Disaster Response Coordination System")
+    APP_VERSION: str = Field(default="1.0.0")
+    ENVIRONMENT: str = Field(default="development")
+
+    # Logging Configuration
+    LOG_LEVEL: str = Field(default="INFO")
+    LOG_FILE: str = Field(default="logs/app.log")
 
     SMTP_HOST: str = Field(default="smtp.gmail.com")
     SMTP_PORT: int = Field(default=587)
@@ -42,10 +60,12 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
 
+
 @lru_cache()
 def get_settings() -> Settings:
     """Return cached settings."""
     return Settings()
+
 
 settings = get_settings()
 DATABASE_URL = settings.DATABASE_URL
