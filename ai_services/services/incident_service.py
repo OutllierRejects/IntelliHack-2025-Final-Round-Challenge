@@ -1,33 +1,74 @@
-# ai_services/services/incident_service.py
+"""Incident service handling incident records."""
+from __future__ import annotations
+
+from datetime import datetime
+from typing import Any, Dict, List
+from uuid import uuid4
+
 from agno_agents.triage_agent import triage_incident
 from core.database import supabase
-from uuid import uuid4
-from datetime import datetime
-
-def create_incident(data: dict) -> dict:
-    priority = triage_incident(data["description"])
-    incident_id = str(uuid4())
-    
-    new_incident = {
-        "id": incident_id,
-        "title": data["title"],
-        "description": data["description"],
-        "location": data.get("location"),
-        "reporter_id": data.get("reporter_id"),
-        "priority": priority,
-        "created_at": datetime.utcnow().isoformat()
-    }
-    
-    response = supabase.table("incidents").insert(new_incident).execute()
-    return response.data[0] if response.data else new_incident
 
 
-if __name__ == "__main__":
-    sample_data = {
-        "title": "Unauthorized Access Detected",
-        "description": "An unknown individual was seen entering the restricted server room.",
-        "location": "Server Room 3",
-        "reported_by": "John Doe"
-    }
-    result = create_incident(sample_data)
-    print(result)
+class IncidentService:
+    """Service for incident management."""
+
+    async def create_incident(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        priority = triage_incident(data.get("description", ""))
+        incident = {
+            "id": str(uuid4()),
+            "title": data.get("title"),
+            "description": data.get("description"),
+            "location": data.get("location"),
+            "incident_type": data.get("incident_type"),
+            "severity": data.get("severity"),
+            "status": "ACTIVE",
+            "priority": priority,
+            "created_at": datetime.utcnow().isoformat(),
+        }
+        response = supabase.table("incidents").insert(incident).execute()
+        return response.data[0] if response.data else incident
+
+    async def get_incidents_by_status(self, status: str) -> List[Dict[str, Any]]:
+        response = (
+            supabase.table("incidents")
+            .select("*")
+            .eq("status", status)
+            .execute()
+        )
+        return response.data
+
+    async def update_status(self, incident_id: int | str, status: str) -> Dict[str, Any]:
+        response = (
+            supabase.table("incidents")
+            .update({"status": status, "resolved_at": datetime.utcnow().isoformat()})
+            .eq("id", incident_id)
+            .execute()
+        )
+        return response.data[0] if response.data else {}
+
+    def calculate_priority(self, incident: Dict[str, Any]) -> int:
+        severity = incident.get("severity", "LOW").upper()
+        location_risk = incident.get("location_risk", "LOW").upper()
+        resource = incident.get("resource_availability", "HIGH").upper()
+
+        score = 0
+        if severity == "HIGH":
+            score += 50
+        elif severity == "MEDIUM":
+            score += 30
+        else:
+            score += 10
+
+        if location_risk == "HIGH":
+            score += 30
+        elif location_risk == "MEDIUM":
+            score += 20
+        else:
+            score += 10
+
+        if resource == "LOW":
+            score += 20
+        elif resource == "MEDIUM":
+            score += 10
+
+        return score

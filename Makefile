@@ -179,7 +179,7 @@ test: test-backend test-frontend
 
 test-backend:
 	@echo "🧪 Running backend tests..."
-	@cd ai_services && uv run pytest -v --cov=. --cov-report=html --cov-report=term
+	@cd ai_services && uv run pytest -v
 
 test-frontend:
 	@echo "🧪 Running frontend tests..."
@@ -280,3 +280,8 @@ info:
 	@echo "  1. make dev-setup    # Complete setup"
 	@echo "  2. make dev          # Start development"
 	@echo "  3. Visit http://localhost:3000"
+
+docs:
+	@echo "Building documentation..."
+	@mkdocs build -q
+	@echo "Docs built in site/"

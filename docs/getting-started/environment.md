@@ -25,26 +25,11 @@ OPENAI_MAX_TOKENS=1000
 
 ### Database Configuration
 
-Choose between local PostgreSQL or Supabase:
+Local SQLite database is used by default:
 
-=== "Local PostgreSQL (Default)"
-
-    ```env
-    # Local database (automatically configured)
-    DATABASE_URL=postgresql://postgres:password@localhost:5432/disaster_response
-    ```
-
-=== "Supabase (Production)"
-
-    ```env
-    # Supabase configuration
-    SUPABASE_URL=https://your-project.supabase.co
-    SUPABASE_ANON_KEY=your-supabase-anon-key
-    SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
-
-    # Override database URL
-    DATABASE_URL=postgresql://postgres.your-project:password@aws-0-region.pooler.supabase.com:5432/postgres
-    ```
+```env
+DATABASE_URL=sqlite:///./disaster_response.db
+```
 
 ### Authentication & Security
 

@@ -24,9 +24,8 @@ graph TB
     end
 
     subgraph "Data Layer"
-        DB[(PostgreSQL)]
+        DB[(SQLite)]
         REDIS[(Redis Cache)]
-        SUPABASE[Supabase]
     end
 
     subgraph "External Services"
@@ -109,7 +108,7 @@ sequenceDiagram
 
 - **Frontend**: React 19 + TypeScript, Tailwind CSS, React Router, React Query, Zustand
 - **Backend**: FastAPI (Python), PostgreSQL, Redis, WebSockets
-- **AI Agents**: AGNO framework with OpenAI GPT-4o-mini models
+- **AI Agents**: AGNO framework using OpenAI GPT-4o-mini models
 - **Infrastructure**: Docker, Docker Compose, Nginx, Traefik
 - **Monitoring**: Flower (Celery), pgAdmin, Redis Commander
 
@@ -634,6 +633,7 @@ The system includes comprehensive test data:
 1. Clone repo
 2. Copy `ai_services/.env.example` to `ai_services/.env`
 3. Add your OpenAI API key
-4. Run `make docker-up`
+4. Run **`make dev`** to start both backend and frontend
 5. Access http://localhost
 6. Login with `admin@disaster.response` / `password123`
+7. Build docs anytime with `make docs`

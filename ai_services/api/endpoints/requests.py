@@ -110,6 +110,7 @@ def update_help_request(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+
 @router.get("/requests/dashboard/stats")
 def get_dashboard_stats(user=Depends(get_current_user)):
     """Get dashboard statistics"""
