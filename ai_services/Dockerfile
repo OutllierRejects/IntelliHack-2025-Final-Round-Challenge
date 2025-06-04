@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
   g++ \
   build-essential \
   libpq-dev \
-  curl &&
+  curl && \
   rm -rf /var/lib/apt/lists/*
 
 # Install UV package manager
