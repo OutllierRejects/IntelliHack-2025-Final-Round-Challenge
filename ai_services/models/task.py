@@ -3,6 +3,17 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict
 from datetime import datetime
 from enum import Enum
+from sqlalchemy import (
+    Column,
+    String,
+    DateTime,
+    Text,
+    Enum as SQLEnum,
+    ForeignKey,
+    Integer,
+)
+from core.database import Base
+import uuid
 
 
 class TaskType(str, Enum):
@@ -77,3 +88,55 @@ class TaskAccept(BaseModel):
 class TaskComplete(BaseModel):
     completion_notes: str
     resources_used: Optional[Dict[str, int]] = {}  # actual resources used
+
+
+# SQLAlchemy Database Model
+class Task(Base):
+    __tablename__ = "tasks"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    title = Column(String, nullable=False)
+    description = Column(Text, nullable=False)
+    task_type = Column(SQLEnum(TaskType), nullable=False, default=TaskType.OTHER)
+    status = Column(SQLEnum(TaskStatus), nullable=False, default=TaskStatus.AVAILABLE)
+    priority = Column(
+        SQLEnum(TaskPriority), nullable=False, default=TaskPriority.MEDIUM
+    )
+    assigned_to = Column(String, ForeignKey("users.id"), nullable=True)
+    request_id = Column(String, ForeignKey("requests.id"), nullable=True)
+    location = Column(String, nullable=True)
+    estimated_duration = Column(Integer, nullable=True)  # minutes
+    skills_required = Column(Text, nullable=True)  # JSON stored as text
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    completed_at = Column(DateTime, nullable=True)
+
+    def to_dict(self):
+        """Convert to dictionary for API responses"""
+        import json
+
+        skills_list = []
+        if self.skills_required:
+            try:
+                skills_list = json.loads(self.skills_required)
+            except (json.JSONDecodeError, TypeError):
+                skills_list = []
+
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "task_type": self.task_type.value if self.task_type else None,
+            "status": self.status.value if self.status else None,
+            "priority": self.priority.value if self.priority else None,
+            "assigned_to": self.assigned_to,
+            "request_id": self.request_id,
+            "location": self.location,
+            "estimated_duration": self.estimated_duration,
+            "skills_required": skills_list,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "completed_at": (
+                self.completed_at.isoformat() if self.completed_at else None
+            ),
+        }

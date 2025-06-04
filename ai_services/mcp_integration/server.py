@@ -22,7 +22,7 @@ from mcp.types import (
 )
 
 from agno_agents.coordinator import AgentCoordinator
-from core.database import get_supabase_client
+from core.database import get_db_session
 
 logger = logging.getLogger(__name__)
 
