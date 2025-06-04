@@ -7,6 +7,7 @@ from uuid import uuid4
 
 from agno_agents.triage_agent import triage_incident
 from core.database import supabase
+from typing import Optional
 
 
 class IncidentService:
@@ -72,3 +73,20 @@ class IncidentService:
             score += 10
 
         return score
+
+
+# Global incident service instance
+_incident_service: Optional[IncidentService] = None
+
+
+def get_incident_service() -> IncidentService:
+    """Retrieve the shared incident service instance."""
+    global _incident_service
+    if _incident_service is None:
+        _incident_service = IncidentService()
+    return _incident_service
+
+
+async def create_incident(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Convenience wrapper to create an incident."""
+    return await get_incident_service().create_incident(data)

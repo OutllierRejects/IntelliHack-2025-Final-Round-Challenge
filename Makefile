@@ -139,7 +139,7 @@ docker-clean:
 
 db-migrate:
 	@echo "🗃️  Running database migrations..."
-	@cd ai_services && uv run alembic upgrade head
+	@$(DOCKER_COMPOSE) exec -T postgres psql -U postgres -d disaster_response -f /docker-entrypoint-initdb.d/001_initial_schema.sql
 	@echo "✅ Database migrations complete"
 
 db-seed:
@@ -172,6 +172,9 @@ agent-status:
 restart-agents:
 	@echo "🔄 Restarting AI agent services..."
 	@curl -X POST http://localhost:8000/api/v1/agents/restart 2>/dev/null || echo "❌ Backend not running"
+mcp-server:
+	@echo "🛰️  Starting MCP server..."
+	@cd ai_services && uv run python run_mcp_server.py
 
 # ==============================================================================
 # 🧪 TESTING & QUALITY
