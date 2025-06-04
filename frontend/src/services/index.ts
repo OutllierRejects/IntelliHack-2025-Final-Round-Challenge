@@ -1,5 +1,6 @@
 // Service functions for API calls
 import { api, endpoints } from "./api";
+import apiClient from "./api";
 import type {
   HelpRequest,
   Task,
@@ -61,6 +62,7 @@ export const requestService = {
   createRequest: async (data: CreateRequestForm): Promise<HelpRequest> => {
     return api.post(endpoints.requests.create, data);
   },
+
 
   updateRequest: async (
     id: string,

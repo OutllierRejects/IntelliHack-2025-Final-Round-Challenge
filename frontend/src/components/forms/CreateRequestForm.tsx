@@ -29,20 +29,14 @@ export const CreateRequestForm: React.FC<CreateRequestFormProps> = ({
 
   const createRequestMutation = useMutation({
     mutationFn: requestService.createRequest,
-    onSuccess: () => {
-      onSuccess();
-    },
-    onError: (error: any) => {
-      console.error("Failed to create request:", error);
-      // TODO: Show error toast
-    },
   });
+
 
   const handleInputChange = (field: string, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const requestData = {
@@ -54,7 +48,13 @@ export const CreateRequestForm: React.FC<CreateRequestFormProps> = ({
       request_type: formData.request_type as RequestType,
     };
 
-    createRequestMutation.mutate(requestData);
+    try {
+      await createRequestMutation.mutateAsync(requestData);
+
+      onSuccess();
+    } catch (error) {
+      console.error("Failed to create request:", error);
+    }
   };
 
   const requestTypeOptions = [
@@ -193,6 +193,8 @@ export const CreateRequestForm: React.FC<CreateRequestFormProps> = ({
           rows={3}
         />
       </div>
+
+
 
       {/* Emergency Warning */}
       <div className="bg-red-50 border border-red-200 rounded-lg p-4">

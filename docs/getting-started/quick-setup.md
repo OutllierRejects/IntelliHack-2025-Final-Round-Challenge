@@ -6,7 +6,6 @@ Get the Disaster Response Coordination System running in minutes with Docker.
 
 - Docker and Docker Compose installed
 - OpenAI API key (for AI agents)
-- Supabase account (optional, for production database)
 
 ## 🚀 Quick Start
 
@@ -31,10 +30,8 @@ Edit `ai_services/.env` with your configuration:
 # Required for AI Agents
 OPENAI_API_KEY=your-openai-api-key-here
 
-# Database (optional - uses local PostgreSQL by default)
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=your-supabase-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+# Local SQLite database
+DATABASE_URL=sqlite:///./disaster_response.db
 
 # JWT Configuration
 JWT_SECRET=your-super-secret-jwt-key-here

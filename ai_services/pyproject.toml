@@ -16,4 +16,7 @@ dependencies = [
     "sqlalchemy>=2.0.0",
     "pyjwt>=2.8.0",
     "bcrypt>=4.0.0",
+    "openai>=1.30.5",
+    "pytest>=8.4.0",
+    "pytest-mock>=3.14.1",
 ]

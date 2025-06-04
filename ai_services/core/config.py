@@ -1,29 +1,52 @@
-# core/config.py
-import os
-from dotenv import load_dotenv
+from __future__ import annotations
 
-load_dotenv()  # Load from .env file if present
+"""Application configuration using Pydantic settings."""
 
-# Database Configuration
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./disaster_response.db")
-DATABASE_ECHO = os.getenv("DATABASE_ECHO", "false").lower() == "true"
+from functools import lru_cache
+from pydantic_settings import BaseSettings
+from pydantic import Field
 
-# Supabase Configuration (Optional)
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
-SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+class Settings(BaseSettings):
+    """Environment settings for the service."""
 
-# JWT Configuration
-JWT_SECRET = os.getenv("JWT_SECRET", "disaster-response-super-secret-jwt-key-2025")
-JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+    DATABASE_URL: str = "sqlite:///./disaster_response.db"
+    DATABASE_ECHO: bool = False
 
-# API Configuration
-API_HOST = os.getenv("API_HOST", "0.0.0.0")
-API_PORT = int(os.getenv("API_PORT", "8000"))
-DEBUG = os.getenv("DEBUG", "false").lower() == "true"
+    SUPABASE_URL: str | None = None
+    SUPABASE_ANON_KEY: str | None = None
+    SUPABASE_SERVICE_ROLE_KEY: str | None = None
 
-# Redis Configuration
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
+    JWT_SECRET: str = "disaster-response-super-secret-jwt-key-2025"
+    JWT_ALGORITHM: str = "HS256"
 
-# OpenAI Configuration
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    API_HOST: str = "0.0.0.0"
+    API_PORT: int = 8000
+    DEBUG: bool = False
+
+    REDIS_URL: str = "redis://localhost:6379"
+
+    OPENAI_API_KEY: str | None = None
+
+    SMTP_HOST: str = Field(default="smtp.gmail.com")
+    SMTP_PORT: int = Field(default=587)
+    SMTP_USERNAME: str = Field(default="")
+    SMTP_PASSWORD: str = Field(default="")
+
+    TWILIO_ACCOUNT_SID: str = Field(default="")
+    TWILIO_AUTH_TOKEN: str = Field(default="")
+    TWILIO_PHONE_NUMBER: str = Field(default="")
+
+    FROM_EMAIL: str = Field(default="noreply@example.com")
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
+@lru_cache()
+def get_settings() -> Settings:
+    """Return cached settings."""
+    return Settings()
+
+settings = get_settings()
+DATABASE_URL = settings.DATABASE_URL
+DATABASE_ECHO = settings.DATABASE_ECHO
