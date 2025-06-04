@@ -17,17 +17,28 @@ def get_resources(filters: Dict = None) -> List[Dict]:
     try:
         query = supabase.table("resources").select("*")
 
+        low_stock_filter = False
         if filters:
             for key, value in filters.items():
                 if key in ["resource_type", "location", "id"]:
                     query = query.eq(key, value)
-                elif key == "low_stock":
-                    # Filter for resources below threshold
-                    query = query.filter("current_stock", "lt", "threshold")
+                elif key == "low_stock" and value:
+                    # Mark for post-query filtering since Supabase does not
+                    # support column-to-column comparisons directly
+                    low_stock_filter = True
 
         response = query.order("resource_type").execute()
 
-        return response.data if response.data else []
+        resources = response.data if response.data else []
+
+        if low_stock_filter:
+            resources = [
+                r
+                for r in resources
+                if r.get("current_stock", 0) <= r.get("threshold", 0)
+            ]
+
+        return resources
 
     except Exception as e:
         logger.error(f"Failed to get resources: {e}")
