@@ -3,6 +3,9 @@
 
 .PHONY: help install dev test lint format clean docker-up docker-down db-migrate db-seed
 
+# Use docker compose CLI for compatibility
+DOCKER_COMPOSE ?= docker compose
+
 # Default target
 help:
 	@echo "Disaster Response Coordination App - Development Commands"
@@ -104,29 +107,29 @@ dev-frontend:
 
 docker-up:
 	@echo "🐳 Starting all services with Docker Compose..."
-	@docker-compose up -d
-	@echo "✅ Services started! Check status with 'docker-compose ps'"
+	@$(DOCKER_COMPOSE) up -d
+	@echo "✅ Services started! Check status with '$(DOCKER_COMPOSE) ps'"
 
 docker-down:
 	@echo "🛑 Stopping all Docker services..."
-	@docker-compose down
+	@$(DOCKER_COMPOSE) down
 
 docker-build:
 	@echo "🔨 Building all Docker images..."
-	@docker-compose build
+	@$(DOCKER_COMPOSE) build
 
 docker-dev:
 	@echo "🐳 Starting development services (PostgreSQL + Redis)..."
-	@docker-compose up -d postgres redis
+	@$(DOCKER_COMPOSE) up -d postgres redis
 	@echo "✅ Development services started"
 
 docker-logs:
 	@echo "📋 Showing Docker logs..."
-	@docker-compose logs -f
+	@$(DOCKER_COMPOSE) logs -f
 
 docker-clean:
 	@echo "🧹 Cleaning Docker resources..."
-	@docker-compose down -v
+	@$(DOCKER_COMPOSE) down -v
 	@docker system prune -f
 	@echo "✅ Docker cleanup complete"
 
@@ -136,20 +139,20 @@ docker-clean:
 
 db-migrate:
 	@echo "🗃️  Running database migrations..."
-	@cd ai_services && uv run alembic upgrade head
+	@$(DOCKER_COMPOSE) exec -T postgres psql -U postgres -d disaster_response -f /docker-entrypoint-initdb.d/001_initial_schema.sql
 	@echo "✅ Database migrations complete"
 
 db-seed:
 	@echo "🌱 Loading sample data..."
-	@docker-compose exec -T postgres psql -U postgres -d disaster_response -f /docker-entrypoint-initdb.d/002_sample_data.sql
+	@$(DOCKER_COMPOSE) exec -T postgres psql -U postgres -d disaster_response -f /docker-entrypoint-initdb.d/002_sample_data.sql
 	@echo "✅ Sample data loaded"
 
 db-reset:
 	@echo "⚠️  This will reset the database. All data will be lost!"
 	@read -p "Type 'yes' to continue: " confirm && [ "$$confirm" = "yes" ]
-	@docker-compose down postgres
+	@$(DOCKER_COMPOSE) down postgres
 	@docker volume rm intelligihack-2025-final-round-challenge_postgres_data || true
-	@docker-compose up -d postgres
+	@$(DOCKER_COMPOSE) up -d postgres
 	@sleep 10
 	@$(MAKE) db-migrate db-seed
 	@echo "✅ Database reset complete"
@@ -169,6 +172,9 @@ agent-status:
 restart-agents:
 	@echo "🔄 Restarting AI agent services..."
 	@curl -X POST http://localhost:8000/api/v1/agents/restart 2>/dev/null || echo "❌ Backend not running"
+mcp-server:
+	@echo "🛰️  Starting MCP server..."
+	@cd ai_services && uv run python run_mcp_server.py
 
 # ==============================================================================
 # 🧪 TESTING & QUALITY
@@ -241,7 +247,7 @@ check-frontend:
 
 check-docker:
 	@echo "🐳 Checking Docker services..."
-	@docker-compose ps
+	@$(DOCKER_COMPOSE) ps
 
 check: check-backend check-frontend check-docker
 	@echo "✅ Health check complete"
