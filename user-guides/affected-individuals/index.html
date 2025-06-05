@@ -1,0 +1,1613 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="AI-powered disaster response coordination with AGNO agents" name="description"/>
+<meta content="IntelliHack 2025 Team" name="author"/>
+<link href="https://disaster-response-docs.com/user-guides/affected-individuals/" rel="canonical"/>
+<link href="../../architecture/api/" rel="prev"/>
+<link href="../volunteers/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.6.14" name="generator"/>
+<title>Affected Individuals - Disaster Response Coordination System</title>
+<link href="../../assets/stylesheets/main.342714a4.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="orange" data-md-color-primary="red" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#affected-individuals-guide">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Disaster Response Coordination System" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Disaster Response Coordination System">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Disaster Response Coordination System
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Affected Individuals
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="orange" data-md-color-media="" data-md-color-primary="red" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="orange" data-md-color-media="" data-md-color-primary="red" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/your-username/IntelliHack-2025-Final-Round-Challenge" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    IntelliHack-2025-Final-Round-Challenge
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../getting-started/quick-setup/">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../architecture/overview/">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="./">
+          
+  
+  
+    
+  
+  User Guides
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../api/authentication/">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../mcp/overview/">
+          
+  
+  
+    
+  
+  MCP Integration
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../development/structure/">
+          
+  
+  
+    
+  
+  Development
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../troubleshooting/">
+        
+  
+  
+    
+  
+  Troubleshooting
+
+      </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Disaster Response Coordination System" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Disaster Response Coordination System">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Disaster Response Coordination System
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/your-username/IntelliHack-2025-Final-Round-Challenge" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    IntelliHack-2025-Final-Round-Challenge
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    Home
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../getting-started/quick-setup/">
+<span class="md-ellipsis">
+    Quick Setup
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../getting-started/environment/">
+<span class="md-ellipsis">
+    Environment Configuration
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../getting-started/docker/">
+<span class="md-ellipsis">
+    Docker Setup
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    Architecture
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../architecture/overview/">
+<span class="md-ellipsis">
+    System Overview
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../architecture/ai-agents/">
+<span class="md-ellipsis">
+    AI Agents
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../architecture/database/">
+<span class="md-ellipsis">
+    Database Schema
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../architecture/api/">
+<span class="md-ellipsis">
+    API Design
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-ellipsis">
+    User Guides
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            User Guides
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    Affected Individuals
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    Affected Individuals
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#getting-started">
+<span class="md-ellipsis">
+      👋 Getting Started
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#submitting-emergency-requests">
+<span class="md-ellipsis">
+      🚨 Submitting Emergency Requests
+    </span>
+</a>
+<nav aria-label="🚨 Submitting Emergency Requests" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#quick-request-flow">
+<span class="md-ellipsis">
+      Quick Request Flow
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#step-by-step-instructions">
+<span class="md-ellipsis">
+      Step-by-Step Instructions
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#emergency-types-guide">
+<span class="md-ellipsis">
+      Emergency Types Guide
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dashboard-overview">
+<span class="md-ellipsis">
+      📱 Dashboard Overview
+    </span>
+</a>
+<nav aria-label="📱 Dashboard Overview" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#your-dashboard-features">
+<span class="md-ellipsis">
+      Your Dashboard Features
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#active-request-status">
+<span class="md-ellipsis">
+      Active Request Status
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#real-time-updates">
+<span class="md-ellipsis">
+      Real-Time Updates
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#communication-with-responders">
+<span class="md-ellipsis">
+      💬 Communication with Responders
+    </span>
+</a>
+<nav aria-label="💬 Communication with Responders" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#messaging-system">
+<span class="md-ellipsis">
+      Messaging System
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#quick-communication-templates">
+<span class="md-ellipsis">
+      Quick Communication Templates
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#emergency-contact-protocol">
+<span class="md-ellipsis">
+      Emergency Contact Protocol
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#location-and-safety">
+<span class="md-ellipsis">
+      🗺️ Location and Safety
+    </span>
+</a>
+<nav aria-label="🗺️ Location and Safety" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#providing-accurate-location">
+<span class="md-ellipsis">
+      Providing Accurate Location
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#safety-while-waiting">
+<span class="md-ellipsis">
+      Safety While Waiting
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#emergency-contacts-and-resources">
+<span class="md-ellipsis">
+      📞 Emergency Contacts and Resources
+    </span>
+</a>
+<nav aria-label="📞 Emergency Contacts and Resources" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#important-contacts">
+<span class="md-ellipsis">
+      Important Contacts
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#community-resources">
+<span class="md-ellipsis">
+      Community Resources
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mental-health-support">
+<span class="md-ellipsis">
+      Mental Health Support
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#request-history-and-follow-up">
+<span class="md-ellipsis">
+      📋 Request History and Follow-up
+    </span>
+</a>
+<nav aria-label="📋 Request History and Follow-up" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tracking-past-requests">
+<span class="md-ellipsis">
+      Tracking Past Requests
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#providing-feedback">
+<span class="md-ellipsis">
+      Providing Feedback
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#follow-up-care">
+<span class="md-ellipsis">
+      Follow-up Care
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#privacy-and-data-protection">
+<span class="md-ellipsis">
+      🛡️ Privacy and Data Protection
+    </span>
+</a>
+<nav aria-label="🛡️ Privacy and Data Protection" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#your-data-rights">
+<span class="md-ellipsis">
+      Your Data Rights
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-we-share">
+<span class="md-ellipsis">
+      What We Share
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tips-for-effective-help-requests">
+<span class="md-ellipsis">
+      🎓 Tips for Effective Help Requests
+    </span>
+</a>
+<nav aria-label="🎓 Tips for Effective Help Requests" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#writing-clear-descriptions">
+<span class="md-ellipsis">
+      Writing Clear Descriptions
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#urgency-level-guidelines">
+<span class="md-ellipsis">
+      Urgency Level Guidelines
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#photovideo-best-practices">
+<span class="md-ellipsis">
+      Photo/Video Best Practices
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#247-support">
+<span class="md-ellipsis">
+      📞 24/7 Support
+    </span>
+</a>
+<nav aria-label="📞 24/7 Support" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#getting-help-with-the-system">
+<span class="md-ellipsis">
+      Getting Help with the System
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#alternative-access-methods">
+<span class="md-ellipsis">
+      Alternative Access Methods
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#remember-for-life-threatening-emergencies-call-911-first">
+<span class="md-ellipsis">
+      🆘 Remember: For Life-Threatening Emergencies, Call 911 First
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../volunteers/">
+<span class="md-ellipsis">
+    Volunteers
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../first-responders/">
+<span class="md-ellipsis">
+    First Responders
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../administrators/">
+<span class="md-ellipsis">
+    Administrators
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    API Reference
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../api/authentication/">
+<span class="md-ellipsis">
+    Authentication
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../api/requests/">
+<span class="md-ellipsis">
+    Requests
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../api/tasks/">
+<span class="md-ellipsis">
+    Tasks
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../api/resources/">
+<span class="md-ellipsis">
+    Resources
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../api/users/">
+<span class="md-ellipsis">
+    Users
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../api/websocket/">
+<span class="md-ellipsis">
+    WebSocket
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../api/agents/">
+<span class="md-ellipsis">
+    AI Agents
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    MCP Integration
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            MCP Integration
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mcp/overview/">
+<span class="md-ellipsis">
+    Overview
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mcp/tools/">
+<span class="md-ellipsis">
+    Available Tools
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../mcp/setup/">
+<span class="md-ellipsis">
+    Setup Guide
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-ellipsis">
+    Development
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../development/structure/">
+<span class="md-ellipsis">
+    Project Structure
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../development/testing/">
+<span class="md-ellipsis">
+    Testing
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../development/contributing/">
+<span class="md-ellipsis">
+    Contributing
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../development/deployment/">
+<span class="md-ellipsis">
+    Deployment
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../troubleshooting/">
+<span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#getting-started">
+<span class="md-ellipsis">
+      👋 Getting Started
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#submitting-emergency-requests">
+<span class="md-ellipsis">
+      🚨 Submitting Emergency Requests
+    </span>
+</a>
+<nav aria-label="🚨 Submitting Emergency Requests" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#quick-request-flow">
+<span class="md-ellipsis">
+      Quick Request Flow
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#step-by-step-instructions">
+<span class="md-ellipsis">
+      Step-by-Step Instructions
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#emergency-types-guide">
+<span class="md-ellipsis">
+      Emergency Types Guide
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dashboard-overview">
+<span class="md-ellipsis">
+      📱 Dashboard Overview
+    </span>
+</a>
+<nav aria-label="📱 Dashboard Overview" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#your-dashboard-features">
+<span class="md-ellipsis">
+      Your Dashboard Features
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#active-request-status">
+<span class="md-ellipsis">
+      Active Request Status
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#real-time-updates">
+<span class="md-ellipsis">
+      Real-Time Updates
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#communication-with-responders">
+<span class="md-ellipsis">
+      💬 Communication with Responders
+    </span>
+</a>
+<nav aria-label="💬 Communication with Responders" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#messaging-system">
+<span class="md-ellipsis">
+      Messaging System
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#quick-communication-templates">
+<span class="md-ellipsis">
+      Quick Communication Templates
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#emergency-contact-protocol">
+<span class="md-ellipsis">
+      Emergency Contact Protocol
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#location-and-safety">
+<span class="md-ellipsis">
+      🗺️ Location and Safety
+    </span>
+</a>
+<nav aria-label="🗺️ Location and Safety" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#providing-accurate-location">
+<span class="md-ellipsis">
+      Providing Accurate Location
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#safety-while-waiting">
+<span class="md-ellipsis">
+      Safety While Waiting
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#emergency-contacts-and-resources">
+<span class="md-ellipsis">
+      📞 Emergency Contacts and Resources
+    </span>
+</a>
+<nav aria-label="📞 Emergency Contacts and Resources" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#important-contacts">
+<span class="md-ellipsis">
+      Important Contacts
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#community-resources">
+<span class="md-ellipsis">
+      Community Resources
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mental-health-support">
+<span class="md-ellipsis">
+      Mental Health Support
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#request-history-and-follow-up">
+<span class="md-ellipsis">
+      📋 Request History and Follow-up
+    </span>
+</a>
+<nav aria-label="📋 Request History and Follow-up" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tracking-past-requests">
+<span class="md-ellipsis">
+      Tracking Past Requests
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#providing-feedback">
+<span class="md-ellipsis">
+      Providing Feedback
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#follow-up-care">
+<span class="md-ellipsis">
+      Follow-up Care
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#privacy-and-data-protection">
+<span class="md-ellipsis">
+      🛡️ Privacy and Data Protection
+    </span>
+</a>
+<nav aria-label="🛡️ Privacy and Data Protection" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#your-data-rights">
+<span class="md-ellipsis">
+      Your Data Rights
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-we-share">
+<span class="md-ellipsis">
+      What We Share
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tips-for-effective-help-requests">
+<span class="md-ellipsis">
+      🎓 Tips for Effective Help Requests
+    </span>
+</a>
+<nav aria-label="🎓 Tips for Effective Help Requests" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#writing-clear-descriptions">
+<span class="md-ellipsis">
+      Writing Clear Descriptions
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#urgency-level-guidelines">
+<span class="md-ellipsis">
+      Urgency Level Guidelines
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#photovideo-best-practices">
+<span class="md-ellipsis">
+      Photo/Video Best Practices
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#247-support">
+<span class="md-ellipsis">
+      📞 24/7 Support
+    </span>
+</a>
+<nav aria-label="📞 24/7 Support" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#getting-help-with-the-system">
+<span class="md-ellipsis">
+      Getting Help with the System
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#alternative-access-methods">
+<span class="md-ellipsis">
+      Alternative Access Methods
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#remember-for-life-threatening-emergencies-call-911-first">
+<span class="md-ellipsis">
+      🆘 Remember: For Life-Threatening Emergencies, Call 911 First
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="affected-individuals-guide">Affected Individuals Guide</h1>
+<p>Complete guide for people seeking help during disasters and emergencies.</p>
+<h2 id="getting-started">👋 Getting Started</h2>
+<p>As an affected individual, you can use this system to:</p>
+<ul>
+<li><strong>Request immediate help</strong> during emergencies</li>
+<li><strong>Track your request status</strong> in real-time</li>
+<li><strong>Communicate with responders</strong> directly</li>
+<li><strong>Receive updates</strong> on response progress</li>
+<li><strong>Access community resources</strong> and support</li>
+</ul>
+<h2 id="submitting-emergency-requests">🚨 Submitting Emergency Requests</h2>
+<h3 id="quick-request-flow">Quick Request Flow</h3>
+<pre class="mermaid"><code>flowchart TD
+    A[Emergency Situation] --&gt; B[Access App/Website]
+    B --&gt; C[Login or Quick Register]
+    C --&gt; D[Fill Emergency Form]
+    D --&gt; E[Add Location &amp; Details]
+    E --&gt; F[Submit Request]
+    F --&gt; G[AI Processing]
+    G --&gt; H[Assigned to Responder]
+    H --&gt; I[Track Progress]
+    I --&gt; J[Receive Help]</code></pre>
+<h3 id="step-by-step-instructions">Step-by-Step Instructions</h3>
+<ol>
+<li>
+<p><strong>Access the System</strong></p>
+</li>
+<li>
+<p>Website: <a href="http://localhost:3000">http://localhost:3000</a></p>
+</li>
+<li>Mobile app (if available)</li>
+<li>
+<p>Emergency hotline integration</p>
+</li>
+<li>
+<p><strong>Quick Registration</strong></p>
+</li>
+<li>
+<p>Email and phone number</p>
+</li>
+<li>Basic location information</li>
+<li>
+<p>Emergency contact details</p>
+</li>
+<li>
+<p><strong>Emergency Request Form</strong></p>
+</li>
+</ol>
+<p><img alt="Emergency Request Form" src="../assets/emergency-request-form.png"/></p>
+<p><strong>Required Information:</strong></p>
+<ul>
+<li><strong>Emergency Type</strong>: Medical, Fire, Rescue, Shelter, Supplies</li>
+<li><strong>Description</strong>: Clear, detailed explanation</li>
+<li><strong>Location</strong>: Exact address or GPS coordinates</li>
+<li><strong>Urgency Level</strong>: 1 (low) to 10 (critical)</li>
+<li><strong>People Affected</strong>: Number of individuals needing help</li>
+<li><strong>Contact Information</strong>: Phone, preferred contact method</li>
+</ul>
+<p><strong>Optional but Helpful:</strong></p>
+<ul>
+<li>Photos of the situation</li>
+<li>Voice recordings</li>
+<li>Special needs (medical conditions, disabilities)</li>
+<li>Available resources at location</li>
+</ul>
+<h3 id="emergency-types-guide">Emergency Types Guide</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:5"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><input id="__tabbed_1_4" name="__tabbed_1" type="radio"><input id="__tabbed_1_5" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">🏥 Medical Emergency</label><label for="__tabbed_1_2">🔥 Fire Emergency</label><label for="__tabbed_1_3">⛑️ Rescue Operation</label><label for="__tabbed_1_4">🏠 Shelter Needed</label><label for="__tabbed_1_5">📦 Supplies Request</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>When to use</strong>: Injuries, illness, medical crisis</p>
+<p><strong>Information to include</strong>:
+- Nature of medical issue
+- Patient's condition
+- Symptoms observed
+- Any medications or allergies
+- Access to the patient</p>
+<p><strong>Example</strong>: "Elderly neighbor fell down stairs. Conscious but can't move. Possible broken leg. She's diabetic and takes insulin."</p>
+</div>
+<div class="tabbed-block">
+<p><strong>When to use</strong>: Structure fires, wildfires, gas leaks</p>
+<p><strong>Information to include</strong>:
+- Type and size of fire
+- People trapped or evacuated
+- Nearby structures at risk
+- Fire department contacted?</p>
+<p><strong>Example</strong>: "Kitchen fire spreading to living room. Family evacuated safely. 2-story house, neighbors' homes 20 feet away."</p>
+</div>
+<div class="tabbed-block">
+<p><strong>When to use</strong>: People trapped, missing persons, vehicle accidents</p>
+<p><strong>Information to include</strong>:
+- Number of people involved
+- Type of entrapment
+- Hazards present
+- Equipment needed</p>
+<p><strong>Example</strong>: "Car accident on Highway 101. Driver trapped in vehicle. Conscious but injured. Heavy traffic area."</p>
+</div>
+<div class="tabbed-block">
+<p><strong>When to use</strong>: Displacement due to disaster, homelessness</p>
+<p><strong>Information to include</strong>:
+- Number of people needing shelter
+- Special needs (children, elderly, pets)
+- Duration of need
+- Current temporary location</p>
+<p><strong>Example</strong>: "Family of 4 displaced by flooding. Need temporary shelter for 3-5 days. Have elderly grandmother requiring medication."</p>
+</div>
+<div class="tabbed-block">
+<p><strong>When to use</strong>: Food, water, medicine, clothing needs</p>
+<p><strong>Information to include</strong>:
+- Specific items needed
+- Quantities required
+- Urgent vs. non-urgent items
+- Delivery accessibility</p>
+<p><strong>Example</strong>: "Isolated by landslide. Need food and water for 6 people for 3 days. Baby formula urgently needed."</p>
+</div>
+</div>
+</input></input></input></input></input></div>
+<h2 id="dashboard-overview">📱 Dashboard Overview</h2>
+<h3 id="your-dashboard-features">Your Dashboard Features</h3>
+<pre class="mermaid"><code>graph TB
+    subgraph "Affected Individual Dashboard"
+        A[Submit New Request] --&gt; B[My Active Requests]
+        B --&gt; C[Request History]
+        A --&gt; D[Emergency Contacts]
+        B --&gt; E[Messages/Updates]
+        E --&gt; F[Track Responder]
+        C --&gt; G[Community Resources]
+        D --&gt; H[Safety Tips]
+    end
+
+    style A fill:#ff6b6b
+    style B fill:#4ecdc4
+    style E fill:#45b7d1</code></pre>
+<h3 id="active-request-status">Active Request Status</h3>
+<p>Track your request through these stages:</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Description</th>
+<th>What to Expect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔍 <strong>Submitted</strong></td>
+<td>Request received</td>
+<td>AI analysis in progress (2-5 minutes)</td>
+</tr>
+<tr>
+<td>⚡ <strong>Processing</strong></td>
+<td>AI categorizing</td>
+<td>Priority assignment and matching</td>
+</tr>
+<tr>
+<td>📋 <strong>Prioritized</strong></td>
+<td>Urgency assessed</td>
+<td>Looking for available responders</td>
+</tr>
+<tr>
+<td>👤 <strong>Assigned</strong></td>
+<td>Responder matched</td>
+<td>Responder notified, ETA provided</td>
+</tr>
+<tr>
+<td>🚀 <strong>En Route</strong></td>
+<td>Help coming</td>
+<td>Responder traveling to location</td>
+</tr>
+<tr>
+<td>🎯 <strong>In Progress</strong></td>
+<td>Help arrived</td>
+<td>Assistance being provided</td>
+</tr>
+<tr>
+<td>✅ <strong>Completed</strong></td>
+<td>Help provided</td>
+<td>Request resolved</td>
+</tr>
+</tbody>
+</table>
+<h3 id="real-time-updates">Real-Time Updates</h3>
+<p>You'll receive updates via:</p>
+<ul>
+<li><strong>In-app notifications</strong></li>
+<li><strong>SMS messages</strong> to your phone</li>
+<li><strong>Email updates</strong></li>
+<li><strong>Push notifications</strong> (mobile app)</li>
+</ul>
+<p>Example update: <em>"Emergency responder Jane Smith has been assigned to your medical emergency request. ETA: 8 minutes. Contact: +1-555-0123"</em></p>
+<h2 id="communication-with-responders">💬 Communication with Responders</h2>
+<h3 id="messaging-system">Messaging System</h3>
+<p><strong>Send Updates</strong>:</p>
+<ul>
+<li>Changes in situation</li>
+<li>Additional information</li>
+<li>Answer responder questions</li>
+<li>Share photos/videos</li>
+</ul>
+<p><strong>Receive Information</strong>:</p>
+<ul>
+<li>Responder ETA</li>
+<li>What to prepare</li>
+<li>Safety instructions</li>
+<li>Next steps</li>
+</ul>
+<h3 id="quick-communication-templates">Quick Communication Templates</h3>
+<p>Use pre-written messages for common updates:</p>
+<ul>
+<li>"Situation has worsened - please hurry"</li>
+<li>"Patient condition stable"</li>
+<li>"We've evacuated to safe location"</li>
+<li>"Additional people need help"</li>
+<li>"Situation resolved - help no longer needed"</li>
+</ul>
+<h3 id="emergency-contact-protocol">Emergency Contact Protocol</h3>
+<ol>
+<li><strong>Primary Contact</strong>: Your phone number (SMS/call)</li>
+<li><strong>Secondary Contact</strong>: Alternative person who can speak for you</li>
+<li><strong>Emergency Services</strong>: System can coordinate with 911 if needed</li>
+<li><strong>Family Notification</strong>: Automated updates to family members</li>
+</ol>
+<h2 id="location-and-safety">🗺️ Location and Safety</h2>
+<h3 id="providing-accurate-location">Providing Accurate Location</h3>
+<p><strong>Best Practices</strong>:</p>
+<ul>
+<li>Use GPS coordinates when possible</li>
+<li>Include landmarks and cross streets</li>
+<li>Specify apartment/unit numbers</li>
+<li>Note access difficulties (locked gates, construction)</li>
+<li>Mark safe meeting points</li>
+</ul>
+<p><strong>Location Sharing</strong>:</p>
+<ul>
+<li>Allow real-time location tracking</li>
+<li>Update if you move to safety</li>
+<li>Share alternative access routes</li>
+</ul>
+<h3 id="safety-while-waiting">Safety While Waiting</h3>
+<p><strong>Do</strong>:</p>
+<ul>
+<li>Stay in safe location if possible</li>
+<li>Keep phone charged and accessible</li>
+<li>Follow responder instructions</li>
+<li>Prepare identification documents</li>
+<li>Gather essential medications/items</li>
+</ul>
+<p><strong>Don't</strong>:</p>
+<ul>
+<li>Leave designated location without updating</li>
+<li>Ignore safety instructions</li>
+<li>Block access routes</li>
+<li>Use electrical equipment near gas leaks</li>
+<li>Enter damaged structures</li>
+</ul>
+<h2 id="emergency-contacts-and-resources">📞 Emergency Contacts and Resources</h2>
+<h3 id="important-contacts">Important Contacts</h3>
+<p>Keep these numbers readily available:</p>
+<table>
+<thead>
+<tr>
+<th>Contact</th>
+<th>Number</th>
+<th>When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Emergency Services</td>
+<td>911</td>
+<td>Life-threatening situations</td>
+</tr>
+<tr>
+<td>Poison Control</td>
+<td>1-800-222-1222</td>
+<td>Poisoning emergencies</td>
+</tr>
+<tr>
+<td>Mental Health Crisis</td>
+<td>988</td>
+<td>Mental health emergencies</td>
+</tr>
+<tr>
+<td>Red Cross</td>
+<td>1-800-733-2767</td>
+<td>Disaster assistance</td>
+</tr>
+<tr>
+<td>System Support</td>
+<td>[Support Number]</td>
+<td>App/platform issues</td>
+</tr>
+</tbody>
+</table>
+<h3 id="community-resources">Community Resources</h3>
+<p>Access information about:</p>
+<ul>
+<li><strong>Emergency Shelters</strong>: Locations and capacity</li>
+<li><strong>Food Banks</strong>: Distribution sites and times</li>
+<li><strong>Medical Facilities</strong>: Hospitals, clinics, pharmacies</li>
+<li><strong>Transportation</strong>: Emergency transport options</li>
+<li><strong>Utilities</strong>: Outage reports and restoration</li>
+<li><strong>Government Services</strong>: FEMA, local emergency management</li>
+</ul>
+<h3 id="mental-health-support">Mental Health Support</h3>
+<p>Disasters can be traumatic. Available support:</p>
+<ul>
+<li><strong>Crisis counseling</strong>: Immediate emotional support</li>
+<li><strong>Support groups</strong>: Connect with others affected</li>
+<li><strong>Resource referrals</strong>: Long-term mental health services</li>
+<li><strong>Family services</strong>: Help for children and families</li>
+</ul>
+<h2 id="request-history-and-follow-up">📋 Request History and Follow-up</h2>
+<h3 id="tracking-past-requests">Tracking Past Requests</h3>
+<p>View your complete request history:</p>
+<ul>
+<li><strong>Date and time</strong> of each request</li>
+<li><strong>Response times</strong> and outcomes</li>
+<li><strong>Responders involved</strong> and their feedback</li>
+<li><strong>Resources provided</strong> and usage</li>
+<li><strong>Follow-up actions</strong> needed</li>
+</ul>
+<h3 id="providing-feedback">Providing Feedback</h3>
+<p>Help improve the system by rating:</p>
+<ul>
+<li><strong>Response time</strong>: How quickly help arrived</li>
+<li><strong>Communication</strong>: Quality of updates and contact</li>
+<li><strong>Effectiveness</strong>: How well your needs were met</li>
+<li><strong>Professionalism</strong>: Responder conduct and competence</li>
+<li><strong>Overall experience</strong>: General satisfaction</li>
+</ul>
+<h3 id="follow-up-care">Follow-up Care</h3>
+<p>Some situations require ongoing support:</p>
+<ul>
+<li><strong>Medical follow-up</strong>: Check on recovery progress</li>
+<li><strong>Resource needs</strong>: Continued assistance requirements</li>
+<li><strong>Documentation</strong>: Insurance claims, official reports</li>
+<li><strong>Community rebuilding</strong>: Long-term recovery efforts</li>
+</ul>
+<h2 id="privacy-and-data-protection">🛡️ Privacy and Data Protection</h2>
+<h3 id="your-data-rights">Your Data Rights</h3>
+<ul>
+<li><strong>Control</strong>: You decide what information to share</li>
+<li><strong>Privacy</strong>: Personal data protected and encrypted</li>
+<li><strong>Access</strong>: View all data the system has about you</li>
+<li><strong>Deletion</strong>: Request removal of your information</li>
+<li><strong>Portability</strong>: Export your data if needed</li>
+</ul>
+<h3 id="what-we-share">What We Share</h3>
+<p><strong>With Responders</strong>:</p>
+<ul>
+<li>Contact information</li>
+<li>Location data</li>
+<li>Emergency details</li>
+<li>Medical information (if provided)</li>
+</ul>
+<p><strong>With Authorities</strong> (only when legally required):</p>
+<ul>
+<li>Basic incident information</li>
+<li>Location for coordination</li>
+<li>Safety-critical details</li>
+</ul>
+<p><strong>Never Shared</strong>:</p>
+<ul>
+<li>Unrelated personal information</li>
+<li>Financial details</li>
+<li>Private communications</li>
+<li>Historical requests (unless relevant)</li>
+</ul>
+<h2 id="tips-for-effective-help-requests">🎓 Tips for Effective Help Requests</h2>
+<h3 id="writing-clear-descriptions">Writing Clear Descriptions</h3>
+<p><strong>Good Example</strong>:</p>
+<blockquote>
+<p>"Medical emergency: 65-year-old male fell from ladder while cleaning gutters. Unconscious for 2 minutes, now conscious but severe pain in left leg. Possible fracture. Patient is diabetic, takes metformin. Located in backyard, accessible through side gate. Family member with first aid training on scene."</p>
+</blockquote>
+<p><strong>Poor Example</strong>:</p>
+<blockquote>
+<p>"Someone fell, please help"</p>
+</blockquote>
+<h3 id="urgency-level-guidelines">Urgency Level Guidelines</h3>
+<ul>
+<li><strong>10 (Critical)</strong>: Life-threatening, immediate danger</li>
+<li><strong>8-9 (High)</strong>: Serious injury/situation, urgent response needed</li>
+<li><strong>6-7 (Medium)</strong>: Important but not immediately life-threatening</li>
+<li><strong>4-5 (Low-Medium)</strong>: Assistance needed but not urgent</li>
+<li><strong>1-3 (Low)</strong>: Non-urgent support or information request</li>
+</ul>
+<h3 id="photovideo-best-practices">Photo/Video Best Practices</h3>
+<p><strong>Do Include</strong>:</p>
+<ul>
+<li>Wide shots showing overall situation</li>
+<li>Close-ups of specific issues</li>
+<li>Multiple angles when helpful</li>
+<li>Faces (with permission) for missing persons</li>
+</ul>
+<p><strong>Don't Include</strong>:</p>
+<ul>
+<li>Graphic injuries (unless specifically needed)</li>
+<li>Unrelated personal items</li>
+<li>Other people without permission</li>
+<li>Anything that compromises safety/privacy</li>
+</ul>
+<h2 id="247-support">📞 24/7 Support</h2>
+<h3 id="getting-help-with-the-system">Getting Help with the System</h3>
+<p><strong>Technical Support</strong>:</p>
+<ul>
+<li>App not working properly</li>
+<li>Can't submit request</li>
+<li>Login problems</li>
+<li>Feature questions</li>
+</ul>
+<p><strong>Emergency Assistance</strong>:</p>
+<ul>
+<li>Can't reach through app</li>
+<li>System-wide outage</li>
+<li>Alternative contact methods</li>
+<li>Direct emergency service coordination</li>
+</ul>
+<h3 id="alternative-access-methods">Alternative Access Methods</h3>
+<p>If the primary system is unavailable:</p>
+<ol>
+<li><strong>Emergency Hotline</strong>: Direct phone access</li>
+<li><strong>SMS Gateway</strong>: Text-based request submission</li>
+<li><strong>Email Backup</strong>: Emergency email address</li>
+<li><strong>Walk-in Centers</strong>: Physical assistance locations</li>
+<li><strong>Radio Network</strong>: Amateur radio emergency networks</li>
+</ol>
+<hr/>
+<h2 id="remember-for-life-threatening-emergencies-call-911-first">🆘 Remember: For Life-Threatening Emergencies, Call 911 First</h2>
+<p>While our system provides excellent coordination and support, immediate life-threatening situations should always start with a 911 call. Our system complements emergency services and helps with ongoing coordination and non-emergency urgent needs.</p>
+<hr/>
+<p><em>Need more help? Contact our 24/7 support line or check the <a href="../../troubleshooting/">Troubleshooting Guide</a></em></p>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.indexes", "toc.follow", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+</body>
+</html>
