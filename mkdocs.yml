@@ -1,10 +1,10 @@
 site_name: Disaster Response Coordination System
 site_description: AI-powered disaster response coordination with AGNO agents
 site_author: IntelliHack 2025 Team
-site_url: https://disaster-response-docs.com
+site_url: https://OutllierRejects.github.io/IntelliHack-2025-Final-Round-Challenge/
 
 repo_name: IntelliHack-2025-Final-Round-Challenge
-repo_url: https://github.com/your-username/IntelliHack-2025-Final-Round-Challenge
+repo_url: https://github.com/OutllierRejects/IntelliHack-2025-Final-Round-Challenge
 
 theme:
   name: material
