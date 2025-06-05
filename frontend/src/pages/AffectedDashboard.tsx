@@ -129,7 +129,7 @@ export default function AffectedDashboard() {
       case 'pending':
         return 'warning';
       case 'in_progress':
-        return 'primary';
+        return 'default';
       case 'completed':
         return 'success';
       default:
@@ -165,13 +165,26 @@ export default function AffectedDashboard() {
         backgroundImage: 'linear-gradient(135deg, #0a192f 0%, #112240 100%)'
       }}>
         <Container maxWidth="lg">
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+          <Box 
+            display="flex" 
+            justifyContent="space-between" 
+            alignItems="center" 
+            mb={4}
+            sx={{
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: 3,
+              p: 3,
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            }}
+          >
             <Typography 
               variant="h4" 
               component="h1" 
               sx={{ 
                 color: 'primary.contrastText',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
               }}
             >
               My Help Requests
@@ -186,10 +199,11 @@ export default function AffectedDashboard() {
                 '&:hover': {
                   bgcolor: 'secondary.dark',
                   transform: 'translateY(-2px)',
-                  boxShadow: 3
+                  boxShadow: '0 4px 8px rgba(100, 255, 218, 0.3)'
                 },
                 transition: 'all 0.2s',
-                borderRadius: 2
+                borderRadius: 2,
+                px: 3
               }}
             >
               New Request
@@ -202,6 +216,7 @@ export default function AffectedDashboard() {
               sx={{ 
                 mb: 3,
                 borderRadius: 2,
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                 '& .MuiAlert-icon': {
                   color: 'error.main'
                 }
@@ -219,15 +234,18 @@ export default function AffectedDashboard() {
                     height: '100%', 
                     display: 'flex', 
                     flexDirection: 'column',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: 4
+                      transform: 'translateY(-8px)',
+                      boxShadow: '0 12px 24px rgba(0, 0, 0, 0.15)'
                     },
                     border: '1px solid',
                     borderColor: 'primary.light',
-                    borderRadius: 3,
-                    overflow: 'hidden'
+                    borderRadius: 4,
+                    overflow: 'hidden',
+                    backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                    backdropFilter: 'blur(10px)',
+                    position: 'relative'
                   }}
                 >
                   {request.image_url && (
@@ -236,21 +254,39 @@ export default function AffectedDashboard() {
                       src={request.image_url}
                       alt={request.title}
                       sx={{
-                        height: 200,
+                        height: 240,
                         objectFit: 'cover',
-                        width: '100%'
+                        width: '100%',
+                        borderBottom: '1px solid',
+                        borderColor: 'primary.light',
+                        transition: 'all 0.5s ease',
+                        filter: 'brightness(0.95)',
+                        '&:hover': {
+                          transform: 'scale(1.02)',
+                          filter: 'brightness(1.05)',
+                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+                        }
                       }}
                     />
                   )}
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={1}>
+                  <CardContent sx={{ 
+                    flexGrow: 1, 
+                    p: 3.5,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2.5
+                  }}>
+                    <Box display="flex" justifyContent="space-between" alignItems="flex-start" gap={2}>
                       <Typography 
                         variant="h6" 
                         component="h2" 
-                        gutterBottom
                         sx={{ 
                           color: 'primary.main',
-                          fontWeight: 'bold'
+                          fontWeight: 700,
+                          fontSize: '1.25rem',
+                          lineHeight: 1.4,
+                          maxWidth: '70%',
+                          letterSpacing: '0.01em'
                         }}
                       >
                         {request.title}
@@ -260,10 +296,30 @@ export default function AffectedDashboard() {
                         color={getStatusColor(request.status) as any}
                         size="small"
                         sx={{ 
-                          fontWeight: 'medium',
+                          fontWeight: 600,
+                          fontSize: '0.75rem',
+                          height: '28px',
                           '&.MuiChip-colorPrimary': {
-                            bgcolor: 'primary.light',
-                            color: 'primary.dark'
+                            bgcolor: '#ffffff',
+                            color: '#000000',
+                            border: '1px solid #e0e0e0',
+                            '&:hover': {
+                              bgcolor: '#f5f5f5'
+                            }
+                          },
+                          '&.MuiChip-colorWarning': {
+                            bgcolor: '#fff3e0',
+                            color: '#e65100',
+                            '&:hover': {
+                              bgcolor: '#ffe0b2'
+                            }
+                          },
+                          '&.MuiChip-colorSuccess': {
+                            bgcolor: '#e8f5e9',
+                            color: '#2e7d32',
+                            '&:hover': {
+                              bgcolor: '#c8e6c9'
+                            }
                           }
                         }}
                       />
@@ -271,36 +327,73 @@ export default function AffectedDashboard() {
                     <Typography 
                       variant="body2" 
                       color="text.secondary" 
-                      paragraph
-                      sx={{ mb: 2 }}
-                    >
-                      <DocumentTextIcon className="h-4 w-4 inline-block mr-1 text-primary-main" />
-                      {request.description}
-                    </Typography>
-                    <Typography 
-                      variant="body2" 
-                      color="text.secondary"
-                      sx={{ display: 'flex', alignItems: 'center' }}
-                    >
-                      <MapPinIcon className="h-4 w-4 inline-block mr-1 text-primary-main" />
-                      {request.location}
-                    </Typography>
-                  </CardContent>
-                  <Divider />
-                  <CardActions sx={{ p: 2, bgcolor: 'background.default' }}>
-                    <Typography 
-                      variant="caption" 
-                      color="text.secondary" 
                       sx={{ 
+                        lineHeight: 1.7,
                         display: 'flex',
-                        alignItems: 'center',
-                        gap: 0.5
+                        alignItems: 'flex-start',
+                        gap: 1.5,
+                        flex: 1,
+                        fontSize: '0.95rem',
+                        color: 'text.primary',
+                        opacity: 0.9
                       }}
                     >
-                      <CalendarIcon className="h-4 w-4" />
-                      {new Date(request.created_at).toLocaleDateString()}
+                      <DocumentTextIcon className="h-5 w-5 mt-0.5 flex-shrink-0 text-primary-main" />
+                      {request.description}
                     </Typography>
-                  </CardActions>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      flexDirection: 'column',
+                      gap: 1.5,
+                      mt: 'auto'
+                    }}>
+                      <Box sx={{ 
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        backgroundColor: 'rgba(0, 0, 0, 0.02)',
+                        p: 1.5,
+                        borderRadius: 2,
+                        border: '1px solid',
+                        borderColor: 'primary.light',
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                          backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                          transform: 'translateX(4px)'
+                        }
+                      }}>
+                        <MapPinIcon className="h-5 w-5 flex-shrink-0 text-primary-main" />
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: 'text.primary',
+                            fontWeight: 500,
+                            fontSize: '0.95rem'
+                          }}
+                        >
+                          {request.location}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ 
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        opacity: 0.8
+                      }}>
+                        <CalendarIcon className="h-4 w-4 text-primary-main" />
+                        <Typography 
+                          variant="caption" 
+                          sx={{ 
+                            color: 'text.secondary',
+                            fontSize: '0.85rem',
+                            fontWeight: 500
+                          }}
+                        >
+                          {new Date(request.created_at).toLocaleDateString()}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </CardContent>
                 </Card>
               </Grid>
             ))}
@@ -314,7 +407,8 @@ export default function AffectedDashboard() {
             PaperProps={{
               sx: {
                 borderRadius: 3,
-                bgcolor: 'background.paper'
+                bgcolor: 'background.paper',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
               }
             }}
           >
@@ -323,7 +417,8 @@ export default function AffectedDashboard() {
               color: 'primary.contrastText',
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'center'
+              alignItems: 'center',
+              py: 2
             }}>
               Create New Help Request
               <IconButton
@@ -389,11 +484,12 @@ export default function AffectedDashboard() {
                         borderColor: 'primary.main',
                         color: 'primary.main',
                         '&:hover': {
-                          borderColor: 'primary.dark',
-                          bgcolor: 'primary.light',
-                          color: 'primary.dark'
+                          borderColor: '#e0e0e0',
+                          bgcolor: '#e0e0e0',
+                          color: '#424242'
                         },
-                        borderRadius: 2
+                        borderRadius: 2,
+                        py: 1.5
                       }}
                     >
                       {image ? 'Change Image' : 'Upload Image'}
@@ -430,9 +526,13 @@ export default function AffectedDashboard() {
                     bgcolor: 'secondary.main',
                     color: 'secondary.contrastText',
                     '&:hover': {
-                      bgcolor: 'secondary.dark'
+                      bgcolor: 'secondary.dark',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 8px rgba(100, 255, 218, 0.3)'
                     },
-                    borderRadius: 2
+                    transition: 'all 0.2s',
+                    borderRadius: 2,
+                    px: 3
                   }}
                 >
                   {createHelpRequest.isPending ? 'Creating...' : 'Create Request'}

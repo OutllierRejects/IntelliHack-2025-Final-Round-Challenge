@@ -40,26 +40,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (email: string, role: UserRole) => {
     try {
-      // Sign in with mock credentials
-      const { error: signInError } = await supabase.auth.signInWithPassword({ 
+      // Sign in with role
+      const { data, error } = await supabase.auth.signInWithPassword({ 
         email, 
-        password: 'mock-password' 
+        role 
       });
-      if (signInError) throw signInError;
-
-      // Update the user's role
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({ role })
-        .eq('id', 'mock-user-id')
-        .select()
-        .single();
-
-      if (updateError) throw updateError;
-
-      // Get the updated user profile
-      const updatedUser = await getUser();
-      setUser(updatedUser);
+      
+      if (error) throw error;
+      if (data?.user) {
+        setUser(data.user);
+      }
     } catch (error) {
       console.error('Sign in error:', error);
       throw error;

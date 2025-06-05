@@ -387,8 +387,9 @@ export default function AdminDashboard() {
                           sx={{ 
                             fontWeight: 'medium',
                             '&.MuiChip-colorPrimary': {
-                              bgcolor: 'primary.light',
-                              color: 'primary.dark'
+                              bgcolor: '#ffffff',
+                              color: '#000000',
+                              border: '1px solid #e0e0e0'
                             }
                           }}
                         />
